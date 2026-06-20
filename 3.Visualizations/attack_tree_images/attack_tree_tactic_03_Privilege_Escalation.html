@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Attack Tree — Privilege Escalation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; background: #f4f4f4;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+
+    /* ── Two-column app layout ── */
+    .app { display: flex; height: 100vh; gap: 0; overflow: hidden; }
+
+    /* ── Left: graph canvas ── */
+    .graph-col {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border-right: 2px solid #d0d0d0;
+    }
+    .graph-header {
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+    .graph-header h1 { margin: 0 0 6px; font-size: 20px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .legend-item {
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 13px; border: 1px solid rgba(0,0,0,.12);
+    }
+    .svg-scroll {
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .svg-scroll svg {
+      /* keep native Graphviz size; user can scroll / zoom */
+      width: auto;
+      height: auto;
+      display: block;
+      cursor: default;
+    }
+    /* highlight hovered node groups */
+    .svg-scroll [data-node-id] { cursor: pointer; }
+    .svg-scroll [data-node-id]:hover ellipse,
+    .svg-scroll [data-node-id]:hover polygon,
+    .svg-scroll [data-node-id]:hover path {
+      filter: brightness(0.88);
+    }
+    .selected-node ellipse,
+    .selected-node polygon,
+    .selected-node path {
+      stroke: #1a6fc4 !important;
+      stroke-width: 3px !important;
+    }
+    .graph-footer {
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    /* ── Right: metadata panel ── */
+    .panel-col {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: hidden;
+      transition: flex-basis .2s;
+    }
+    .panel-col.hidden { flex: 0 0 0; overflow: hidden; }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f8f8f8;
+    }
+    .panel-header h2 { margin: 0; font-size: 16px; }
+    .close-btn {
+      border: none; background: transparent;
+      font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px;
+      color: #555;
+    }
+    .close-btn:hover { color: #000; }
+    .panel-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 14px;
+    }
+    .panel-placeholder {
+      color: #888; font-style: italic; margin-top: 20px; text-align: center;
+    }
+    .node-label-heading {
+      font-size: 17px; font-weight: 700;
+      margin: 0 0 4px;
+      word-break: break-word;
+    }
+    .node-type-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* Metadata table */
+    .meta-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 8px; font-size: 14px;
+    }
+    .meta-table th {
+      text-align: left; padding: 6px 8px;
+      background: #f3f3f3; border-bottom: 1px solid #e0e0e0;
+      font-weight: 600; width: 36%; vertical-align: top;
+      word-break: break-word;
+    }
+    .meta-table td {
+      padding: 6px 8px; border-bottom: 1px solid #eee;
+      vertical-align: top; word-break: break-word;
+    }
+    .meta-empty { color: #888; font-style: italic; }
+
+    /* Badge colours by node type */
+    .badge-root    { background: #FFD700; color: #5a4200; }
+    .badge-tactic  { background: #98FB98; color: #1a5c1a; }
+    .badge-cwe     { background: #ADD8E6; color: #1a3a5c; }
+    .badge-tech    { background: #90EE90; color: #1a5c1a; }
+    .badge-subtech { background: #FFFACD; color: #5c5000; }
+    .badge-capec   { background: #FFB6C1; color: #6b0a1e; }
+    .badge-gate    { background: #FFCCCB; color: #7a1a00; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Left column: SVG graph ── -->
+  <div class="graph-col">
+    <div class="graph-header">
+      <h1>Attack Tree — Privilege Escalation</h1>
+      <div class="legend">
+        <span class="legend-item" style="background:#FFD700">Compromise Device (root)</span>
+        <span class="legend-item" style="background:#98FB98">Tactic</span>
+        <span class="legend-item" style="background:#ADD8E6">CWE</span>
+        <span class="legend-item" style="background:#90EE90">Technique</span>
+        <span class="legend-item" style="background:#FFFACD">Subtechnique</span>
+        <span class="legend-item" style="background:#FFB6C1">CAPEC</span>
+        <span class="legend-item" style="background:#FFCCCB">OR / AND gates</span>
+      </div>
+    </div>
+
+    <div class="svg-scroll" id="svg-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" width="3553pt" height="702pt" viewBox="0.00 0.00 3552.50 702.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 698)" data-node-id="%3">
+<title>Compromise Device</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-698 3548.5,-698 3548.5,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="root">
+<title>Compromise Device</title>
+<polygon fill="#ffd700" stroke="black" points="2375,-694 2238,-694 2238,-658 2375,-658 2375,-694" />
+<text text-anchor="middle" x="2306.5" y="-672.9" font-family="Helvetica,sans-Serif" font-size="12.00">Compromise Device</text>
+</g>
+
+<g id="node2" class="node" data-node-id="t2_tactic">
+<title>Privilege Escalation</title>
+<polygon fill="#98fb98" stroke="black" points="2372,-600 2241,-600 2241,-564 2372,-564 2372,-600" />
+<text text-anchor="middle" x="2306.5" y="-578.9" font-family="Helvetica,sans-Serif" font-size="12.00">Privilege Escalation</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="root-&gt;t2_tactic">
+<title>root-&gt;t2_tactic</title>
+<path fill="none" stroke="black" d="M2306.5,-657.88C2306.5,-657.88 2306.5,-610.07 2306.5,-610.07" />
+<polygon fill="black" stroke="black" points="2310,-610.07 2306.5,-600.07 2303,-610.07 2310,-610.07" />
+</g>
+
+<g id="node31" class="node" data-node-id="t2_tac_or_11">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2306.5" cy="-488" rx="27" ry="18" />
+<text text-anchor="middle" x="2306.5" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge31" class="edge" data-node-id="t2_tactic-&gt;t2_tac_or_11">
+<title>t2_tactic-&gt;t2_tac_or_11</title>
+<path fill="none" stroke="black" d="M2306.5,-563.88C2306.5,-563.88 2306.5,-516.07 2306.5,-516.07" />
+<polygon fill="black" stroke="black" points="2310,-516.07 2306.5,-506.07 2303,-516.07 2310,-516.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t2_cwe_0">
+<title>Incorrect Permission Assignment for Critical Resource</title>
+<polygon fill="#add8e6" stroke="black" points="2353,-412 2024,-412 2024,-376 2359,-376 2359,-406 2353,-412" />
+<polyline fill="none" stroke="black" points="2353,-412 2353,-406 " />
+<polyline fill="none" stroke="black" points="2359,-406 2353,-406 " />
+<text text-anchor="middle" x="2191.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">Incorrect Permission Assignment for Critical Resource</text>
+</g>
+
+<g id="node16" class="node" data-node-id="t2_cwe0_or_4">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2008.5" cy="-300" rx="27" ry="18" />
+<text text-anchor="middle" x="2008.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge16" class="edge" data-node-id="t2_cwe_0-&gt;t2_cwe0_or_4">
+<title>t2_cwe_0-&gt;t2_cwe0_or_4</title>
+<path fill="none" stroke="black" d="M2029.75,-375.88C2029.75,-375.88 2029.75,-321.28 2029.75,-321.28" />
+<polygon fill="black" stroke="black" points="2033.25,-321.28 2029.75,-311.28 2026.25,-321.28 2033.25,-321.28" />
+</g>
+
+<g id="node4" class="node" data-node-id="t2_sub_0">
+<title>Hijack Execution Flow: Services File Permissions Weakness</title>
+<polygon fill="#fffacd" stroke="black" points="363,-36 0,-36 0,0 363,0 363,-36" />
+<text text-anchor="middle" x="181.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Hijack Execution Flow: Services File Permissions Weakness</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t2_cap_0">
+<title>Accessing Functionality Not Properly Constrained by ACLs</title>
+<polygon fill="#ffb6c1" stroke="black" points="758,-36 399,-36 399,0 758,0 758,-36" />
+<text text-anchor="middle" x="578.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Accessing Functionality Not Properly Constrained by ACLs</text>
+</g>
+
+<g id="node6" class="node" data-node-id="t2_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="578.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="578.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge2" class="edge" data-node-id="t2_and_0-&gt;t2_sub_0">
+<title>t2_and_0-&gt;t2_sub_0</title>
+<path fill="none" stroke="black" d="M551.21,-112C461.52,-112 181.5,-112 181.5,-112 181.5,-112 181.5,-46.12 181.5,-46.12" />
+<polygon fill="black" stroke="black" points="185,-46.12 181.5,-36.12 178,-46.12 185,-46.12" />
+</g>
+
+<g id="edge3" class="edge" data-node-id="t2_and_0-&gt;t2_cap_0">
+<title>t2_and_0-&gt;t2_cap_0</title>
+<path fill="none" stroke="black" d="M578.5,-93.88C578.5,-93.88 578.5,-46.07 578.5,-46.07" />
+<polygon fill="black" stroke="black" points="582,-46.07 578.5,-36.07 575,-46.07 582,-46.07" />
+</g>
+
+<g id="node7" class="node" data-node-id="t2_sub_1">
+<title>Hijack Execution Flow: Executable Installer File Permissions Weakness</title>
+<polygon fill="#fffacd" stroke="black" points="1225,-36 794,-36 794,0 1225,0 1225,-36" />
+<text text-anchor="middle" x="1009.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Hijack Execution Flow: Executable Installer File Permissions Weakness</text>
+</g>
+
+<g id="node8" class="node" data-node-id="t2_cap_1">
+<title>Accessing Functionality Not Properly Constrained by ACLs</title>
+<polygon fill="#ffb6c1" stroke="black" points="1620,-36 1261,-36 1261,0 1620,0 1620,-36" />
+<text text-anchor="middle" x="1440.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Accessing Functionality Not Properly Constrained by ACLs</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t2_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1224.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="1224.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t2_and_1-&gt;t2_sub_1">
+<title>t2_and_1-&gt;t2_sub_1</title>
+<path fill="none" stroke="black" d="M1211.25,-96.05C1211.25,-96.05 1211.25,-46.28 1211.25,-46.28" />
+<polygon fill="black" stroke="black" points="1214.75,-46.28 1211.25,-36.28 1207.75,-46.28 1214.75,-46.28" />
+</g>
+
+<g id="edge5" class="edge" data-node-id="t2_and_1-&gt;t2_cap_1">
+<title>t2_and_1-&gt;t2_cap_1</title>
+<path fill="none" stroke="black" d="M1238.25,-96.48C1238.25,-69.78 1238.25,-18 1238.25,-18 1238.25,-18 1250.67,-18 1250.67,-18" />
+<polygon fill="black" stroke="black" points="1250.67,-21.5 1260.67,-18 1250.67,-14.5 1250.67,-21.5" />
+</g>
+
+<g id="node10" class="node" data-node-id="t2_tech_2">
+<title>Abuse Elevation Control Mechanism</title>
+<polygon fill="#90ee90" stroke="black" points="1886.5,-36 1656.5,-36 1656.5,0 1886.5,0 1886.5,-36" />
+<text text-anchor="middle" x="1771.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Abuse Elevation Control Mechanism</text>
+</g>
+
+<g id="node11" class="node" data-node-id="t2_cap_2">
+<title>Privilege Abuse</title>
+<polygon fill="#ffb6c1" stroke="black" points="2030,-36 1923,-36 1923,0 2030,0 2030,-36" />
+<text text-anchor="middle" x="1976.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Privilege Abuse</text>
+</g>
+
+<g id="node12" class="node" data-node-id="t2_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1976.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="1976.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge6" class="edge" data-node-id="t2_and_2-&gt;t2_tech_2">
+<title>t2_and_2-&gt;t2_tech_2</title>
+<path fill="none" stroke="black" d="M1949.28,-112C1893.51,-112 1771.5,-112 1771.5,-112 1771.5,-112 1771.5,-46.12 1771.5,-46.12" />
+<polygon fill="black" stroke="black" points="1775,-46.12 1771.5,-36.12 1768,-46.12 1775,-46.12" />
+</g>
+
+<g id="edge7" class="edge" data-node-id="t2_and_2-&gt;t2_cap_2">
+<title>t2_and_2-&gt;t2_cap_2</title>
+<path fill="none" stroke="black" d="M1976.5,-93.88C1976.5,-93.88 1976.5,-46.07 1976.5,-46.07" />
+<polygon fill="black" stroke="black" points="1980,-46.07 1976.5,-36.07 1973,-46.07 1980,-46.07" />
+</g>
+
+<g id="node13" class="node" data-node-id="t2_sub_3">
+<title>Access Token Manipulation: Token Impersonation/Theft</title>
+<polygon fill="#fffacd" stroke="black" points="2410.5,-36 2066.5,-36 2066.5,0 2410.5,0 2410.5,-36" />
+<text text-anchor="middle" x="2238.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Access Token Manipulation: Token Impersonation/Theft</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t2_cap_3">
+<title>Reusing Session IDs (aka Session Replay)</title>
+<polygon fill="#ffb6c1" stroke="black" points="2708,-36 2447,-36 2447,0 2708,0 2708,-36" />
+<text text-anchor="middle" x="2577.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Reusing Session IDs (aka Session Replay)</text>
+</g>
+
+<g id="node15" class="node" data-node-id="t2_and_3">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2238.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="2238.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge8" class="edge" data-node-id="t2_and_3-&gt;t2_sub_3">
+<title>t2_and_3-&gt;t2_sub_3</title>
+<path fill="none" stroke="black" d="M2229.5,-94.76C2229.5,-94.76 2229.5,-46.09 2229.5,-46.09" />
+<polygon fill="black" stroke="black" points="2233,-46.09 2229.5,-36.09 2226,-46.09 2233,-46.09" />
+</g>
+
+<g id="edge9" class="edge" data-node-id="t2_and_3-&gt;t2_cap_3">
+<title>t2_and_3-&gt;t2_cap_3</title>
+<path fill="none" stroke="black" d="M2247.5,-94.77C2247.5,-81.35 2247.5,-65 2247.5,-65 2247.5,-65 2500,-65 2500,-65 2500,-65 2500,-46.04 2500,-46.04" />
+<polygon fill="black" stroke="black" points="2503.5,-46.04 2500,-36.04 2496.5,-46.04 2503.5,-46.04" />
+</g>
+
+<g id="node17" class="node" data-node-id="t2_cwe0_or_5">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1224.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="1224.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge14" class="edge" data-node-id="t2_cwe0_or_4-&gt;t2_cwe0_or_5">
+<title>t2_cwe0_or_4-&gt;t2_cwe0_or_5</title>
+<path fill="none" stroke="black" d="M1981.06,-300C1842.29,-300 1224.5,-300 1224.5,-300 1224.5,-300 1224.5,-234.12 1224.5,-234.12" />
+<polygon fill="black" stroke="black" points="1228,-234.12 1224.5,-224.12 1221,-234.12 1228,-234.12" />
+</g>
+
+<g id="node18" class="node" data-node-id="t2_cwe0_or_6">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2008.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="2008.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge15" class="edge" data-node-id="t2_cwe0_or_4-&gt;t2_cwe0_or_6">
+<title>t2_cwe0_or_4-&gt;t2_cwe0_or_6</title>
+<path fill="none" stroke="black" d="M2008.5,-281.88C2008.5,-281.88 2008.5,-234.07 2008.5,-234.07" />
+<polygon fill="black" stroke="black" points="2012,-234.07 2008.5,-224.07 2005,-234.07 2012,-234.07" />
+</g>
+
+<g id="edge10" class="edge" data-node-id="t2_cwe0_or_5-&gt;t2_and_0">
+<title>t2_cwe0_or_5-&gt;t2_and_0</title>
+<path fill="none" stroke="black" d="M1197.15,-206C1074.2,-206 578.5,-206 578.5,-206 578.5,-206 578.5,-140.12 578.5,-140.12" />
+<polygon fill="black" stroke="black" points="582,-140.12 578.5,-130.12 575,-140.12 582,-140.12" />
+</g>
+
+<g id="edge11" class="edge" data-node-id="t2_cwe0_or_5-&gt;t2_and_1">
+<title>t2_cwe0_or_5-&gt;t2_and_1</title>
+<path fill="none" stroke="black" d="M1224.5,-187.88C1224.5,-187.88 1224.5,-140.07 1224.5,-140.07" />
+<polygon fill="black" stroke="black" points="1228,-140.07 1224.5,-130.07 1221,-140.07 1228,-140.07" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t2_cwe0_or_6-&gt;t2_and_2">
+<title>t2_cwe0_or_6-&gt;t2_and_2</title>
+<path fill="none" stroke="black" d="M1992.5,-191.31C1992.5,-191.31 1992.5,-136.58 1992.5,-136.58" />
+<polygon fill="black" stroke="black" points="1996,-136.58 1992.5,-126.58 1989,-136.58 1996,-136.58" />
+</g>
+
+<g id="edge13" class="edge" data-node-id="t2_cwe0_or_6-&gt;t2_and_3">
+<title>t2_cwe0_or_6-&gt;t2_and_3</title>
+<path fill="none" stroke="black" d="M2016.75,-188.76C2016.75,-161.62 2016.75,-112 2016.75,-112 2016.75,-112 2201.31,-112 2201.31,-112" />
+<polygon fill="black" stroke="black" points="2201.31,-115.5 2211.31,-112 2201.31,-108.5 2201.31,-115.5" />
+</g>
+
+<g id="node19" class="node" data-node-id="t2_cwe_1">
+<title>Use of Hard-coded Credentials</title>
+<polygon fill="#add8e6" stroke="black" points="2691,-318 2498,-318 2498,-282 2697,-282 2697,-312 2691,-318" />
+<polyline fill="none" stroke="black" points="2691,-318 2691,-312 " />
+<polyline fill="none" stroke="black" points="2697,-312 2691,-312 " />
+<text text-anchor="middle" x="2597.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use of Hard-coded Credentials</text>
+</g>
+
+<g id="node22" class="node" data-node-id="t2_and_7">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2597.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="2597.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge19" class="edge" data-node-id="t2_cwe_1-&gt;t2_and_7">
+<title>t2_cwe_1-&gt;t2_and_7</title>
+<path fill="none" stroke="black" d="M2597.5,-281.88C2597.5,-281.88 2597.5,-234.07 2597.5,-234.07" />
+<polygon fill="black" stroke="black" points="2601,-234.07 2597.5,-224.07 2594,-234.07 2601,-234.07" />
+</g>
+
+<g id="node20" class="node" data-node-id="t2_sub_7">
+<title>Valid Accounts: Default Accounts</title>
+<polygon fill="#fffacd" stroke="black" points="2553,-130 2340,-130 2340,-94 2553,-94 2553,-130" />
+<text text-anchor="middle" x="2446.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Valid Accounts: Default Accounts</text>
+</g>
+
+<g id="node21" class="node" data-node-id="t2_cap_7">
+<title>Try Common or Default Usernames and Passwords</title>
+<polygon fill="#ffb6c1" stroke="black" points="2908,-130 2589,-130 2589,-94 2908,-94 2908,-130" />
+<text text-anchor="middle" x="2748.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Try Common or Default Usernames and Passwords</text>
+</g>
+
+<g id="edge17" class="edge" data-node-id="t2_and_7-&gt;t2_sub_7">
+<title>t2_and_7-&gt;t2_sub_7</title>
+<path fill="none" stroke="black" d="M2579.75,-192.13C2579.75,-165.98 2579.75,-112 2579.75,-112 2579.75,-112 2563.11,-112 2563.11,-112" />
+<polygon fill="black" stroke="black" points="2563.11,-108.5 2553.11,-112 2563.11,-115.5 2563.11,-108.5" />
+</g>
+
+<g id="edge18" class="edge" data-node-id="t2_and_7-&gt;t2_cap_7">
+<title>t2_and_7-&gt;t2_cap_7</title>
+<path fill="none" stroke="black" d="M2606.75,-188.76C2606.75,-188.76 2606.75,-140.09 2606.75,-140.09" />
+<polygon fill="black" stroke="black" points="2610.25,-140.09 2606.75,-130.09 2603.25,-140.09 2610.25,-140.09" />
+</g>
+
+<g id="node23" class="node" data-node-id="t2_cwe_2">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="2987,-318 2830,-318 2830,-282 2993,-282 2993,-312 2987,-318" />
+<polyline fill="none" stroke="black" points="2987,-318 2987,-312 " />
+<polyline fill="none" stroke="black" points="2993,-312 2987,-312 " />
+<text text-anchor="middle" x="2911.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node30" class="node" data-node-id="t2_cwe2_or_10">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3008.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="3008.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge26" class="edge" data-node-id="t2_cwe_2-&gt;t2_cwe2_or_10">
+<title>t2_cwe_2-&gt;t2_cwe2_or_10</title>
+<path fill="none" stroke="black" d="M2987.25,-281.88C2987.25,-281.88 2987.25,-227.28 2987.25,-227.28" />
+<polygon fill="black" stroke="black" points="2990.75,-227.28 2987.25,-217.28 2983.75,-227.28 2990.75,-227.28" />
+</g>
+
+<g id="node24" class="node" data-node-id="t2_tech_8">
+<title>Abuse Elevation Control Mechanism</title>
+<polygon fill="#90ee90" stroke="black" points="2974.5,-36 2744.5,-36 2744.5,0 2974.5,0 2974.5,-36" />
+<text text-anchor="middle" x="2859.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Abuse Elevation Control Mechanism</text>
+</g>
+
+<g id="node25" class="node" data-node-id="t2_cap_8">
+<title>Authentication Abuse</title>
+<polygon fill="#ffb6c1" stroke="black" points="3154.5,-36 3010.5,-36 3010.5,0 3154.5,0 3154.5,-36" />
+<text text-anchor="middle" x="3082.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Authentication Abuse</text>
+</g>
+
+<g id="node26" class="node" data-node-id="t2_and_8">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3008.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="3008.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge20" class="edge" data-node-id="t2_and_8-&gt;t2_tech_8">
+<title>t2_and_8-&gt;t2_tech_8</title>
+<path fill="none" stroke="black" d="M2996,-95.63C2996,-68.69 2996,-18 2996,-18 2996,-18 2984.67,-18 2984.67,-18" />
+<polygon fill="black" stroke="black" points="2984.67,-14.5 2974.67,-18 2984.67,-21.5 2984.67,-14.5" />
+</g>
+
+<g id="edge21" class="edge" data-node-id="t2_and_8-&gt;t2_cap_8">
+<title>t2_and_8-&gt;t2_cap_8</title>
+<path fill="none" stroke="black" d="M3023,-96.48C3023,-96.48 3023,-46.12 3023,-46.12" />
+<polygon fill="black" stroke="black" points="3026.5,-46.12 3023,-36.12 3019.5,-46.12 3026.5,-46.12" />
+</g>
+
+<g id="node27" class="node" data-node-id="t2_tech_9">
+<title>Access Token Manipulation</title>
+<polygon fill="#90ee90" stroke="black" points="3366.5,-36 3190.5,-36 3190.5,0 3366.5,0 3366.5,-36" />
+<text text-anchor="middle" x="3278.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Access Token Manipulation</text>
+</g>
+
+<g id="node28" class="node" data-node-id="t2_cap_9">
+<title>Token Impersonation</title>
+<polygon fill="#ffb6c1" stroke="black" points="3544.5,-36 3402.5,-36 3402.5,0 3544.5,0 3544.5,-36" />
+<text text-anchor="middle" x="3473.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Token Impersonation</text>
+</g>
+
+<g id="node29" class="node" data-node-id="t2_and_9">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3278.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="3278.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge22" class="edge" data-node-id="t2_and_9-&gt;t2_tech_9">
+<title>t2_and_9-&gt;t2_tech_9</title>
+<path fill="none" stroke="black" d="M3278.5,-93.88C3278.5,-93.88 3278.5,-46.07 3278.5,-46.07" />
+<polygon fill="black" stroke="black" points="3282,-46.07 3278.5,-36.07 3275,-46.07 3282,-46.07" />
+</g>
+
+<g id="edge23" class="edge" data-node-id="t2_and_9-&gt;t2_cap_9">
+<title>t2_and_9-&gt;t2_cap_9</title>
+<path fill="none" stroke="black" d="M3305.61,-112C3359.19,-112 3473.5,-112 3473.5,-112 3473.5,-112 3473.5,-46.12 3473.5,-46.12" />
+<polygon fill="black" stroke="black" points="3477,-46.12 3473.5,-36.12 3470,-46.12 3477,-46.12" />
+</g>
+
+<g id="edge24" class="edge" data-node-id="t2_cwe2_or_10-&gt;t2_and_8">
+<title>t2_cwe2_or_10-&gt;t2_and_8</title>
+<path fill="none" stroke="black" d="M3008.5,-187.88C3008.5,-187.88 3008.5,-140.07 3008.5,-140.07" />
+<polygon fill="black" stroke="black" points="3012,-140.07 3008.5,-130.07 3005,-140.07 3012,-140.07" />
+</g>
+
+<g id="edge25" class="edge" data-node-id="t2_cwe2_or_10-&gt;t2_and_9">
+<title>t2_cwe2_or_10-&gt;t2_and_9</title>
+<path fill="none" stroke="black" d="M3035.62,-206C3104.09,-206 3278.5,-206 3278.5,-206 3278.5,-206 3278.5,-140.12 3278.5,-140.12" />
+<polygon fill="black" stroke="black" points="3282,-140.12 3278.5,-130.12 3275,-140.12 3282,-140.12" />
+</g>
+
+<g id="edge29" class="edge" data-node-id="t2_tac_or_11-&gt;t2_cwe_0">
+<title>t2_tac_or_11-&gt;t2_cwe_0</title>
+<path fill="none" stroke="black" d="M2306.5,-469.88C2306.5,-469.88 2306.5,-422.07 2306.5,-422.07" />
+<polygon fill="black" stroke="black" points="2310,-422.07 2306.5,-412.07 2303,-422.07 2310,-422.07" />
+</g>
+
+<g id="node32" class="node" data-node-id="t2_tac_or_12">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2597.5" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="2597.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge30" class="edge" data-node-id="t2_tac_or_11-&gt;t2_tac_or_12">
+<title>t2_tac_or_11-&gt;t2_tac_or_12</title>
+<path fill="none" stroke="black" d="M2333.62,-488C2405.86,-488 2597.5,-488 2597.5,-488 2597.5,-488 2597.5,-422.12 2597.5,-422.12" />
+<polygon fill="black" stroke="black" points="2601,-422.12 2597.5,-412.12 2594,-422.12 2601,-422.12" />
+</g>
+
+<g id="edge27" class="edge" data-node-id="t2_tac_or_12-&gt;t2_cwe_1">
+<title>t2_tac_or_12-&gt;t2_cwe_1</title>
+<path fill="none" stroke="black" d="M2597.5,-375.88C2597.5,-375.88 2597.5,-328.07 2597.5,-328.07" />
+<polygon fill="black" stroke="black" points="2601,-328.07 2597.5,-318.07 2594,-328.07 2601,-328.07" />
+</g>
+
+<g id="edge28" class="edge" data-node-id="t2_tac_or_12-&gt;t2_cwe_2">
+<title>t2_tac_or_12-&gt;t2_cwe_2</title>
+<path fill="none" stroke="black" d="M2624.54,-394C2700.71,-394 2911.5,-394 2911.5,-394 2911.5,-394 2911.5,-328.12 2911.5,-328.12" />
+<polygon fill="black" stroke="black" points="2915,-328.12 2911.5,-318.12 2908,-328.12 2915,-328.12" />
+</g>
+</g>
+</svg>
+    </div>
+
+    <div class="graph-footer">
+      Click any node to view its metadata in the right-hand panel. &nbsp;|&nbsp;
+      Scroll / drag to navigate. &nbsp;|&nbsp;
+      Press <kbd>Esc</kbd> to close the panel.
+    </div>
+  </div>
+
+  <!-- ── Right column: metadata panel ── -->
+  <div class="panel-col hidden" id="panel-col">
+    <div class="panel-header">
+      <h2 id="panel-title">Node metadata</h2>
+      <button class="close-btn" id="close-btn" title="Close panel">&times;</button>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-placeholder">Click a node in the graph to see details here.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Data injected by Python ──────────────────────────────────────────────────
+var NODE_HTML  = {"root": "<table class='meta-table'><tr><th>label</th><td>Compromise Device</td></tr></table>", "t2_tactic": "<table class='meta-table'><tr><th>tactic</th><td>Privilege Escalation</td></tr></table>", "t2_cwe_0": "<table class='meta-table'><tr><th>cwe_Name</th><td>Incorrect Permission Assignment for Critical Resource</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>baseScore</th><td>9.4</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a &quot;jail&quot; or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t2_sub_0": "<table class='meta-table'><tr><th>technique_name</th><td>Hijack Execution Flow</td></tr><tr><th>subtechnique_name</th><td>Hijack Execution Flow: Services File Permissions Weakness</td></tr><tr><th>tactics</th><td>Privilege Escalation</td></tr><tr><th>detection</th><td>Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.</td></tr><tr><th>platforms</th><td>Windows</td></tr><tr><th>data sources</th><td>File: File Creation, File: File Modification, Process: Process Creation, Service: Service Metadata</td></tr></table>", "t2_cap_0": "<table class='meta-table'><tr><th>capec_Name</th><td>Accessing Functionality Not Properly Constrained by ACLs</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>High</td></tr><tr><th>capec_Skills_Required</th><td>Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.</td></tr><tr><th>capec_Prerequisites</th><td>The application must be navigable in a manner that associates elements (subsections) of the application with ACLs. || The various resources, or individual URLs, must be somehow discoverable by the attacker || The administrator must have forgotten to associate an ACL or has associated an inappropriately permissive ACL with a particular navigable resource.</td></tr><tr><th>capec_Mitigations</th><td>In a J2EE setting, administrators can associate a role that is impossible for the authenticator to grant users, such as &quot;NoAccess&quot;, with all Servlets to which access is guarded by a limited number of servlets visible to, and accessible by, the user. Having done so, any direct access to those protected Servlets will be prohibited by the web container. In a more general setting, the administrator must mark every resource besides the ones supposed to be exposed to the user as accessible by a role impossible for the user to assume. The default security setting must be to deny access and then grant access only to those resources intended by business logic.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>", "t2_sub_1": "<table class='meta-table'><tr><th>technique_name</th><td>Hijack Execution Flow</td></tr><tr><th>subtechnique_name</th><td>Hijack Execution Flow: Executable Installer File Permissions Weakness</td></tr><tr><th>tactics</th><td>Privilege Escalation</td></tr><tr><th>detection</th><td>Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.</td></tr><tr><th>platforms</th><td>Windows</td></tr><tr><th>data sources</th><td>File: File Creation, File: File Modification, Module: Module Load, Process: Process Creation, Service: Service Metadata</td></tr></table>", "t2_cap_1": "<table class='meta-table'><tr><th>capec_Name</th><td>Accessing Functionality Not Properly Constrained by ACLs</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>High</td></tr><tr><th>capec_Skills_Required</th><td>Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.</td></tr><tr><th>capec_Prerequisites</th><td>The application must be navigable in a manner that associates elements (subsections) of the application with ACLs. || The various resources, or individual URLs, must be somehow discoverable by the attacker || The administrator must have forgotten to associate an ACL or has associated an inappropriately permissive ACL with a particular navigable resource.</td></tr><tr><th>capec_Mitigations</th><td>In a J2EE setting, administrators can associate a role that is impossible for the authenticator to grant users, such as &quot;NoAccess&quot;, with all Servlets to which access is guarded by a limited number of servlets visible to, and accessible by, the user. Having done so, any direct access to those protected Servlets will be prohibited by the web container. In a more general setting, the administrator must mark every resource besides the ones supposed to be exposed to the user as accessible by a role impossible for the user to assume. The default security setting must be to deny access and then grant access only to those resources intended by business logic.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>", "t2_tech_2": "<table class='meta-table'><tr><th>technique_name</th><td>Abuse Elevation Control Mechanism</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>tactics</th><td>Privilege Escalation</td></tr><tr><th>tech_description</th><td>Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)</td></tr><tr><th>detection</th><td>Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user&#x27;s actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for &lt;code&gt;/usr/libexec/security_authtrampoline&lt;/code&gt; executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user&#x27;s actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the &lt;code&gt;LOG_INPUT&lt;/code&gt; and &lt;code&gt;LOG_OUTPUT&lt;/code&gt; directives in the &lt;code&gt;/etc/sudoers&lt;/code&gt; file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.</td></tr><tr><th>platforms</th><td>IaaS, Identity Provider, Linux, Office Suite, Windows, macOS</td></tr><tr><th>data sources</th><td>Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification</td></tr><tr><th>permissions required</th><td>Administrator, User</td></tr></table>", "t2_cap_2": "<table class='meta-table'><tr><th>capec_Name</th><td>Privilege Abuse</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>Medium</td></tr><tr><th>capec_Skills_Required</th><td>Low: Adversary can leverage privileged features they already have access to without additional effort or skill. Adversary is only required to have access to an account with improper priveleges.</td></tr><tr><th>capec_Prerequisites</th><td>The target must have misconfigured their access control mechanisms such that sensitive information, which should only be accessible to more trusted users, remains accessible to less trusted users. || The adversary must have access to the target, albeit with an account that is less privileged than would be appropriate for the targeted resources.</td></tr><tr><th>capec_Mitigations</th><td>Configure account privileges such privileged/administrator functionality is not exposed to non-privileged/lower accounts.</td></tr><tr><th>capec_Consequences</th><td>Scope: Integrity | Impact: Modify Data || Scope: Confidentiality | Impact: Read Data || Scope: Authorization | Impact: Execute Unauthorized Commands || Scope: Authorization | Impact: Gain Privileges || Scope: Access Control, Authorization | Impact: Bypass Protection Mechanism</td></tr></table>", "t2_sub_3": "<table class='meta-table'><tr><th>technique_name</th><td>Access Token Manipulation</td></tr><tr><th>subtechnique_name</th><td>Access Token Manipulation: Token Impersonation/Theft</td></tr><tr><th>tactics</th><td>Privilege Escalation</td></tr><tr><th>detection</th><td>If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the &lt;code&gt;runas&lt;/code&gt; command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nAnalysts can also monitor for use of Windows APIs such as &lt;code&gt;DuplicateToken(Ex)&lt;/code&gt;, &lt;code&gt; ImpersonateLoggedOnUser &lt;/code&gt;, and &lt;code&gt; SetThreadToken &lt;/code&gt; and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.</td></tr><tr><th>platforms</th><td>Windows</td></tr><tr><th>data sources</th><td>Command: Command Execution, Process: OS API Execution</td></tr></table>", "t2_cap_3": "<table class='meta-table'><tr><th>capec_Name</th><td>Reusing Session IDs (aka Session Replay)</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>High</td></tr><tr><th>capec_Skills_Required</th><td>Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.</td></tr><tr><th>capec_Prerequisites</th><td>The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.</td></tr><tr><th>capec_Mitigations</th><td>Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>", "t2_cwe_1": "<table class='meta-table'><tr><th>cwe_Name</th><td>Use of Hard-coded Credentials</td></tr><tr><th>CVE ID</th><td>CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039</td></tr><tr><th>baseScore</th><td>9.8 | 6.8 | 2.4</td></tr><tr><th>baseSeverity</th><td>CRITICAL | MEDIUM | LOW</td></tr><tr><th>attackVector</th><td>NETWORK | PHYSICAL</td></tr><tr><th>cwe_Abstraction</th><td>Base</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH | LOW</td></tr><tr><th>availabilityImpact</th><td>HIGH | NONE</td></tr><tr><th>exploitabilityScore</th><td>3.9 | 0.9</td></tr></table>", "t2_sub_7": "<table class='meta-table'><tr><th>technique_name</th><td>Valid Accounts</td></tr><tr><th>subtechnique_name</th><td>Valid Accounts: Default Accounts</td></tr><tr><th>tactics</th><td>Privilege Escalation</td></tr><tr><th>detection</th><td>Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.</td></tr><tr><th>platforms</th><td>Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS</td></tr><tr><th>data sources</th><td>Logon Session: Logon Session Creation, User Account: User Account Authentication</td></tr></table>", "t2_cap_7": "<table class='meta-table'><tr><th>capec_Name</th><td>Try Common or Default Usernames and Passwords</td></tr><tr><th>CVE ID</th><td>CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>Medium</td></tr><tr><th>capec_Typical_Severity</th><td>High</td></tr><tr><th>capec_Skills_Required</th><td>Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.</td></tr><tr><th>capec_Prerequisites</th><td>The system uses one factor password based authentication.The adversary has the means to interact with the system.</td></tr><tr><th>capec_Mitigations</th><td>Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>", "t2_cwe_2": "<table class='meta-table'><tr><th>cwe_Name</th><td>Improper Authentication</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t2_tech_8": "<table class='meta-table'><tr><th>technique_name</th><td>Abuse Elevation Control Mechanism</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>tactics</th><td>Privilege Escalation</td></tr><tr><th>tech_description</th><td>Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)</td></tr><tr><th>detection</th><td>Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user&#x27;s actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for &lt;code&gt;/usr/libexec/security_authtrampoline&lt;/code&gt; executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user&#x27;s actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the &lt;code&gt;LOG_INPUT&lt;/code&gt; and &lt;code&gt;LOG_OUTPUT&lt;/code&gt; directives in the &lt;code&gt;/etc/sudoers&lt;/code&gt; file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.</td></tr><tr><th>platforms</th><td>IaaS, Identity Provider, Linux, Office Suite, Windows, macOS</td></tr><tr><th>data sources</th><td>Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification</td></tr><tr><th>permissions required</th><td>Administrator, User</td></tr></table>", "t2_cap_8": "<table class='meta-table'><tr><th>capec_Name</th><td>Authentication Abuse</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>capec_Typical_Severity</th><td>Medium</td></tr><tr><th>capec_Prerequisites</th><td>An authentication mechanism or subsystem implementing some form of authentication such as passwords, digest authentication, security certificates, etc. which is flawed in some way.</td></tr></table>", "t2_tech_9": "<table class='meta-table'><tr><th>technique_name</th><td>Access Token Manipulation</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>tactics</th><td>Privilege Escalation</td></tr><tr><th>tech_description</th><td>Adversaries may modify access tokens to operate under a different user or system security context to perform actions and bypass access controls. Windows uses access tokens to determine the ownership of a running process. A user can manipulate access tokens to make a running process appear as though it is the child of a different process or belongs to someone other than the user that started the process. When this occurs, the process also takes on the security context associated with the new token.\n\nAn adversary can use built-in Windows API functions to copy access tokens from existing processes; this is known as token stealing. These token can then be applied to an existing process (i.e. [Token Impersonation/Theft](https://attack.mitre.org/techniques/T1134/001)) or used to spawn a new process (i.e. [Create Process with Token](https://attack.mitre.org/techniques/T1134/002)). An adversary must already be in a privileged user context (i.e. administrator) to steal a token. However, adversaries commonly use token stealing to elevate their security context from the administrator level to the SYSTEM level. An adversary can then use a token to authenticate to a remote system as the account for that token if the account has appropriate permissions on the remote system.(Citation: Pentestlab Token Manipulation)\n\nAny standard user can use the &lt;code&gt;runas&lt;/code&gt; command, and the Windows API functions, to create impersonation tokens; it does not require access to an administrator account. There are also other mechanisms, such as Active Directory fields, that can be used to modify access tokens.</td></tr><tr><th>detection</th><td>If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the &lt;code&gt;runas&lt;/code&gt; command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts can detect token manipulation only through careful analysis of user network activity, examination of running processes, and correlation with other endpoint and network behavior. \n\nThere are many Windows API calls a payload can take advantage of to manipulate access tokens (e.g., &lt;code&gt;LogonUser&lt;/code&gt; (Citation: Microsoft LogonUser), &lt;code&gt;DuplicateTokenEx&lt;/code&gt;(Citation: Microsoft DuplicateTokenEx), and &lt;code&gt;ImpersonateLoggedOnUser&lt;/code&gt;(Citation: Microsoft ImpersonateLoggedOnUser)). Please see the referenced Windows API pages for more information.\n\nQuery systems for process and thread token information and look for inconsistencies such as user owns processes impersonating the local SYSTEM account.(Citation: BlackHat Atkinson Winchester Token Manipulation)\n\nLook for inconsistencies between the various fields that store PPID information, such as the EventHeader ProcessId from data collected via Event Tracing for Windows (ETW), Creator Process ID/Name from Windows event logs, and the ProcessID and ParentProcessID (which are also produced from ETW and other utilities such as Task Manager and Process Explorer). The ETW provided EventHeader ProcessId identifies the actual parent process.</td></tr><tr><th>platforms</th><td>Windows</td></tr><tr><th>data sources</th><td>Active Directory: Active Directory Object Modification, Command: Command Execution, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Metadata</td></tr><tr><th>defenses bypassed</th><td>Heuristic Detection, Host Forensic Analysis, System Access Controls, Windows User Account Control</td></tr><tr><th>permissions required</th><td>Administrator, User</td></tr></table>", "t2_cap_9": "<table class='meta-table'><tr><th>capec_Name</th><td>Token Impersonation</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>capec_Typical_Severity</th><td>Medium</td></tr><tr><th>capec_Prerequisites</th><td>This pattern of attack is only applicable when a downstream user leverages tokens to verify identity, and then takes action based on that identity.</td></tr><tr><th>capec_Consequences</th><td>Scope: Integrity | Impact: Alter Execution Logic || Scope: Integrity | Impact: Gain Privileges || Scope: Integrity | Impact: Hide Activities</td></tr></table>"};
+var NODES_DATA = [{"id": "root", "label": "Compromise Device", "type": "root"}, {"id": "t2_tactic", "label": "Privilege Escalation", "type": "tactic", "metadata": {"tactic": "Privilege Escalation"}}, {"id": "t2_cwe_0", "label": "Incorrect Permission Assignment for Critical Resource", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12041", "cwe_Name": "Incorrect Permission Assignment for Critical Resource", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.", "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.4", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t2_sub_0", "label": "Hijack Execution Flow: Services File Permissions Weakness", "type": "subtech", "metadata": {"subtechnique_name": "Hijack Execution Flow: Services File Permissions Weakness", "technique_name": "Hijack Execution Flow", "tactics": "Privilege Escalation", "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.", "platforms": "Windows", "data sources": "File: File Creation, File: File Modification, Process: Process Creation, Service: Service Metadata"}}, {"id": "t2_cap_0", "label": "Accessing Functionality Not Properly Constrained by ACLs", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12041", "capec_Name": "Accessing Functionality Not Properly Constrained by ACLs", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "High", "capec_Skills_Required": "Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.", "capec_Prerequisites": "The application must be navigable in a manner that associates elements (subsections) of the application with ACLs. || The various resources, or individual URLs, must be somehow discoverable by the attacker || The administrator must have forgotten to associate an ACL or has associated an inappropriately permissive ACL with a particular navigable resource.", "capec_Mitigations": "In a J2EE setting, administrators can associate a role that is impossible for the authenticator to grant users, such as \"NoAccess\", with all Servlets to which access is guarded by a limited number of servlets visible to, and accessible by, the user. Having done so, any direct access to those protected Servlets will be prohibited by the web container. In a more general setting, the administrator must mark every resource besides the ones supposed to be exposed to the user as accessible by a role impossible for the user to assume. The default security setting must be to deny access and then grant access only to those resources intended by business logic.", "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t2_and_0", "label": "AND", "type": "gate"}, {"id": "t2_sub_1", "label": "Hijack Execution Flow: Executable Installer File Permissions Weakness", "type": "subtech", "metadata": {"subtechnique_name": "Hijack Execution Flow: Executable Installer File Permissions Weakness", "technique_name": "Hijack Execution Flow", "tactics": "Privilege Escalation", "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.", "platforms": "Windows", "data sources": "File: File Creation, File: File Modification, Module: Module Load, Process: Process Creation, Service: Service Metadata"}}, {"id": "t2_cap_1", "label": "Accessing Functionality Not Properly Constrained by ACLs", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12041", "capec_Name": "Accessing Functionality Not Properly Constrained by ACLs", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "High", "capec_Skills_Required": "Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.", "capec_Prerequisites": "The application must be navigable in a manner that associates elements (subsections) of the application with ACLs. || The various resources, or individual URLs, must be somehow discoverable by the attacker || The administrator must have forgotten to associate an ACL or has associated an inappropriately permissive ACL with a particular navigable resource.", "capec_Mitigations": "In a J2EE setting, administrators can associate a role that is impossible for the authenticator to grant users, such as \"NoAccess\", with all Servlets to which access is guarded by a limited number of servlets visible to, and accessible by, the user. Having done so, any direct access to those protected Servlets will be prohibited by the web container. In a more general setting, the administrator must mark every resource besides the ones supposed to be exposed to the user as accessible by a role impossible for the user to assume. The default security setting must be to deny access and then grant access only to those resources intended by business logic.", "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t2_and_1", "label": "AND", "type": "gate"}, {"id": "t2_tech_2", "label": "Abuse Elevation Control Mechanism", "type": "tech", "metadata": {"CVE ID": "CVE-2020-12041", "technique_name": "Abuse Elevation Control Mechanism", "tactics": "Privilege Escalation", "tech_description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)", "detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.", "platforms": "IaaS, Identity Provider, Linux, Office Suite, Windows, macOS", "data sources": "Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification", "permissions required": "Administrator, User"}}, {"id": "t2_cap_2", "label": "Privilege Abuse", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12041", "capec_Name": "Privilege Abuse", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "Medium", "capec_Skills_Required": "Low: Adversary can leverage privileged features they already have access to without additional effort or skill. Adversary is only required to have access to an account with improper priveleges.", "capec_Prerequisites": "The target must have misconfigured their access control mechanisms such that sensitive information, which should only be accessible to more trusted users, remains accessible to less trusted users. || The adversary must have access to the target, albeit with an account that is less privileged than would be appropriate for the targeted resources.", "capec_Mitigations": "Configure account privileges such privileged/administrator functionality is not exposed to non-privileged/lower accounts.", "capec_Consequences": "Scope: Integrity | Impact: Modify Data || Scope: Confidentiality | Impact: Read Data || Scope: Authorization | Impact: Execute Unauthorized Commands || Scope: Authorization | Impact: Gain Privileges || Scope: Access Control, Authorization | Impact: Bypass Protection Mechanism"}}, {"id": "t2_and_2", "label": "AND", "type": "gate"}, {"id": "t2_sub_3", "label": "Access Token Manipulation: Token Impersonation/Theft", "type": "subtech", "metadata": {"subtechnique_name": "Access Token Manipulation: Token Impersonation/Theft", "technique_name": "Access Token Manipulation", "tactics": "Privilege Escalation", "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nAnalysts can also monitor for use of Windows APIs such as <code>DuplicateToken(Ex)</code>, <code> ImpersonateLoggedOnUser </code>, and <code> SetThreadToken </code> and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.", "platforms": "Windows", "data sources": "Command: Command Execution, Process: OS API Execution"}}, {"id": "t2_cap_3", "label": "Reusing Session IDs (aka Session Replay)", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12041", "capec_Name": "Reusing Session IDs (aka Session Replay)", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "High", "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.", "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.", "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.", "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t2_and_3", "label": "AND", "type": "gate"}, {"id": "t2_cwe0_or_4", "label": "OR", "type": "gate"}, {"id": "t2_cwe0_or_5", "label": "OR", "type": "gate"}, {"id": "t2_cwe0_or_6", "label": "OR", "type": "gate"}, {"id": "t2_cwe_1", "label": "Use of Hard-coded Credentials", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039", "cwe_Name": "Use of Hard-coded Credentials", "cwe_Abstraction": "Base", "cwe_Modes_Of_Introduction": "Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.", "attackVector": "NETWORK | PHYSICAL", "baseScore": "9.8 | 6.8 | 2.4", "baseSeverity": "CRITICAL | MEDIUM | LOW", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH | LOW", "availabilityImpact": "HIGH | NONE", "exploitabilityScore": "3.9 | 0.9"}}, {"id": "t2_sub_7", "label": "Valid Accounts: Default Accounts", "type": "subtech", "metadata": {"subtechnique_name": "Valid Accounts: Default Accounts", "technique_name": "Valid Accounts", "tactics": "Privilege Escalation", "detection": "Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.", "platforms": "Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS", "data sources": "Logon Session: Logon Session Creation, User Account: User Account Authentication"}}, {"id": "t2_cap_7", "label": "Try Common or Default Usernames and Passwords", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039", "capec_Name": "Try Common or Default Usernames and Passwords", "capec_Likelihood_Of_Attack": "Medium", "capec_Typical_Severity": "High", "capec_Skills_Required": "Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.", "capec_Prerequisites": "The system uses one factor password based authentication.The adversary has the means to interact with the system.", "capec_Mitigations": "Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.", "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t2_and_7", "label": "AND", "type": "gate"}, {"id": "t2_cwe_2", "label": "Improper Authentication", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5432", "cwe_Name": "Improper Authentication", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t2_tech_8", "label": "Abuse Elevation Control Mechanism", "type": "tech", "metadata": {"CVE ID": "CVE-2014-5432", "technique_name": "Abuse Elevation Control Mechanism", "tactics": "Privilege Escalation", "tech_description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)", "detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.", "platforms": "IaaS, Identity Provider, Linux, Office Suite, Windows, macOS", "data sources": "Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification", "permissions required": "Administrator, User"}}, {"id": "t2_cap_8", "label": "Authentication Abuse", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5432", "capec_Name": "Authentication Abuse", "capec_Typical_Severity": "Medium", "capec_Prerequisites": "An authentication mechanism or subsystem implementing some form of authentication such as passwords, digest authentication, security certificates, etc. which is flawed in some way."}}, {"id": "t2_and_8", "label": "AND", "type": "gate"}, {"id": "t2_tech_9", "label": "Access Token Manipulation", "type": "tech", "metadata": {"CVE ID": "CVE-2014-5432", "technique_name": "Access Token Manipulation", "tactics": "Privilege Escalation", "tech_description": "Adversaries may modify access tokens to operate under a different user or system security context to perform actions and bypass access controls. Windows uses access tokens to determine the ownership of a running process. A user can manipulate access tokens to make a running process appear as though it is the child of a different process or belongs to someone other than the user that started the process. When this occurs, the process also takes on the security context associated with the new token.\n\nAn adversary can use built-in Windows API functions to copy access tokens from existing processes; this is known as token stealing. These token can then be applied to an existing process (i.e. [Token Impersonation/Theft](https://attack.mitre.org/techniques/T1134/001)) or used to spawn a new process (i.e. [Create Process with Token](https://attack.mitre.org/techniques/T1134/002)). An adversary must already be in a privileged user context (i.e. administrator) to steal a token. However, adversaries commonly use token stealing to elevate their security context from the administrator level to the SYSTEM level. An adversary can then use a token to authenticate to a remote system as the account for that token if the account has appropriate permissions on the remote system.(Citation: Pentestlab Token Manipulation)\n\nAny standard user can use the <code>runas</code> command, and the Windows API functions, to create impersonation tokens; it does not require access to an administrator account. There are also other mechanisms, such as Active Directory fields, that can be used to modify access tokens.", "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts can detect token manipulation only through careful analysis of user network activity, examination of running processes, and correlation with other endpoint and network behavior. \n\nThere are many Windows API calls a payload can take advantage of to manipulate access tokens (e.g., <code>LogonUser</code> (Citation: Microsoft LogonUser), <code>DuplicateTokenEx</code>(Citation: Microsoft DuplicateTokenEx), and <code>ImpersonateLoggedOnUser</code>(Citation: Microsoft ImpersonateLoggedOnUser)). Please see the referenced Windows API pages for more information.\n\nQuery systems for process and thread token information and look for inconsistencies such as user owns processes impersonating the local SYSTEM account.(Citation: BlackHat Atkinson Winchester Token Manipulation)\n\nLook for inconsistencies between the various fields that store PPID information, such as the EventHeader ProcessId from data collected via Event Tracing for Windows (ETW), Creator Process ID/Name from Windows event logs, and the ProcessID and ParentProcessID (which are also produced from ETW and other utilities such as Task Manager and Process Explorer). The ETW provided EventHeader ProcessId identifies the actual parent process.", "platforms": "Windows", "data sources": "Active Directory: Active Directory Object Modification, Command: Command Execution, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Metadata", "defenses bypassed": "Heuristic Detection, Host Forensic Analysis, System Access Controls, Windows User Account Control", "permissions required": "Administrator, User"}}, {"id": "t2_cap_9", "label": "Token Impersonation", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5432", "capec_Name": "Token Impersonation", "capec_Typical_Severity": "Medium", "capec_Prerequisites": "This pattern of attack is only applicable when a downstream user leverages tokens to verify identity, and then takes action based on that identity.", "capec_Consequences": "Scope: Integrity | Impact: Alter Execution Logic || Scope: Integrity | Impact: Gain Privileges || Scope: Integrity | Impact: Hide Activities"}}, {"id": "t2_and_9", "label": "AND", "type": "gate"}, {"id": "t2_cwe2_or_10", "label": "OR", "type": "gate"}, {"id": "t2_tac_or_11", "label": "OR", "type": "gate"}, {"id": "t2_tac_or_12", "label": "OR", "type": "gate"}];
+
+// Build lookup: node_id -> {label, type}
+var nodeInfo = {};
+NODES_DATA.forEach(function(n) { nodeInfo[n.id] = n; });
+
+// ── DOM refs ─────────────────────────────────────────────────────────────────
+var panelCol  = document.getElementById('panel-col');
+var panelBody = document.getElementById('panel-body');
+var panelTitle= document.getElementById('panel-title');
+var closeBtn  = document.getElementById('close-btn');
+var svgScroll = document.getElementById('svg-scroll');
+
+var selectedGroup = null;
+
+// ── Open panel with node data ─────────────────────────────────────────────────
+function showPanel(nodeId) {
+  var info    = nodeInfo[nodeId] || {};
+  var label   = info.label  || nodeId;
+  var ntype   = info.type   || 'unknown';
+  var htmlTbl = NODE_HTML[nodeId] || '<div class="meta-empty">No metadata recorded for this node.</div>';
+
+  panelTitle.textContent = 'Node metadata';
+
+  var badgeClass = 'badge-' + ntype;
+  panelBody.innerHTML =
+    '<p class="node-label-heading">' + escHtml(label) + '</p>' +
+    '<span class="node-type-badge ' + badgeClass + '">' + escHtml(ntype) + '</span>' +
+    htmlTbl;
+
+  panelCol.classList.remove('hidden');
+}
+
+function closePanel() {
+  panelCol.classList.add('hidden');
+  if (selectedGroup) {
+    selectedGroup.classList.remove('selected-node');
+    selectedGroup = null;
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Wire up node clicks ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var groups = svgScroll.querySelectorAll('[data-node-id]');
+  groups.forEach(function(g) {
+    g.addEventListener('click', function(ev) {
+      ev.stopPropagation();
+      var nodeId = g.getAttribute('data-node-id');
+
+      // Deselect previous
+      if (selectedGroup && selectedGroup !== g) {
+        selectedGroup.classList.remove('selected-node');
+      }
+      // Toggle if same node clicked twice
+      if (selectedGroup === g) {
+        closePanel();
+        return;
+      }
+      selectedGroup = g;
+      g.classList.add('selected-node');
+      showPanel(nodeId);
+    });
+  });
+
+  // Click empty canvas area → close panel
+  svgScroll.addEventListener('click', function() { closePanel(); });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePanel();
+  });
+});
+</script>
+</body>
+</html>

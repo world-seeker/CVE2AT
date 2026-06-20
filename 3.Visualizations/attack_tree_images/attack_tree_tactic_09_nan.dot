@@ -1,0 +1,29 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	root [label="Compromise Device" fillcolor="#FFD700" fontname=Helvetica shape=box style=filled]
+	t8_tactic [label=nan fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	root -> t8_tactic
+	t8_cwe_0 [label="Incorrect Permission Assignment for Critical Resource" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t8_cwe_1 [label="Use of Hard-coded Password" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t8_cwe_2 [label="Operation on a Resource after Expiration or Release" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t8_cwe_3 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t8_cwe_4 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t8_cwe_5 [label="DEPRECATED: Authentication Bypass Issues" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t8_tac_or_0 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t8_tac_or_1 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t8_tac_or_2 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t8_tac_or_2 -> t8_cwe_1
+	t8_tac_or_2 -> t8_cwe_2
+	t8_tac_or_1 -> t8_cwe_0
+	t8_tac_or_1 -> t8_tac_or_2
+	t8_tac_or_3 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t8_tac_or_4 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t8_tac_or_4 -> t8_cwe_4
+	t8_tac_or_4 -> t8_cwe_5
+	t8_tac_or_3 -> t8_cwe_3
+	t8_tac_or_3 -> t8_tac_or_4
+	t8_tac_or_0 -> t8_tac_or_1
+	t8_tac_or_0 -> t8_tac_or_3
+	t8_tactic -> t8_tac_or_0
+}

@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Attack Tree — Discovery</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; background: #f4f4f4;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+
+    /* ── Two-column app layout ── */
+    .app { display: flex; height: 100vh; gap: 0; overflow: hidden; }
+
+    /* ── Left: graph canvas ── */
+    .graph-col {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border-right: 2px solid #d0d0d0;
+    }
+    .graph-header {
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+    .graph-header h1 { margin: 0 0 6px; font-size: 20px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .legend-item {
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 13px; border: 1px solid rgba(0,0,0,.12);
+    }
+    .svg-scroll {
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .svg-scroll svg {
+      /* keep native Graphviz size; user can scroll / zoom */
+      width: auto;
+      height: auto;
+      display: block;
+      cursor: default;
+    }
+    /* highlight hovered node groups */
+    .svg-scroll [data-node-id] { cursor: pointer; }
+    .svg-scroll [data-node-id]:hover ellipse,
+    .svg-scroll [data-node-id]:hover polygon,
+    .svg-scroll [data-node-id]:hover path {
+      filter: brightness(0.88);
+    }
+    .selected-node ellipse,
+    .selected-node polygon,
+    .selected-node path {
+      stroke: #1a6fc4 !important;
+      stroke-width: 3px !important;
+    }
+    .graph-footer {
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    /* ── Right: metadata panel ── */
+    .panel-col {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: hidden;
+      transition: flex-basis .2s;
+    }
+    .panel-col.hidden { flex: 0 0 0; overflow: hidden; }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f8f8f8;
+    }
+    .panel-header h2 { margin: 0; font-size: 16px; }
+    .close-btn {
+      border: none; background: transparent;
+      font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px;
+      color: #555;
+    }
+    .close-btn:hover { color: #000; }
+    .panel-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 14px;
+    }
+    .panel-placeholder {
+      color: #888; font-style: italic; margin-top: 20px; text-align: center;
+    }
+    .node-label-heading {
+      font-size: 17px; font-weight: 700;
+      margin: 0 0 4px;
+      word-break: break-word;
+    }
+    .node-type-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* Metadata table */
+    .meta-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 8px; font-size: 14px;
+    }
+    .meta-table th {
+      text-align: left; padding: 6px 8px;
+      background: #f3f3f3; border-bottom: 1px solid #e0e0e0;
+      font-weight: 600; width: 36%; vertical-align: top;
+      word-break: break-word;
+    }
+    .meta-table td {
+      padding: 6px 8px; border-bottom: 1px solid #eee;
+      vertical-align: top; word-break: break-word;
+    }
+    .meta-empty { color: #888; font-style: italic; }
+
+    /* Badge colours by node type */
+    .badge-root    { background: #FFD700; color: #5a4200; }
+    .badge-tactic  { background: #98FB98; color: #1a5c1a; }
+    .badge-cwe     { background: #ADD8E6; color: #1a3a5c; }
+    .badge-tech    { background: #90EE90; color: #1a5c1a; }
+    .badge-subtech { background: #FFFACD; color: #5c5000; }
+    .badge-capec   { background: #FFB6C1; color: #6b0a1e; }
+    .badge-gate    { background: #FFCCCB; color: #7a1a00; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Left column: SVG graph ── -->
+  <div class="graph-col">
+    <div class="graph-header">
+      <h1>Attack Tree — Discovery</h1>
+      <div class="legend">
+        <span class="legend-item" style="background:#FFD700">Compromise Device (root)</span>
+        <span class="legend-item" style="background:#98FB98">Tactic</span>
+        <span class="legend-item" style="background:#ADD8E6">CWE</span>
+        <span class="legend-item" style="background:#90EE90">Technique</span>
+        <span class="legend-item" style="background:#FFFACD">Subtechnique</span>
+        <span class="legend-item" style="background:#FFB6C1">CAPEC</span>
+        <span class="legend-item" style="background:#FFCCCB">OR / AND gates</span>
+      </div>
+    </div>
+
+    <div class="svg-scroll" id="svg-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1226pt" height="608pt" viewBox="0.00 0.00 1226.00 608.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 604)" data-node-id="%3">
+<title>Compromise Device</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-604 1222,-604 1222,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="root">
+<title>Compromise Device</title>
+<polygon fill="#ffd700" stroke="black" points="414,-600 277,-600 277,-564 414,-564 414,-600" />
+<text text-anchor="middle" x="345.5" y="-578.9" font-family="Helvetica,sans-Serif" font-size="12.00">Compromise Device</text>
+</g>
+
+<g id="node2" class="node" data-node-id="t5_tactic">
+<title>Discovery</title>
+<polygon fill="#98fb98" stroke="black" points="383,-506 308,-506 308,-470 383,-470 383,-506" />
+<text text-anchor="middle" x="345.5" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">Discovery</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="root-&gt;t5_tactic">
+<title>root-&gt;t5_tactic</title>
+<path fill="none" stroke="black" d="M345.5,-563.88C345.5,-563.88 345.5,-516.07 345.5,-516.07" />
+<polygon fill="black" stroke="black" points="349,-516.07 345.5,-506.07 342,-516.07 349,-516.07" />
+</g>
+
+<g id="node15" class="node" data-node-id="t5_tac_or_3">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="345.5" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="345.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge15" class="edge" data-node-id="t5_tactic-&gt;t5_tac_or_3">
+<title>t5_tactic-&gt;t5_tac_or_3</title>
+<path fill="none" stroke="black" d="M345.5,-469.88C345.5,-469.88 345.5,-422.07 345.5,-422.07" />
+<polygon fill="black" stroke="black" points="349,-422.07 345.5,-412.07 342,-422.07 349,-422.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t5_cwe_0">
+<title>Incorrect Permission Assignment for Critical Resource</title>
+<polygon fill="#add8e6" stroke="black" points="392,-318 63,-318 63,-282 398,-282 398,-312 392,-318" />
+<polyline fill="none" stroke="black" points="392,-318 392,-312 " />
+<polyline fill="none" stroke="black" points="398,-312 392,-312 " />
+<text text-anchor="middle" x="230.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Incorrect Permission Assignment for Critical Resource</text>
+</g>
+
+<g id="node6" class="node" data-node-id="t5_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="230.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="230.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t5_cwe_0-&gt;t5_and_0">
+<title>t5_cwe_0-&gt;t5_and_0</title>
+<path fill="none" stroke="black" d="M230.5,-281.88C230.5,-281.88 230.5,-234.07 230.5,-234.07" />
+<polygon fill="black" stroke="black" points="234,-234.07 230.5,-224.07 227,-234.07 234,-234.07" />
+</g>
+
+<g id="node4" class="node" data-node-id="t5_tech_0">
+<title>File and Directory Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="183,-130 0,-130 0,-94 183,-94 183,-130" />
+<text text-anchor="middle" x="91.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">File and Directory Discovery</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t5_cap_0">
+<title>Directory Indexing</title>
+<polygon fill="#ffb6c1" stroke="black" points="345.5,-130 219.5,-130 219.5,-94 345.5,-94 345.5,-130" />
+<text text-anchor="middle" x="282.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Directory Indexing</text>
+</g>
+
+<g id="edge2" class="edge" data-node-id="t5_and_0-&gt;t5_tech_0">
+<title>t5_and_0-&gt;t5_tech_0</title>
+<path fill="none" stroke="black" d="M211.5,-192.93C211.5,-167.1 211.5,-112 211.5,-112 211.5,-112 193.06,-112 193.06,-112" />
+<polygon fill="black" stroke="black" points="193.06,-108.5 183.06,-112 193.06,-115.5 193.06,-108.5" />
+</g>
+
+<g id="edge3" class="edge" data-node-id="t5_and_0-&gt;t5_cap_0">
+<title>t5_and_0-&gt;t5_cap_0</title>
+<path fill="none" stroke="black" d="M238.5,-188.76C238.5,-188.76 238.5,-140.09 238.5,-140.09" />
+<polygon fill="black" stroke="black" points="242,-140.09 238.5,-130.09 235,-140.09 242,-140.09" />
+</g>
+
+<g id="node7" class="node" data-node-id="t5_cwe_1">
+<title>Cleartext Transmission of Sensitive Information</title>
+<polygon fill="#add8e6" stroke="black" points="594.5,-224 302.5,-224 302.5,-188 600.5,-188 600.5,-218 594.5,-224" />
+<polyline fill="none" stroke="black" points="594.5,-224 594.5,-218 " />
+<polyline fill="none" stroke="black" points="600.5,-218 594.5,-218 " />
+<text text-anchor="middle" x="451.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Cleartext Transmission of Sensitive Information</text>
+</g>
+
+<g id="node10" class="node" data-node-id="t5_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="451.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="451.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge7" class="edge" data-node-id="t5_cwe_1-&gt;t5_and_1">
+<title>t5_cwe_1-&gt;t5_and_1</title>
+<path fill="none" stroke="black" d="M451.5,-187.88C451.5,-187.88 451.5,-140.07 451.5,-140.07" />
+<polygon fill="black" stroke="black" points="455,-140.07 451.5,-130.07 448,-140.07 455,-140.07" />
+</g>
+
+<g id="node8" class="node" data-node-id="t5_tech_1">
+<title>Network Sniffing</title>
+<polygon fill="#90ee90" stroke="black" points="367,-36 252,-36 252,0 367,0 367,-36" />
+<text text-anchor="middle" x="309.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Sniffing</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t5_cap_1">
+<title>Sniff Application Code</title>
+<polygon fill="#ffb6c1" stroke="black" points="550,-36 403,-36 403,0 550,0 550,-36" />
+<text text-anchor="middle" x="476.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Sniff Application Code</text>
+</g>
+
+<g id="edge5" class="edge" data-node-id="t5_and_1-&gt;t5_tech_1">
+<title>t5_and_1-&gt;t5_tech_1</title>
+<path fill="none" stroke="black" d="M424.46,-112C396.3,-112 356.25,-112 356.25,-112 356.25,-112 356.25,-46.12 356.25,-46.12" />
+<polygon fill="black" stroke="black" points="359.75,-46.12 356.25,-36.12 352.75,-46.12 359.75,-46.12" />
+</g>
+
+<g id="edge6" class="edge" data-node-id="t5_and_1-&gt;t5_cap_1">
+<title>t5_and_1-&gt;t5_cap_1</title>
+<path fill="none" stroke="black" d="M451.5,-93.88C451.5,-93.88 451.5,-46.07 451.5,-46.07" />
+<polygon fill="black" stroke="black" points="455,-46.07 451.5,-36.07 448,-46.07 455,-46.07" />
+</g>
+
+<g id="node11" class="node" data-node-id="t5_cwe_2">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="794,-224 637,-224 637,-188 800,-188 800,-218 794,-224" />
+<polyline fill="none" stroke="black" points="794,-224 794,-218 " />
+<polyline fill="none" stroke="black" points="800,-218 794,-218 " />
+<text text-anchor="middle" x="718.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t5_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="718.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="718.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge10" class="edge" data-node-id="t5_cwe_2-&gt;t5_and_2">
+<title>t5_cwe_2-&gt;t5_and_2</title>
+<path fill="none" stroke="black" d="M718.5,-187.88C718.5,-187.88 718.5,-140.07 718.5,-140.07" />
+<polygon fill="black" stroke="black" points="722,-140.07 718.5,-130.07 715,-140.07 722,-140.07" />
+</g>
+
+<g id="node12" class="node" data-node-id="t5_tech_2">
+<title>Network Sniffing</title>
+<polygon fill="#90ee90" stroke="black" points="751,-36 636,-36 636,0 751,0 751,-36" />
+<text text-anchor="middle" x="693.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Sniffing</text>
+</g>
+
+<g id="node13" class="node" data-node-id="t5_cap_2">
+<title>Utilizing REST's Trust in the System Resource to Obtain Sensitive Data</title>
+<polygon fill="#ffb6c1" stroke="black" points="1218,-36 787,-36 787,0 1218,0 1218,-36" />
+<text text-anchor="middle" x="1002.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Utilizing REST's Trust in the System Resource to Obtain Sensitive Data</text>
+</g>
+
+<g id="edge8" class="edge" data-node-id="t5_and_2-&gt;t5_tech_2">
+<title>t5_and_2-&gt;t5_tech_2</title>
+<path fill="none" stroke="black" d="M718.5,-93.88C718.5,-93.88 718.5,-46.07 718.5,-46.07" />
+<polygon fill="black" stroke="black" points="722,-46.07 718.5,-36.07 715,-46.07 722,-46.07" />
+</g>
+
+<g id="edge9" class="edge" data-node-id="t5_and_2-&gt;t5_cap_2">
+<title>t5_and_2-&gt;t5_cap_2</title>
+<path fill="none" stroke="black" d="M745.58,-112C767.06,-112 793.5,-112 793.5,-112 793.5,-112 793.5,-46.12 793.5,-46.12" />
+<polygon fill="black" stroke="black" points="797,-46.12 793.5,-36.12 790,-46.12 797,-46.12" />
+</g>
+
+<g id="edge13" class="edge" data-node-id="t5_tac_or_3-&gt;t5_cwe_0">
+<title>t5_tac_or_3-&gt;t5_cwe_0</title>
+<path fill="none" stroke="black" d="M345.5,-375.88C345.5,-375.88 345.5,-328.07 345.5,-328.07" />
+<polygon fill="black" stroke="black" points="349,-328.07 345.5,-318.07 342,-328.07 349,-328.07" />
+</g>
+
+<g id="node16" class="node" data-node-id="t5_tac_or_4">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="461.5" cy="-300" rx="27" ry="18" />
+<text text-anchor="middle" x="461.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge14" class="edge" data-node-id="t5_tac_or_3-&gt;t5_tac_or_4">
+<title>t5_tac_or_3-&gt;t5_tac_or_4</title>
+<path fill="none" stroke="black" d="M372.7,-394C406.98,-394 461.5,-394 461.5,-394 461.5,-394 461.5,-328.12 461.5,-328.12" />
+<polygon fill="black" stroke="black" points="465,-328.12 461.5,-318.12 458,-328.12 465,-328.12" />
+</g>
+
+<g id="edge11" class="edge" data-node-id="t5_tac_or_4-&gt;t5_cwe_1">
+<title>t5_tac_or_4-&gt;t5_cwe_1</title>
+<path fill="none" stroke="black" d="M461.5,-281.88C461.5,-281.88 461.5,-234.07 461.5,-234.07" />
+<polygon fill="black" stroke="black" points="465,-234.07 461.5,-224.07 458,-234.07 465,-234.07" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t5_tac_or_4-&gt;t5_cwe_2">
+<title>t5_tac_or_4-&gt;t5_cwe_2</title>
+<path fill="none" stroke="black" d="M488.52,-300C554.5,-300 718.5,-300 718.5,-300 718.5,-300 718.5,-234.12 718.5,-234.12" />
+<polygon fill="black" stroke="black" points="722,-234.12 718.5,-224.12 715,-234.12 722,-234.12" />
+</g>
+</g>
+</svg>
+    </div>
+
+    <div class="graph-footer">
+      Click any node to view its metadata in the right-hand panel. &nbsp;|&nbsp;
+      Scroll / drag to navigate. &nbsp;|&nbsp;
+      Press <kbd>Esc</kbd> to close the panel.
+    </div>
+  </div>
+
+  <!-- ── Right column: metadata panel ── -->
+  <div class="panel-col hidden" id="panel-col">
+    <div class="panel-header">
+      <h2 id="panel-title">Node metadata</h2>
+      <button class="close-btn" id="close-btn" title="Close panel">&times;</button>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-placeholder">Click a node in the graph to see details here.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Data injected by Python ──────────────────────────────────────────────────
+var NODE_HTML  = {"root": "<table class='meta-table'><tr><th>label</th><td>Compromise Device</td></tr></table>", "t5_tactic": "<table class='meta-table'><tr><th>tactic</th><td>Discovery</td></tr></table>", "t5_cwe_0": "<table class='meta-table'><tr><th>cwe_Name</th><td>Incorrect Permission Assignment for Critical Resource</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>baseScore</th><td>9.4</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a &quot;jail&quot; or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t5_tech_0": "<table class='meta-table'><tr><th>technique_name</th><td>File and Directory Discovery</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>tactics</th><td>Discovery</td></tr><tr><th>tech_description</th><td>Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include &lt;code&gt;dir&lt;/code&gt;, &lt;code&gt;tree&lt;/code&gt;, &lt;code&gt;ls&lt;/code&gt;, &lt;code&gt;find&lt;/code&gt;, and &lt;code&gt;locate&lt;/code&gt;.(Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106). Adversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to gather file and directory information (e.g. &lt;code&gt;dir&lt;/code&gt;, &lt;code&gt;show flash&lt;/code&gt;, and/or &lt;code&gt;nvram&lt;/code&gt;).(Citation: US-CERT-TA18-106A)\n\nSome files and directories may require elevated or specific user permissions to access.</td></tr><tr><th>detection</th><td>System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001). Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to gather file and directory information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use of commands being run by non-standard users from non-standard locations.</td></tr><tr><th>platforms</th><td>Linux, Network, Windows, macOS</td></tr><tr><th>data sources</th><td>Command: Command Execution, Process: OS API Execution, Process: Process Creation</td></tr></table>", "t5_cap_0": "<table class='meta-table'><tr><th>capec_Name</th><td>Directory Indexing</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>Medium</td></tr><tr><th>capec_Skills_Required</th><td>Low: To issue the request to URL without given a specific file name || High: To bypass the access control of the directory of listings</td></tr><tr><th>capec_Prerequisites</th><td>The target must be misconfigured to return a list of a directory&#x27;s content when it receives a request that ends in a directory name rather than a file name. || The adversary must be able to control the path that is requested of the target. || The administrator must have failed to properly configure an ACL or has associated an overly permissive ACL with a particular directory. || The server version or patch level must not inherently prevent known directory listing attacks from working.</td></tr><tr><th>capec_Mitigations</th><td>1. Using blank index.html: putting blank index.html simply prevent directory listings from displaying to site visitors. || 2. Preventing with .htaccess in Apache web server: In .htaccess, write &quot;Options-indexes&quot;. || 3. Suppressing error messages: using error 403 &quot;Forbidden&quot; message exactly like error 404 &quot;Not Found&quot; message.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality | Impact: Read Data</td></tr></table>", "t5_cwe_1": "<table class='meta-table'><tr><th>cwe_Name</th><td>Cleartext Transmission of Sensitive Information</td></tr><tr><th>CVE ID</th><td>CVE-2020-12040</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Base</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t5_tech_1": "<table class='meta-table'><tr><th>technique_name</th><td>Network Sniffing</td></tr><tr><th>CVE ID</th><td>CVE-2020-12040</td></tr><tr><th>tactics</th><td>Discovery</td></tr><tr><th>tech_description</th><td>Adversaries may passively sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.\n\nData captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol. Techniques for name service resolution poisoning, such as [LLMNR/NBT-NS Poisoning and SMB Relay](https://attack.mitre.org/techniques/T1557/001), can also be used to capture credentials to websites, proxies, and internal systems by redirecting traffic to an adversary.\n\nNetwork sniffing may reveal configuration details, such as running services, version numbers, and other network characteristics (e.g. IP addresses, hostnames, VLAN IDs) necessary for subsequent [Lateral Movement](https://attack.mitre.org/tactics/TA0008) and/or [Defense Evasion](https://attack.mitre.org/tactics/TA0005) activities. Adversaries may likely also utilize network sniffing during [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) (AiTM) to passively gain additional knowledge about the environment.\n\nIn cloud-based environments, adversaries may still be able to use traffic mirroring services to sniff network traffic from virtual machines. For example, AWS Traffic Mirroring, GCP Packet Mirroring, and Azure vTap allow users to define specified instances to collect traffic from and specified targets to send collected traffic to.(Citation: AWS Traffic Mirroring)(Citation: GCP Packet Mirroring)(Citation: Azure Virtual Network TAP) Often, much of this traffic will be in cleartext due to the use of TLS termination at the load balancer level to reduce the strain of encrypting and decrypting traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)(Citation: SpecterOps AWS Traffic Mirroring) The adversary can then use exfiltration techniques such as Transfer Data to Cloud Account in order to access the sniffed traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)\n\nOn network devices, adversaries may perform network captures using [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `monitor capture`.(Citation: US-CERT-TA18-106A)(Citation: capture_embedded_packet_on_software)</td></tr><tr><th>detection</th><td>Detecting the events leading up to sniffing network traffic may be the best method of detection. From the host level, an adversary would likely need to perform a [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) attack against other devices on a wired network in order to capture traffic that was not to or from the current compromised system. This change in the flow of information is detectable at the enclave network level. Monitor for ARP spoofing and gratuitous ARP broadcasts. Detecting compromised network devices is a bit more challenging. Auditing administrator logins, configuration changes, and device images is required to detect malicious changes.\n\nIn cloud-based environments, monitor for the creation of new traffic mirrors or modification of existing traffic mirrors. For network infrastructure devices, collect AAA logging to monitor for the capture of network traffic.</td></tr><tr><th>platforms</th><td>IaaS, Linux, Network, Windows, macOS</td></tr><tr><th>data sources</th><td>Command: Command Execution, Process: Process Creation</td></tr></table>", "t5_cap_1": "<table class='meta-table'><tr><th>capec_Name</th><td>Sniff Application Code</td></tr><tr><th>CVE ID</th><td>CVE-2020-12040</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>Low</td></tr><tr><th>capec_Typical_Severity</th><td>High</td></tr><tr><th>capec_Skills_Required</th><td>Medium: The attacker needs to setup a sniffer for a sufficient period of time so as to capture meaningful quantities of code. The presence of the sniffer should not be detected on the network. Also if the attacker plans to employ an adversary-in-the-middle attack (CAPEC-94), the client or server must not realize this. Finally, the attacker needs to regenerate source code from binary code if the need be.</td></tr><tr><th>capec_Prerequisites</th><td>The attacker must have the ability to place themself in the communication path between the client and server. || The targeted application must receive some application code from the server; for example, dynamic updates, patches, applets or scripts. || The attacker must be able to employ a sniffer on the network without being detected.</td></tr><tr><th>capec_Mitigations</th><td>Design: Encrypt all communication between the client and server. || Implementation: Use SSL, SSH, SCP. || Operation: Use &quot;ifconfig/ipconfig&quot; or other tools to detect the sniffer installed in the network.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>", "t5_cwe_2": "<table class='meta-table'><tr><th>cwe_Name</th><td>Improper Authentication</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t5_tech_2": "<table class='meta-table'><tr><th>technique_name</th><td>Network Sniffing</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>tactics</th><td>Discovery</td></tr><tr><th>tech_description</th><td>Adversaries may passively sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.\n\nData captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol. Techniques for name service resolution poisoning, such as [LLMNR/NBT-NS Poisoning and SMB Relay](https://attack.mitre.org/techniques/T1557/001), can also be used to capture credentials to websites, proxies, and internal systems by redirecting traffic to an adversary.\n\nNetwork sniffing may reveal configuration details, such as running services, version numbers, and other network characteristics (e.g. IP addresses, hostnames, VLAN IDs) necessary for subsequent [Lateral Movement](https://attack.mitre.org/tactics/TA0008) and/or [Defense Evasion](https://attack.mitre.org/tactics/TA0005) activities. Adversaries may likely also utilize network sniffing during [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) (AiTM) to passively gain additional knowledge about the environment.\n\nIn cloud-based environments, adversaries may still be able to use traffic mirroring services to sniff network traffic from virtual machines. For example, AWS Traffic Mirroring, GCP Packet Mirroring, and Azure vTap allow users to define specified instances to collect traffic from and specified targets to send collected traffic to.(Citation: AWS Traffic Mirroring)(Citation: GCP Packet Mirroring)(Citation: Azure Virtual Network TAP) Often, much of this traffic will be in cleartext due to the use of TLS termination at the load balancer level to reduce the strain of encrypting and decrypting traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)(Citation: SpecterOps AWS Traffic Mirroring) The adversary can then use exfiltration techniques such as Transfer Data to Cloud Account in order to access the sniffed traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)\n\nOn network devices, adversaries may perform network captures using [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `monitor capture`.(Citation: US-CERT-TA18-106A)(Citation: capture_embedded_packet_on_software)</td></tr><tr><th>detection</th><td>Detecting the events leading up to sniffing network traffic may be the best method of detection. From the host level, an adversary would likely need to perform a [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) attack against other devices on a wired network in order to capture traffic that was not to or from the current compromised system. This change in the flow of information is detectable at the enclave network level. Monitor for ARP spoofing and gratuitous ARP broadcasts. Detecting compromised network devices is a bit more challenging. Auditing administrator logins, configuration changes, and device images is required to detect malicious changes.\n\nIn cloud-based environments, monitor for the creation of new traffic mirrors or modification of existing traffic mirrors. For network infrastructure devices, collect AAA logging to monitor for the capture of network traffic.</td></tr><tr><th>platforms</th><td>IaaS, Linux, Network, Windows, macOS</td></tr><tr><th>data sources</th><td>Command: Command Execution, Process: Process Creation</td></tr></table>", "t5_cap_2": "<table class='meta-table'><tr><th>capec_Name</th><td>Utilizing REST&#x27;s Trust in the System Resource to Obtain Sensitive Data</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>Medium</td></tr><tr><th>capec_Typical_Severity</th><td>Very High</td></tr><tr><th>capec_Skills_Required</th><td>Low: To insert a network sniffer or other listener into the communication stream</td></tr><tr><th>capec_Prerequisites</th><td>Opportunity to intercept must exist beyond the point where SSL is terminated. || The adversary must be able to insert a listener actively (proxying the communication) or passively (sniffing the communication) in the client-server communication path.</td></tr><tr><th>capec_Mitigations</th><td>Implementation: Implement message level security such as HMAC in the HTTP communication || Design: Utilize defense in depth, do not rely on a single security mechanism like SSL || Design: Enforce principle of least privilege</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>"};
+var NODES_DATA = [{"id": "root", "label": "Compromise Device", "type": "root"}, {"id": "t5_tactic", "label": "Discovery", "type": "tactic", "metadata": {"tactic": "Discovery"}}, {"id": "t5_cwe_0", "label": "Incorrect Permission Assignment for Critical Resource", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12041", "cwe_Name": "Incorrect Permission Assignment for Critical Resource", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.", "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.4", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t5_tech_0", "label": "File and Directory Discovery", "type": "tech", "metadata": {"CVE ID": "CVE-2020-12041", "technique_name": "File and Directory Discovery", "tactics": "Discovery", "tech_description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>.(Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106). Adversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to gather file and directory information (e.g. <code>dir</code>, <code>show flash</code>, and/or <code>nvram</code>).(Citation: US-CERT-TA18-106A)\n\nSome files and directories may require elevated or specific user permissions to access.", "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001). Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to gather file and directory information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use of commands being run by non-standard users from non-standard locations.", "platforms": "Linux, Network, Windows, macOS", "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation"}}, {"id": "t5_cap_0", "label": "Directory Indexing", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12041", "capec_Name": "Directory Indexing", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "Medium", "capec_Skills_Required": "Low: To issue the request to URL without given a specific file name || High: To bypass the access control of the directory of listings", "capec_Prerequisites": "The target must be misconfigured to return a list of a directory's content when it receives a request that ends in a directory name rather than a file name. || The adversary must be able to control the path that is requested of the target. || The administrator must have failed to properly configure an ACL or has associated an overly permissive ACL with a particular directory. || The server version or patch level must not inherently prevent known directory listing attacks from working.", "capec_Mitigations": "1. Using blank index.html: putting blank index.html simply prevent directory listings from displaying to site visitors. || 2. Preventing with .htaccess in Apache web server: In .htaccess, write \"Options-indexes\". || 3. Suppressing error messages: using error 403 \"Forbidden\" message exactly like error 404 \"Not Found\" message.", "capec_Consequences": "Scope: Confidentiality | Impact: Read Data"}}, {"id": "t5_and_0", "label": "AND", "type": "gate"}, {"id": "t5_cwe_1", "label": "Cleartext Transmission of Sensitive Information", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12040", "cwe_Name": "Cleartext Transmission of Sensitive Information", "cwe_Abstraction": "Base", "cwe_Modes_Of_Introduction": "Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t5_tech_1", "label": "Network Sniffing", "type": "tech", "metadata": {"CVE ID": "CVE-2020-12040", "technique_name": "Network Sniffing", "tactics": "Discovery", "tech_description": "Adversaries may passively sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.\n\nData captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol. Techniques for name service resolution poisoning, such as [LLMNR/NBT-NS Poisoning and SMB Relay](https://attack.mitre.org/techniques/T1557/001), can also be used to capture credentials to websites, proxies, and internal systems by redirecting traffic to an adversary.\n\nNetwork sniffing may reveal configuration details, such as running services, version numbers, and other network characteristics (e.g. IP addresses, hostnames, VLAN IDs) necessary for subsequent [Lateral Movement](https://attack.mitre.org/tactics/TA0008) and/or [Defense Evasion](https://attack.mitre.org/tactics/TA0005) activities. Adversaries may likely also utilize network sniffing during [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) (AiTM) to passively gain additional knowledge about the environment.\n\nIn cloud-based environments, adversaries may still be able to use traffic mirroring services to sniff network traffic from virtual machines. For example, AWS Traffic Mirroring, GCP Packet Mirroring, and Azure vTap allow users to define specified instances to collect traffic from and specified targets to send collected traffic to.(Citation: AWS Traffic Mirroring)(Citation: GCP Packet Mirroring)(Citation: Azure Virtual Network TAP) Often, much of this traffic will be in cleartext due to the use of TLS termination at the load balancer level to reduce the strain of encrypting and decrypting traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)(Citation: SpecterOps AWS Traffic Mirroring) The adversary can then use exfiltration techniques such as Transfer Data to Cloud Account in order to access the sniffed traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)\n\nOn network devices, adversaries may perform network captures using [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `monitor capture`.(Citation: US-CERT-TA18-106A)(Citation: capture_embedded_packet_on_software)", "detection": "Detecting the events leading up to sniffing network traffic may be the best method of detection. From the host level, an adversary would likely need to perform a [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) attack against other devices on a wired network in order to capture traffic that was not to or from the current compromised system. This change in the flow of information is detectable at the enclave network level. Monitor for ARP spoofing and gratuitous ARP broadcasts. Detecting compromised network devices is a bit more challenging. Auditing administrator logins, configuration changes, and device images is required to detect malicious changes.\n\nIn cloud-based environments, monitor for the creation of new traffic mirrors or modification of existing traffic mirrors. For network infrastructure devices, collect AAA logging to monitor for the capture of network traffic.", "platforms": "IaaS, Linux, Network, Windows, macOS", "data sources": "Command: Command Execution, Process: Process Creation"}}, {"id": "t5_cap_1", "label": "Sniff Application Code", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12040", "capec_Name": "Sniff Application Code", "capec_Likelihood_Of_Attack": "Low", "capec_Typical_Severity": "High", "capec_Skills_Required": "Medium: The attacker needs to setup a sniffer for a sufficient period of time so as to capture meaningful quantities of code. The presence of the sniffer should not be detected on the network. Also if the attacker plans to employ an adversary-in-the-middle attack (CAPEC-94), the client or server must not realize this. Finally, the attacker needs to regenerate source code from binary code if the need be.", "capec_Prerequisites": "The attacker must have the ability to place themself in the communication path between the client and server. || The targeted application must receive some application code from the server; for example, dynamic updates, patches, applets or scripts. || The attacker must be able to employ a sniffer on the network without being detected.", "capec_Mitigations": "Design: Encrypt all communication between the client and server. || Implementation: Use SSL, SSH, SCP. || Operation: Use \"ifconfig/ipconfig\" or other tools to detect the sniffer installed in the network.", "capec_Consequences": "Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t5_and_1", "label": "AND", "type": "gate"}, {"id": "t5_cwe_2", "label": "Improper Authentication", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5432", "cwe_Name": "Improper Authentication", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t5_tech_2", "label": "Network Sniffing", "type": "tech", "metadata": {"CVE ID": "CVE-2014-5432", "technique_name": "Network Sniffing", "tactics": "Discovery", "tech_description": "Adversaries may passively sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.\n\nData captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol. Techniques for name service resolution poisoning, such as [LLMNR/NBT-NS Poisoning and SMB Relay](https://attack.mitre.org/techniques/T1557/001), can also be used to capture credentials to websites, proxies, and internal systems by redirecting traffic to an adversary.\n\nNetwork sniffing may reveal configuration details, such as running services, version numbers, and other network characteristics (e.g. IP addresses, hostnames, VLAN IDs) necessary for subsequent [Lateral Movement](https://attack.mitre.org/tactics/TA0008) and/or [Defense Evasion](https://attack.mitre.org/tactics/TA0005) activities. Adversaries may likely also utilize network sniffing during [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) (AiTM) to passively gain additional knowledge about the environment.\n\nIn cloud-based environments, adversaries may still be able to use traffic mirroring services to sniff network traffic from virtual machines. For example, AWS Traffic Mirroring, GCP Packet Mirroring, and Azure vTap allow users to define specified instances to collect traffic from and specified targets to send collected traffic to.(Citation: AWS Traffic Mirroring)(Citation: GCP Packet Mirroring)(Citation: Azure Virtual Network TAP) Often, much of this traffic will be in cleartext due to the use of TLS termination at the load balancer level to reduce the strain of encrypting and decrypting traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)(Citation: SpecterOps AWS Traffic Mirroring) The adversary can then use exfiltration techniques such as Transfer Data to Cloud Account in order to access the sniffed traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)\n\nOn network devices, adversaries may perform network captures using [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `monitor capture`.(Citation: US-CERT-TA18-106A)(Citation: capture_embedded_packet_on_software)", "detection": "Detecting the events leading up to sniffing network traffic may be the best method of detection. From the host level, an adversary would likely need to perform a [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) attack against other devices on a wired network in order to capture traffic that was not to or from the current compromised system. This change in the flow of information is detectable at the enclave network level. Monitor for ARP spoofing and gratuitous ARP broadcasts. Detecting compromised network devices is a bit more challenging. Auditing administrator logins, configuration changes, and device images is required to detect malicious changes.\n\nIn cloud-based environments, monitor for the creation of new traffic mirrors or modification of existing traffic mirrors. For network infrastructure devices, collect AAA logging to monitor for the capture of network traffic.", "platforms": "IaaS, Linux, Network, Windows, macOS", "data sources": "Command: Command Execution, Process: Process Creation"}}, {"id": "t5_cap_2", "label": "Utilizing REST's Trust in the System Resource to Obtain Sensitive Data", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5432", "capec_Name": "Utilizing REST's Trust in the System Resource to Obtain Sensitive Data", "capec_Likelihood_Of_Attack": "Medium", "capec_Typical_Severity": "Very High", "capec_Skills_Required": "Low: To insert a network sniffer or other listener into the communication stream", "capec_Prerequisites": "Opportunity to intercept must exist beyond the point where SSL is terminated. || The adversary must be able to insert a listener actively (proxying the communication) or passively (sniffing the communication) in the client-server communication path.", "capec_Mitigations": "Implementation: Implement message level security such as HMAC in the HTTP communication || Design: Utilize defense in depth, do not rely on a single security mechanism like SSL || Design: Enforce principle of least privilege", "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t5_and_2", "label": "AND", "type": "gate"}, {"id": "t5_tac_or_3", "label": "OR", "type": "gate"}, {"id": "t5_tac_or_4", "label": "OR", "type": "gate"}];
+
+// Build lookup: node_id -> {label, type}
+var nodeInfo = {};
+NODES_DATA.forEach(function(n) { nodeInfo[n.id] = n; });
+
+// ── DOM refs ─────────────────────────────────────────────────────────────────
+var panelCol  = document.getElementById('panel-col');
+var panelBody = document.getElementById('panel-body');
+var panelTitle= document.getElementById('panel-title');
+var closeBtn  = document.getElementById('close-btn');
+var svgScroll = document.getElementById('svg-scroll');
+
+var selectedGroup = null;
+
+// ── Open panel with node data ─────────────────────────────────────────────────
+function showPanel(nodeId) {
+  var info    = nodeInfo[nodeId] || {};
+  var label   = info.label  || nodeId;
+  var ntype   = info.type   || 'unknown';
+  var htmlTbl = NODE_HTML[nodeId] || '<div class="meta-empty">No metadata recorded for this node.</div>';
+
+  panelTitle.textContent = 'Node metadata';
+
+  var badgeClass = 'badge-' + ntype;
+  panelBody.innerHTML =
+    '<p class="node-label-heading">' + escHtml(label) + '</p>' +
+    '<span class="node-type-badge ' + badgeClass + '">' + escHtml(ntype) + '</span>' +
+    htmlTbl;
+
+  panelCol.classList.remove('hidden');
+}
+
+function closePanel() {
+  panelCol.classList.add('hidden');
+  if (selectedGroup) {
+    selectedGroup.classList.remove('selected-node');
+    selectedGroup = null;
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Wire up node clicks ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var groups = svgScroll.querySelectorAll('[data-node-id]');
+  groups.forEach(function(g) {
+    g.addEventListener('click', function(ev) {
+      ev.stopPropagation();
+      var nodeId = g.getAttribute('data-node-id');
+
+      // Deselect previous
+      if (selectedGroup && selectedGroup !== g) {
+        selectedGroup.classList.remove('selected-node');
+      }
+      // Toggle if same node clicked twice
+      if (selectedGroup === g) {
+        closePanel();
+        return;
+      }
+      selectedGroup = g;
+      g.classList.add('selected-node');
+      showPanel(nodeId);
+    });
+  });
+
+  // Click empty canvas area → close panel
+  svgScroll.addEventListener('click', function() { closePanel(); });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePanel();
+  });
+});
+</script>
+</body>
+</html>

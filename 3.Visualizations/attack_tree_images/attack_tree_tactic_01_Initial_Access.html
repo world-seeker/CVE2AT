@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Attack Tree — Initial Access</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; background: #f4f4f4;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+
+    /* ── Two-column app layout ── */
+    .app { display: flex; height: 100vh; gap: 0; overflow: hidden; }
+
+    /* ── Left: graph canvas ── */
+    .graph-col {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border-right: 2px solid #d0d0d0;
+    }
+    .graph-header {
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+    .graph-header h1 { margin: 0 0 6px; font-size: 20px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .legend-item {
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 13px; border: 1px solid rgba(0,0,0,.12);
+    }
+    .svg-scroll {
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .svg-scroll svg {
+      /* keep native Graphviz size; user can scroll / zoom */
+      width: auto;
+      height: auto;
+      display: block;
+      cursor: default;
+    }
+    /* highlight hovered node groups */
+    .svg-scroll [data-node-id] { cursor: pointer; }
+    .svg-scroll [data-node-id]:hover ellipse,
+    .svg-scroll [data-node-id]:hover polygon,
+    .svg-scroll [data-node-id]:hover path {
+      filter: brightness(0.88);
+    }
+    .selected-node ellipse,
+    .selected-node polygon,
+    .selected-node path {
+      stroke: #1a6fc4 !important;
+      stroke-width: 3px !important;
+    }
+    .graph-footer {
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    /* ── Right: metadata panel ── */
+    .panel-col {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: hidden;
+      transition: flex-basis .2s;
+    }
+    .panel-col.hidden { flex: 0 0 0; overflow: hidden; }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f8f8f8;
+    }
+    .panel-header h2 { margin: 0; font-size: 16px; }
+    .close-btn {
+      border: none; background: transparent;
+      font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px;
+      color: #555;
+    }
+    .close-btn:hover { color: #000; }
+    .panel-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 14px;
+    }
+    .panel-placeholder {
+      color: #888; font-style: italic; margin-top: 20px; text-align: center;
+    }
+    .node-label-heading {
+      font-size: 17px; font-weight: 700;
+      margin: 0 0 4px;
+      word-break: break-word;
+    }
+    .node-type-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* Metadata table */
+    .meta-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 8px; font-size: 14px;
+    }
+    .meta-table th {
+      text-align: left; padding: 6px 8px;
+      background: #f3f3f3; border-bottom: 1px solid #e0e0e0;
+      font-weight: 600; width: 36%; vertical-align: top;
+      word-break: break-word;
+    }
+    .meta-table td {
+      padding: 6px 8px; border-bottom: 1px solid #eee;
+      vertical-align: top; word-break: break-word;
+    }
+    .meta-empty { color: #888; font-style: italic; }
+
+    /* Badge colours by node type */
+    .badge-root    { background: #FFD700; color: #5a4200; }
+    .badge-tactic  { background: #98FB98; color: #1a5c1a; }
+    .badge-cwe     { background: #ADD8E6; color: #1a3a5c; }
+    .badge-tech    { background: #90EE90; color: #1a5c1a; }
+    .badge-subtech { background: #FFFACD; color: #5c5000; }
+    .badge-capec   { background: #FFB6C1; color: #6b0a1e; }
+    .badge-gate    { background: #FFCCCB; color: #7a1a00; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Left column: SVG graph ── -->
+  <div class="graph-col">
+    <div class="graph-header">
+      <h1>Attack Tree — Initial Access</h1>
+      <div class="legend">
+        <span class="legend-item" style="background:#FFD700">Compromise Device (root)</span>
+        <span class="legend-item" style="background:#98FB98">Tactic</span>
+        <span class="legend-item" style="background:#ADD8E6">CWE</span>
+        <span class="legend-item" style="background:#90EE90">Technique</span>
+        <span class="legend-item" style="background:#FFFACD">Subtechnique</span>
+        <span class="legend-item" style="background:#FFB6C1">CAPEC</span>
+        <span class="legend-item" style="background:#FFCCCB">OR / AND gates</span>
+      </div>
+    </div>
+
+    <div class="svg-scroll" id="svg-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" width="576pt" height="420pt" viewBox="0.00 0.00 576.00 420.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 416)" data-node-id="%3">
+<title>Compromise Device</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-416 572,-416 572,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="root">
+<title>Compromise Device</title>
+<polygon fill="#ffd700" stroke="black" points="326,-412 189,-412 189,-376 326,-376 326,-412" />
+<text text-anchor="middle" x="257.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">Compromise Device</text>
+</g>
+
+<g id="node2" class="node" data-node-id="t0_tactic">
+<title>Initial Access</title>
+<polygon fill="#98fb98" stroke="black" points="304.5,-318 210.5,-318 210.5,-282 304.5,-282 304.5,-318" />
+<text text-anchor="middle" x="257.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Initial Access</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="root-&gt;t0_tactic">
+<title>root-&gt;t0_tactic</title>
+<path fill="none" stroke="black" d="M257.5,-375.88C257.5,-375.88 257.5,-328.07 257.5,-328.07" />
+<polygon fill="black" stroke="black" points="261,-328.07 257.5,-318.07 254,-328.07 261,-328.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t0_cwe_0">
+<title>Use of Hard-coded Credentials</title>
+<polygon fill="#add8e6" stroke="black" points="351,-224 158,-224 158,-188 357,-188 357,-218 351,-224" />
+<polyline fill="none" stroke="black" points="351,-224 351,-218 " />
+<polyline fill="none" stroke="black" points="357,-218 351,-218 " />
+<text text-anchor="middle" x="257.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use of Hard-coded Credentials</text>
+</g>
+
+<g id="edge5" class="edge" data-node-id="t0_tactic-&gt;t0_cwe_0">
+<title>t0_tactic-&gt;t0_cwe_0</title>
+<path fill="none" stroke="black" d="M257.5,-281.88C257.5,-281.88 257.5,-234.07 257.5,-234.07" />
+<polygon fill="black" stroke="black" points="261,-234.07 257.5,-224.07 254,-234.07 261,-234.07" />
+</g>
+
+<g id="node6" class="node" data-node-id="t0_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="257.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="257.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t0_cwe_0-&gt;t0_and_0">
+<title>t0_cwe_0-&gt;t0_and_0</title>
+<path fill="none" stroke="black" d="M257.5,-187.88C257.5,-187.88 257.5,-140.07 257.5,-140.07" />
+<polygon fill="black" stroke="black" points="261,-140.07 257.5,-130.07 254,-140.07 261,-140.07" />
+</g>
+
+<g id="node4" class="node" data-node-id="t0_sub_0">
+<title>Valid Accounts: Default Accounts</title>
+<polygon fill="#fffacd" stroke="black" points="213,-36 0,-36 0,0 213,0 213,-36" />
+<text text-anchor="middle" x="106.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Valid Accounts: Default Accounts</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t0_cap_0">
+<title>Try Common or Default Usernames and Passwords</title>
+<polygon fill="#ffb6c1" stroke="black" points="568,-36 249,-36 249,0 568,0 568,-36" />
+<text text-anchor="middle" x="408.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Try Common or Default Usernames and Passwords</text>
+</g>
+
+<g id="edge2" class="edge" data-node-id="t0_and_0-&gt;t0_sub_0">
+<title>t0_and_0-&gt;t0_sub_0</title>
+<path fill="none" stroke="black" d="M239.75,-98.13C239.75,-71.98 239.75,-18 239.75,-18 239.75,-18 223.11,-18 223.11,-18" />
+<polygon fill="black" stroke="black" points="223.11,-14.5 213.11,-18 223.11,-21.5 223.11,-14.5" />
+</g>
+
+<g id="edge3" class="edge" data-node-id="t0_and_0-&gt;t0_cap_0">
+<title>t0_and_0-&gt;t0_cap_0</title>
+<path fill="none" stroke="black" d="M266.75,-94.76C266.75,-94.76 266.75,-46.09 266.75,-46.09" />
+<polygon fill="black" stroke="black" points="270.25,-46.09 266.75,-36.09 263.25,-46.09 270.25,-46.09" />
+</g>
+</g>
+</svg>
+    </div>
+
+    <div class="graph-footer">
+      Click any node to view its metadata in the right-hand panel. &nbsp;|&nbsp;
+      Scroll / drag to navigate. &nbsp;|&nbsp;
+      Press <kbd>Esc</kbd> to close the panel.
+    </div>
+  </div>
+
+  <!-- ── Right column: metadata panel ── -->
+  <div class="panel-col hidden" id="panel-col">
+    <div class="panel-header">
+      <h2 id="panel-title">Node metadata</h2>
+      <button class="close-btn" id="close-btn" title="Close panel">&times;</button>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-placeholder">Click a node in the graph to see details here.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Data injected by Python ──────────────────────────────────────────────────
+var NODE_HTML  = {"root": "<table class='meta-table'><tr><th>label</th><td>Compromise Device</td></tr></table>", "t0_tactic": "<table class='meta-table'><tr><th>tactic</th><td>Initial Access</td></tr></table>", "t0_cwe_0": "<table class='meta-table'><tr><th>cwe_Name</th><td>Use of Hard-coded Credentials</td></tr><tr><th>CVE ID</th><td>CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039</td></tr><tr><th>baseScore</th><td>9.8 | 6.8 | 2.4</td></tr><tr><th>baseSeverity</th><td>CRITICAL | MEDIUM | LOW</td></tr><tr><th>attackVector</th><td>NETWORK | PHYSICAL</td></tr><tr><th>cwe_Abstraction</th><td>Base</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH | LOW</td></tr><tr><th>availabilityImpact</th><td>HIGH | NONE</td></tr><tr><th>exploitabilityScore</th><td>3.9 | 0.9</td></tr></table>", "t0_sub_0": "<table class='meta-table'><tr><th>technique_name</th><td>Valid Accounts</td></tr><tr><th>subtechnique_name</th><td>Valid Accounts: Default Accounts</td></tr><tr><th>tactics</th><td>Initial Access</td></tr><tr><th>detection</th><td>Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.</td></tr><tr><th>platforms</th><td>Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS</td></tr><tr><th>data sources</th><td>Logon Session: Logon Session Creation, User Account: User Account Authentication</td></tr></table>", "t0_cap_0": "<table class='meta-table'><tr><th>capec_Name</th><td>Try Common or Default Usernames and Passwords</td></tr><tr><th>CVE ID</th><td>CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>Medium</td></tr><tr><th>capec_Typical_Severity</th><td>High</td></tr><tr><th>capec_Skills_Required</th><td>Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.</td></tr><tr><th>capec_Prerequisites</th><td>The system uses one factor password based authentication.The adversary has the means to interact with the system.</td></tr><tr><th>capec_Mitigations</th><td>Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>"};
+var NODES_DATA = [{"id": "root", "label": "Compromise Device", "type": "root"}, {"id": "t0_tactic", "label": "Initial Access", "type": "tactic", "metadata": {"tactic": "Initial Access"}}, {"id": "t0_cwe_0", "label": "Use of Hard-coded Credentials", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039", "cwe_Name": "Use of Hard-coded Credentials", "cwe_Abstraction": "Base", "cwe_Modes_Of_Introduction": "Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.", "attackVector": "NETWORK | PHYSICAL", "baseScore": "9.8 | 6.8 | 2.4", "baseSeverity": "CRITICAL | MEDIUM | LOW", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH | LOW", "availabilityImpact": "HIGH | NONE", "exploitabilityScore": "3.9 | 0.9"}}, {"id": "t0_sub_0", "label": "Valid Accounts: Default Accounts", "type": "subtech", "metadata": {"subtechnique_name": "Valid Accounts: Default Accounts", "technique_name": "Valid Accounts", "tactics": "Initial Access", "detection": "Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.", "platforms": "Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS", "data sources": "Logon Session: Logon Session Creation, User Account: User Account Authentication"}}, {"id": "t0_cap_0", "label": "Try Common or Default Usernames and Passwords", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039", "capec_Name": "Try Common or Default Usernames and Passwords", "capec_Likelihood_Of_Attack": "Medium", "capec_Typical_Severity": "High", "capec_Skills_Required": "Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.", "capec_Prerequisites": "The system uses one factor password based authentication.The adversary has the means to interact with the system.", "capec_Mitigations": "Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.", "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t0_and_0", "label": "AND", "type": "gate"}];
+
+// Build lookup: node_id -> {label, type}
+var nodeInfo = {};
+NODES_DATA.forEach(function(n) { nodeInfo[n.id] = n; });
+
+// ── DOM refs ─────────────────────────────────────────────────────────────────
+var panelCol  = document.getElementById('panel-col');
+var panelBody = document.getElementById('panel-body');
+var panelTitle= document.getElementById('panel-title');
+var closeBtn  = document.getElementById('close-btn');
+var svgScroll = document.getElementById('svg-scroll');
+
+var selectedGroup = null;
+
+// ── Open panel with node data ─────────────────────────────────────────────────
+function showPanel(nodeId) {
+  var info    = nodeInfo[nodeId] || {};
+  var label   = info.label  || nodeId;
+  var ntype   = info.type   || 'unknown';
+  var htmlTbl = NODE_HTML[nodeId] || '<div class="meta-empty">No metadata recorded for this node.</div>';
+
+  panelTitle.textContent = 'Node metadata';
+
+  var badgeClass = 'badge-' + ntype;
+  panelBody.innerHTML =
+    '<p class="node-label-heading">' + escHtml(label) + '</p>' +
+    '<span class="node-type-badge ' + badgeClass + '">' + escHtml(ntype) + '</span>' +
+    htmlTbl;
+
+  panelCol.classList.remove('hidden');
+}
+
+function closePanel() {
+  panelCol.classList.add('hidden');
+  if (selectedGroup) {
+    selectedGroup.classList.remove('selected-node');
+    selectedGroup = null;
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Wire up node clicks ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var groups = svgScroll.querySelectorAll('[data-node-id]');
+  groups.forEach(function(g) {
+    g.addEventListener('click', function(ev) {
+      ev.stopPropagation();
+      var nodeId = g.getAttribute('data-node-id');
+
+      // Deselect previous
+      if (selectedGroup && selectedGroup !== g) {
+        selectedGroup.classList.remove('selected-node');
+      }
+      // Toggle if same node clicked twice
+      if (selectedGroup === g) {
+        closePanel();
+        return;
+      }
+      selectedGroup = g;
+      g.classList.add('selected-node');
+      showPanel(nodeId);
+    });
+  });
+
+  // Click empty canvas area → close panel
+  svgScroll.addEventListener('click', function() { closePanel(); });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePanel();
+  });
+});
+</script>
+</body>
+</html>

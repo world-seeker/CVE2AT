@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Attack Tree — Collection</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; background: #f4f4f4;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+
+    /* ── Two-column app layout ── */
+    .app { display: flex; height: 100vh; gap: 0; overflow: hidden; }
+
+    /* ── Left: graph canvas ── */
+    .graph-col {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border-right: 2px solid #d0d0d0;
+    }
+    .graph-header {
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+    .graph-header h1 { margin: 0 0 6px; font-size: 20px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .legend-item {
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 13px; border: 1px solid rgba(0,0,0,.12);
+    }
+    .svg-scroll {
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .svg-scroll svg {
+      /* keep native Graphviz size; user can scroll / zoom */
+      width: auto;
+      height: auto;
+      display: block;
+      cursor: default;
+    }
+    /* highlight hovered node groups */
+    .svg-scroll [data-node-id] { cursor: pointer; }
+    .svg-scroll [data-node-id]:hover ellipse,
+    .svg-scroll [data-node-id]:hover polygon,
+    .svg-scroll [data-node-id]:hover path {
+      filter: brightness(0.88);
+    }
+    .selected-node ellipse,
+    .selected-node polygon,
+    .selected-node path {
+      stroke: #1a6fc4 !important;
+      stroke-width: 3px !important;
+    }
+    .graph-footer {
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    /* ── Right: metadata panel ── */
+    .panel-col {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: hidden;
+      transition: flex-basis .2s;
+    }
+    .panel-col.hidden { flex: 0 0 0; overflow: hidden; }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f8f8f8;
+    }
+    .panel-header h2 { margin: 0; font-size: 16px; }
+    .close-btn {
+      border: none; background: transparent;
+      font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px;
+      color: #555;
+    }
+    .close-btn:hover { color: #000; }
+    .panel-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 14px;
+    }
+    .panel-placeholder {
+      color: #888; font-style: italic; margin-top: 20px; text-align: center;
+    }
+    .node-label-heading {
+      font-size: 17px; font-weight: 700;
+      margin: 0 0 4px;
+      word-break: break-word;
+    }
+    .node-type-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* Metadata table */
+    .meta-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 8px; font-size: 14px;
+    }
+    .meta-table th {
+      text-align: left; padding: 6px 8px;
+      background: #f3f3f3; border-bottom: 1px solid #e0e0e0;
+      font-weight: 600; width: 36%; vertical-align: top;
+      word-break: break-word;
+    }
+    .meta-table td {
+      padding: 6px 8px; border-bottom: 1px solid #eee;
+      vertical-align: top; word-break: break-word;
+    }
+    .meta-empty { color: #888; font-style: italic; }
+
+    /* Badge colours by node type */
+    .badge-root    { background: #FFD700; color: #5a4200; }
+    .badge-tactic  { background: #98FB98; color: #1a5c1a; }
+    .badge-cwe     { background: #ADD8E6; color: #1a3a5c; }
+    .badge-tech    { background: #90EE90; color: #1a5c1a; }
+    .badge-subtech { background: #FFFACD; color: #5c5000; }
+    .badge-capec   { background: #FFB6C1; color: #6b0a1e; }
+    .badge-gate    { background: #FFCCCB; color: #7a1a00; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Left column: SVG graph ── -->
+  <div class="graph-col">
+    <div class="graph-header">
+      <h1>Attack Tree — Collection</h1>
+      <div class="legend">
+        <span class="legend-item" style="background:#FFD700">Compromise Device (root)</span>
+        <span class="legend-item" style="background:#98FB98">Tactic</span>
+        <span class="legend-item" style="background:#ADD8E6">CWE</span>
+        <span class="legend-item" style="background:#90EE90">Technique</span>
+        <span class="legend-item" style="background:#FFFACD">Subtechnique</span>
+        <span class="legend-item" style="background:#FFB6C1">CAPEC</span>
+        <span class="legend-item" style="background:#FFCCCB">OR / AND gates</span>
+      </div>
+    </div>
+
+    <div class="svg-scroll" id="svg-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1257pt" height="702pt" viewBox="0.00 0.00 1256.50 702.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 698)" data-node-id="%3">
+<title>Compromise Device</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-698 1252.5,-698 1252.5,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="root">
+<title>Compromise Device</title>
+<polygon fill="#ffd700" stroke="black" points="465,-694 328,-694 328,-658 465,-658 465,-694" />
+<text text-anchor="middle" x="396.5" y="-672.9" font-family="Helvetica,sans-Serif" font-size="12.00">Compromise Device</text>
+</g>
+
+<g id="node2" class="node" data-node-id="t7_tactic">
+<title>Collection</title>
+<polygon fill="#98fb98" stroke="black" points="434,-600 359,-600 359,-564 434,-564 434,-600" />
+<text text-anchor="middle" x="396.5" y="-578.9" font-family="Helvetica,sans-Serif" font-size="12.00">Collection</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="root-&gt;t7_tactic">
+<title>root-&gt;t7_tactic</title>
+<path fill="none" stroke="black" d="M396.5,-657.88C396.5,-657.88 396.5,-610.07 396.5,-610.07" />
+<polygon fill="black" stroke="black" points="400,-610.07 396.5,-600.07 393,-610.07 400,-610.07" />
+</g>
+
+<g id="node19" class="node" data-node-id="t7_tac_or_5">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="396.5" cy="-488" rx="27" ry="18" />
+<text text-anchor="middle" x="396.5" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge19" class="edge" data-node-id="t7_tactic-&gt;t7_tac_or_5">
+<title>t7_tactic-&gt;t7_tac_or_5</title>
+<path fill="none" stroke="black" d="M396.5,-563.88C396.5,-563.88 396.5,-516.07 396.5,-516.07" />
+<polygon fill="black" stroke="black" points="400,-516.07 396.5,-506.07 393,-516.07 400,-516.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t7_cwe_0">
+<title>Cleartext Storage of Sensitive Information</title>
+<polygon fill="#add8e6" stroke="black" points="426,-412 163,-412 163,-376 432,-376 432,-406 426,-412" />
+<polyline fill="none" stroke="black" points="426,-412 426,-406 " />
+<polyline fill="none" stroke="black" points="432,-406 426,-406 " />
+<text text-anchor="middle" x="297.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">Cleartext Storage of Sensitive Information</text>
+</g>
+
+<g id="node6" class="node" data-node-id="t7_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="290.5" cy="-300" rx="27" ry="18" />
+<text text-anchor="middle" x="290.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t7_cwe_0-&gt;t7_and_0">
+<title>t7_cwe_0-&gt;t7_and_0</title>
+<path fill="none" stroke="black" d="M290.5,-375.88C290.5,-375.88 290.5,-328.07 290.5,-328.07" />
+<polygon fill="black" stroke="black" points="294,-328.07 290.5,-318.07 287,-328.07 294,-328.07" />
+</g>
+
+<g id="node4" class="node" data-node-id="t7_tech_0">
+<title>Data from Local System</title>
+<polygon fill="#90ee90" stroke="black" points="161,-224 0,-224 0,-188 161,-188 161,-224" />
+<text text-anchor="middle" x="80.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Data from Local System</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t7_cap_0">
+<title>Retrieve Embedded Sensitive Data</title>
+<polygon fill="#ffb6c1" stroke="black" points="421.5,-224 197.5,-224 197.5,-188 421.5,-188 421.5,-224" />
+<text text-anchor="middle" x="309.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Retrieve Embedded Sensitive Data</text>
+</g>
+
+<g id="edge2" class="edge" data-node-id="t7_and_0-&gt;t7_tech_0">
+<title>t7_and_0-&gt;t7_tech_0</title>
+<path fill="none" stroke="black" d="M263.48,-300C206.76,-300 80.5,-300 80.5,-300 80.5,-300 80.5,-234.12 80.5,-234.12" />
+<polygon fill="black" stroke="black" points="84,-234.12 80.5,-224.12 77,-234.12 84,-234.12" />
+</g>
+
+<g id="edge3" class="edge" data-node-id="t7_and_0-&gt;t7_cap_0">
+<title>t7_and_0-&gt;t7_cap_0</title>
+<path fill="none" stroke="black" d="M290.5,-281.88C290.5,-281.88 290.5,-234.07 290.5,-234.07" />
+<polygon fill="black" stroke="black" points="294,-234.07 290.5,-224.07 287,-234.07 294,-234.07" />
+</g>
+
+<g id="node7" class="node" data-node-id="t7_cwe_1">
+<title>Cleartext Transmission of Sensitive Information</title>
+<polygon fill="#add8e6" stroke="black" points="645.5,-318 353.5,-318 353.5,-282 651.5,-282 651.5,-312 645.5,-318" />
+<polyline fill="none" stroke="black" points="645.5,-318 645.5,-312 " />
+<polyline fill="none" stroke="black" points="651.5,-312 645.5,-312 " />
+<text text-anchor="middle" x="502.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Cleartext Transmission of Sensitive Information</text>
+</g>
+
+<g id="node10" class="node" data-node-id="t7_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="502.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="502.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge7" class="edge" data-node-id="t7_cwe_1-&gt;t7_and_1">
+<title>t7_cwe_1-&gt;t7_and_1</title>
+<path fill="none" stroke="black" d="M502.5,-281.88C502.5,-281.88 502.5,-234.07 502.5,-234.07" />
+<polygon fill="black" stroke="black" points="506,-234.07 502.5,-224.07 499,-234.07 506,-234.07" />
+</g>
+
+<g id="node8" class="node" data-node-id="t7_sub_1">
+<title>Input Capture: Credential API Hooking</title>
+<polygon fill="#fffacd" stroke="black" points="327.5,-130 85.5,-130 85.5,-94 327.5,-94 327.5,-130" />
+<text text-anchor="middle" x="206.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Input Capture: Credential API Hooking</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t7_cap_1">
+<title>Harvesting Information via API Event Monitoring</title>
+<polygon fill="#ffb6c1" stroke="black" points="667.5,-130 363.5,-130 363.5,-94 667.5,-94 667.5,-130" />
+<text text-anchor="middle" x="515.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Harvesting Information via API Event Monitoring</text>
+</g>
+
+<g id="edge5" class="edge" data-node-id="t7_and_1-&gt;t7_sub_1">
+<title>t7_and_1-&gt;t7_sub_1</title>
+<path fill="none" stroke="black" d="M493.5,-188.77C493.5,-175.35 493.5,-159 493.5,-159 493.5,-159 262.5,-159 262.5,-159 262.5,-159 262.5,-140.04 262.5,-140.04" />
+<polygon fill="black" stroke="black" points="266,-140.04 262.5,-130.04 259,-140.04 266,-140.04" />
+</g>
+
+<g id="edge6" class="edge" data-node-id="t7_and_1-&gt;t7_cap_1">
+<title>t7_and_1-&gt;t7_cap_1</title>
+<path fill="none" stroke="black" d="M511.5,-188.76C511.5,-188.76 511.5,-140.09 511.5,-140.09" />
+<polygon fill="black" stroke="black" points="515,-140.09 511.5,-130.09 508,-140.09 515,-140.09" />
+</g>
+
+<g id="node11" class="node" data-node-id="t7_cwe_2">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="845,-318 688,-318 688,-282 851,-282 851,-312 845,-318" />
+<polyline fill="none" stroke="black" points="845,-318 845,-312 " />
+<polyline fill="none" stroke="black" points="851,-312 845,-312 " />
+<text text-anchor="middle" x="769.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node18" class="node" data-node-id="t7_cwe2_or_4">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="769.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="769.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge14" class="edge" data-node-id="t7_cwe_2-&gt;t7_cwe2_or_4">
+<title>t7_cwe_2-&gt;t7_cwe2_or_4</title>
+<path fill="none" stroke="black" d="M769.5,-281.88C769.5,-281.88 769.5,-234.07 769.5,-234.07" />
+<polygon fill="black" stroke="black" points="773,-234.07 769.5,-224.07 766,-234.07 773,-234.07" />
+</g>
+
+<g id="node12" class="node" data-node-id="t7_tech_2">
+<title>Browser Session Hijacking</title>
+<polygon fill="#90ee90" stroke="black" points="660.5,-36 488.5,-36 488.5,0 660.5,0 660.5,-36" />
+<text text-anchor="middle" x="574.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Browser Session Hijacking</text>
+</g>
+
+<g id="node13" class="node" data-node-id="t7_cap_2">
+<title>Session Hijacking</title>
+<polygon fill="#ffb6c1" stroke="black" points="816,-36 697,-36 697,0 816,0 816,-36" />
+<text text-anchor="middle" x="756.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Session Hijacking</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t7_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="756.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="756.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge8" class="edge" data-node-id="t7_and_2-&gt;t7_tech_2">
+<title>t7_and_2-&gt;t7_tech_2</title>
+<path fill="none" stroke="black" d="M729.36,-112C711.92,-112 692.5,-112 692.5,-112 692.5,-112 692.5,-18 692.5,-18 692.5,-18 670.57,-18 670.57,-18" />
+<polygon fill="black" stroke="black" points="670.57,-14.5 660.57,-18 670.57,-21.5 670.57,-14.5" />
+</g>
+
+<g id="edge9" class="edge" data-node-id="t7_and_2-&gt;t7_cap_2">
+<title>t7_and_2-&gt;t7_cap_2</title>
+<path fill="none" stroke="black" d="M756.5,-93.88C756.5,-93.88 756.5,-46.07 756.5,-46.07" />
+<polygon fill="black" stroke="black" points="760,-46.07 756.5,-36.07 753,-46.07 760,-46.07" />
+</g>
+
+<g id="node15" class="node" data-node-id="t7_tech_3">
+<title>Adversary-in-the-Middle</title>
+<polygon fill="#90ee90" stroke="black" points="1012.5,-36 852.5,-36 852.5,0 1012.5,0 1012.5,-36" />
+<text text-anchor="middle" x="932.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Adversary-in-the-Middle</text>
+</g>
+
+<g id="node16" class="node" data-node-id="t7_cap_3">
+<title>Adversary in the Middle (AiTM)</title>
+<polygon fill="#ffb6c1" stroke="black" points="1248.5,-36 1048.5,-36 1048.5,0 1248.5,0 1248.5,-36" />
+<text text-anchor="middle" x="1148.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Adversary in the Middle (AiTM)</text>
+</g>
+
+<g id="node17" class="node" data-node-id="t7_and_3">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="932.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="932.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge10" class="edge" data-node-id="t7_and_3-&gt;t7_tech_3">
+<title>t7_and_3-&gt;t7_tech_3</title>
+<path fill="none" stroke="black" d="M932.5,-93.88C932.5,-93.88 932.5,-46.07 932.5,-46.07" />
+<polygon fill="black" stroke="black" points="936,-46.07 932.5,-36.07 929,-46.07 936,-46.07" />
+</g>
+
+<g id="edge11" class="edge" data-node-id="t7_and_3-&gt;t7_cap_3">
+<title>t7_and_3-&gt;t7_cap_3</title>
+<path fill="none" stroke="black" d="M959.86,-112C1017.98,-112 1148.5,-112 1148.5,-112 1148.5,-112 1148.5,-46.12 1148.5,-46.12" />
+<polygon fill="black" stroke="black" points="1152,-46.12 1148.5,-36.12 1145,-46.12 1152,-46.12" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t7_cwe2_or_4-&gt;t7_and_2">
+<title>t7_cwe2_or_4-&gt;t7_and_2</title>
+<path fill="none" stroke="black" d="M763,-188.32C763,-188.32 763,-139.6 763,-139.6" />
+<polygon fill="black" stroke="black" points="766.5,-139.6 763,-129.6 759.5,-139.6 766.5,-139.6" />
+</g>
+
+<g id="edge13" class="edge" data-node-id="t7_cwe2_or_4-&gt;t7_and_3">
+<title>t7_cwe2_or_4-&gt;t7_and_3</title>
+<path fill="none" stroke="black" d="M790,-194.09C790,-168.8 790,-112 790,-112 790,-112 895.36,-112 895.36,-112" />
+<polygon fill="black" stroke="black" points="895.36,-115.5 905.36,-112 895.36,-108.5 895.36,-115.5" />
+</g>
+
+<g id="edge17" class="edge" data-node-id="t7_tac_or_5-&gt;t7_cwe_0">
+<title>t7_tac_or_5-&gt;t7_cwe_0</title>
+<path fill="none" stroke="black" d="M396.5,-469.88C396.5,-469.88 396.5,-422.07 396.5,-422.07" />
+<polygon fill="black" stroke="black" points="400,-422.07 396.5,-412.07 393,-422.07 400,-422.07" />
+</g>
+
+<g id="node20" class="node" data-node-id="t7_tac_or_6">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="502.5" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="502.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge18" class="edge" data-node-id="t7_tac_or_5-&gt;t7_tac_or_6">
+<title>t7_tac_or_5-&gt;t7_tac_or_6</title>
+<path fill="none" stroke="black" d="M423.52,-488C454.93,-488 502.5,-488 502.5,-488 502.5,-488 502.5,-422.12 502.5,-422.12" />
+<polygon fill="black" stroke="black" points="506,-422.12 502.5,-412.12 499,-422.12 506,-422.12" />
+</g>
+
+<g id="edge15" class="edge" data-node-id="t7_tac_or_6-&gt;t7_cwe_1">
+<title>t7_tac_or_6-&gt;t7_cwe_1</title>
+<path fill="none" stroke="black" d="M502.5,-375.88C502.5,-375.88 502.5,-328.07 502.5,-328.07" />
+<polygon fill="black" stroke="black" points="506,-328.07 502.5,-318.07 499,-328.07 506,-328.07" />
+</g>
+
+<g id="edge16" class="edge" data-node-id="t7_tac_or_6-&gt;t7_cwe_2">
+<title>t7_tac_or_6-&gt;t7_cwe_2</title>
+<path fill="none" stroke="black" d="M529.57,-394C597.45,-394 769.5,-394 769.5,-394 769.5,-394 769.5,-328.12 769.5,-328.12" />
+<polygon fill="black" stroke="black" points="773,-328.12 769.5,-318.12 766,-328.12 773,-328.12" />
+</g>
+</g>
+</svg>
+    </div>
+
+    <div class="graph-footer">
+      Click any node to view its metadata in the right-hand panel. &nbsp;|&nbsp;
+      Scroll / drag to navigate. &nbsp;|&nbsp;
+      Press <kbd>Esc</kbd> to close the panel.
+    </div>
+  </div>
+
+  <!-- ── Right column: metadata panel ── -->
+  <div class="panel-col hidden" id="panel-col">
+    <div class="panel-header">
+      <h2 id="panel-title">Node metadata</h2>
+      <button class="close-btn" id="close-btn" title="Close panel">&times;</button>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-placeholder">Click a node in the graph to see details here.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Data injected by Python ──────────────────────────────────────────────────
+var NODE_HTML  = {"root": "<table class='meta-table'><tr><th>label</th><td>Compromise Device</td></tr></table>", "t7_tactic": "<table class='meta-table'><tr><th>tactic</th><td>Collection</td></tr></table>", "t7_cwe_0": "<table class='meta-table'><tr><th>cwe_Name</th><td>Cleartext Storage of Sensitive Information</td></tr><tr><th>CVE ID</th><td>CVE-2014-5433</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Base</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase.</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Confidentiality | Impact: Read Application Data | Note: An attacker with access to the system could read sensitive information stored in cleartext.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Implementation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t7_tech_0": "<table class='meta-table'><tr><th>technique_name</th><td>Data from Local System</td></tr><tr><th>CVE ID</th><td>CVE-2014-5433</td></tr><tr><th>tactics</th><td>Collection</td></tr><tr><th>tech_description</th><td>Adversaries may search local system sources, such as file systems and configuration files or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106) as well as a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008), which have functionality to interact with the file system to gather information.(Citation: show_run_config_cmd_cisco) Adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.</td></tr><tr><th>detection</th><td>Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to collect files such as configuration files with built-in features native to the network device platform.(Citation: Mandiant APT41 Global Intrusion )(Citation: US-CERT-TA18-106A) Monitor CLI activity for unexpected or unauthorized use commands being run by non-standard users from non-standard locations. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nFor network infrastructure devices, collect AAA logging to monitor `show` commands that view configuration files.</td></tr><tr><th>platforms</th><td>Linux, Network, Windows, macOS</td></tr><tr><th>data sources</th><td>Command: Command Execution, File: File Access, Process: OS API Execution, Process: Process Creation, Script: Script Execution</td></tr></table>", "t7_cap_0": "<table class='meta-table'><tr><th>capec_Name</th><td>Retrieve Embedded Sensitive Data</td></tr><tr><th>CVE ID</th><td>CVE-2014-5433</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>Very High</td></tr><tr><th>capec_Skills_Required</th><td>Medium: The attacker must possess knowledge of client code structure as well as ability to reverse-engineer or decompile it or probe it in other ways. This knowledge is specific to the technology and language used for the client distribution</td></tr><tr><th>capec_Prerequisites</th><td>In order to feasibly execute this type of attack, some valuable data must be present in client software. || Additionally, this information must be unprotected, or protected in a flawed fashion, or through a mechanism that fails to resist reverse engineering, statistical, or other attack.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality | Impact: Read Data || Scope: Integrity | Impact: Modify Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>", "t7_cwe_1": "<table class='meta-table'><tr><th>cwe_Name</th><td>Cleartext Transmission of Sensitive Information</td></tr><tr><th>CVE ID</th><td>CVE-2020-12040</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Base</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t7_sub_1": "<table class='meta-table'><tr><th>technique_name</th><td>Input Capture</td></tr><tr><th>subtechnique_name</th><td>Input Capture: Credential API Hooking</td></tr><tr><th>tactics</th><td>Collection</td></tr><tr><th>detection</th><td>Monitor for calls to the `SetWindowsHookEx` and `SetWinEventHook` functions, which install a hook procedure.(Citation: Microsoft Hook Overview)(Citation: Volatility Detecting Hooks Sept 2012) Also consider analyzing hook chains (which hold pointers to hook procedures for each type of hook) using tools(Citation: Volatility Detecting Hooks Sept 2012)(Citation: PreKageo Winhook Jul 2011)(Citation: Jay GetHooks Sept 2011) or by programmatically examining internal kernel structures.(Citation: Zairon Hooking Dec 2006)(Citation: EyeofRa Detecting Hooking June 2017)\n\nRootkits detectors(Citation: GMER Rootkits) can also be used to monitor for various types of hooking activity.\n\nVerify integrity of live processes by comparing code in memory to that of corresponding static binaries, specifically checking for jumps and other instructions that redirect code flow. Also consider taking snapshots of newly started processes(Citation: Microsoft Process Snapshot) to compare the in-memory IAT to the real addresses of the referenced functions.(Citation: StackExchange Hooks Jul 2012)(Citation: Adlice Software IAT Hooks Oct 2014)</td></tr><tr><th>platforms</th><td>Windows</td></tr><tr><th>data sources</th><td>Process: OS API Execution, Process: Process Metadata</td></tr></table>", "t7_cap_1": "<table class='meta-table'><tr><th>capec_Name</th><td>Harvesting Information via API Event Monitoring</td></tr><tr><th>CVE ID</th><td>CVE-2020-12040</td></tr><tr><th>capec_Typical_Severity</th><td>Low</td></tr><tr><th>capec_Prerequisites</th><td>The target software is utilizing application framework APIs</td></tr><tr><th>capec_Mitigations</th><td>Leverage encryption techniques during information transactions so as to protect them from attack patterns of this kind.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality | Impact: Read Data</td></tr></table>", "t7_cwe_2": "<table class='meta-table'><tr><th>cwe_Name</th><td>Improper Authentication</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t7_tech_2": "<table class='meta-table'><tr><th>technique_name</th><td>Browser Session Hijacking</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>tactics</th><td>Collection</td></tr><tr><th>tech_description</th><td>Adversaries may take advantage of security vulnerabilities and inherent functionality in browser software to change content, modify user-behaviors, and intercept information as part of various browser session hijacking techniques.(Citation: Wikipedia Man in the Browser)\n\nA specific example is when an adversary injects software into a browser that allows them to inherit cookies, HTTP sessions, and SSL client certificates of a user then use the browser as a way to pivot into an authenticated intranet.(Citation: Cobalt Strike Browser Pivot)(Citation: ICEBRG Chrome Extensions) Executing browser-based behaviors such as pivoting may require specific process permissions, such as &lt;code&gt;SeDebugPrivilege&lt;/code&gt; and/or high-integrity/administrator rights.\n\nAnother example involves pivoting browser traffic from the adversary&#x27;s browser through the user&#x27;s browser by setting up a proxy which will redirect web traffic. This does not alter the user&#x27;s traffic in any way, and the proxy connection can be severed as soon as the browser is closed. The adversary assumes the security context of whichever browser process the proxy is injected into. Browsers typically create a new process for each tab that is opened and permissions and certificates are separated accordingly. With these permissions, an adversary could potentially browse to any resource on an intranet, such as [Sharepoint](https://attack.mitre.org/techniques/T1213/002) or webmail, that is accessible through the browser and which the browser has sufficient permissions. Browser pivoting may also bypass security provided by 2-factor authentication.(Citation: cobaltstrike manual)</td></tr><tr><th>detection</th><td>This may be a difficult technique to detect because adversary traffic may be masked by normal user traffic. New processes may not be created and no additional software dropped to disk. Authentication logs can be used to audit logins to specific web applications, but determining malicious logins versus benign logins may be difficult if activity matches typical user behavior. Monitor for [Process Injection](https://attack.mitre.org/techniques/T1055) against browser applications.</td></tr><tr><th>platforms</th><td>Windows</td></tr><tr><th>data sources</th><td>Logon Session: Logon Session Creation, Process: Process Access, Process: Process Modification</td></tr><tr><th>permissions required</th><td>Administrator, SYSTEM</td></tr></table>", "t7_cap_2": "<table class='meta-table'><tr><th>capec_Name</th><td>Session Hijacking</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>Very High</td></tr><tr><th>capec_Skills_Required</th><td>Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.</td></tr><tr><th>capec_Prerequisites</th><td>An application that leverages sessions to perform authentication.</td></tr><tr><th>capec_Mitigations</th><td>Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges</td></tr></table>", "t7_tech_3": "<table class='meta-table'><tr><th>technique_name</th><td>Adversary-in-the-Middle</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>tactics</th><td>Collection</td></tr><tr><th>tech_description</th><td>Adversaries may attempt to position themselves between two or more networked devices using an adversary-in-the-middle (AiTM) technique to support follow-on behaviors such as [Network Sniffing](https://attack.mitre.org/techniques/T1040), [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002), or replay attacks ([Exploitation for Credential Access](https://attack.mitre.org/techniques/T1212)). By abusing features of common networking protocols that can determine the flow of network traffic (e.g. ARP, DNS, LLMNR, etc.), adversaries may force a device to communicate through an adversary controlled system so they can collect information or perform additional actions.(Citation: Rapid7 MiTM Basics)\n\nFor example, adversaries may manipulate victim DNS settings to enable other malicious activities such as preventing/redirecting users from accessing legitimate sites and/or pushing additional malware.(Citation: ttint_rat)(Citation: dns_changer_trojans)(Citation: ad_blocker_with_miner) Adversaries may also manipulate DNS and leverage their position in order to intercept user credentials, including access tokens ([Steal Application Access Token](https://attack.mitre.org/techniques/T1528)) and session cookies ([Steal Web Session Cookie](https://attack.mitre.org/techniques/T1539)).(Citation: volexity_0day_sophos_FW)(Citation: Token tactics) [Downgrade Attack](https://attack.mitre.org/techniques/T1562/010)s can also be used to establish an AiTM position, such as by negotiating a less secure, deprecated, or weaker version of communication protocol (SSL/TLS) or encryption algorithm.(Citation: mitm_tls_downgrade_att)(Citation: taxonomy_downgrade_att_tls)(Citation: tlseminar_downgrade_att)\n\nAdversaries may also leverage the AiTM position to attempt to monitor and/or modify traffic, such as in [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002). Adversaries can setup a position similar to AiTM to prevent traffic from flowing to the appropriate destination, potentially to [Impair Defenses](https://attack.mitre.org/techniques/T1562) and/or in support of a [Network Denial of Service](https://attack.mitre.org/techniques/T1498).</td></tr><tr><th>detection</th><td>Monitor network traffic for anomalies associated with known AiTM behavior. Consider monitoring for modifications to system configuration files involved in shaping network traffic flow.</td></tr><tr><th>platforms</th><td>Linux, Network, Windows, macOS</td></tr><tr><th>data sources</th><td>Application Log: Application Log Content, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Service: Service Creation, Windows Registry: Windows Registry Key Modification</td></tr></table>", "t7_cap_3": "<table class='meta-table'><tr><th>capec_Name</th><td>Adversary in the Middle (AiTM)</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>Very High</td></tr><tr><th>capec_Skills_Required</th><td>Medium: This attack can get sophisticated since the attack may use cryptography.</td></tr><tr><th>capec_Prerequisites</th><td>There are two components communicating with each other. || An attacker is able to identify the nature and mechanism of communication between the two target components. || An attacker can eavesdrop on the communication between the target components. || Strong mutual authentication is not used between the two target components yielding opportunity for attacker interposition. || The communication occurs in clear (not encrypted) or with insufficient and spoofable encryption.</td></tr><tr><th>capec_Mitigations</th><td>Ensure Public Keys are signed by a Certificate Authority || Encrypt communications using cryptography (e.g., SSL/TLS) || Use Strong mutual authentication to always fully authenticate both ends of any communications channel. || Exchange public keys using a secure channel</td></tr><tr><th>capec_Consequences</th><td>Scope: Integrity | Impact: Modify Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges || Scope: Confidentiality | Impact: Read Data</td></tr></table>"};
+var NODES_DATA = [{"id": "root", "label": "Compromise Device", "type": "root"}, {"id": "t7_tactic", "label": "Collection", "type": "tactic", "metadata": {"tactic": "Collection"}}, {"id": "t7_cwe_0", "label": "Cleartext Storage of Sensitive Information", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5433", "cwe_Name": "Cleartext Storage of Sensitive Information", "cwe_Abstraction": "Base", "cwe_Modes_Of_Introduction": "Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase.", "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data | Note: An attacker with access to the system could read sensitive information stored in cleartext.", "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t7_tech_0", "label": "Data from Local System", "type": "tech", "metadata": {"CVE ID": "CVE-2014-5433", "technique_name": "Data from Local System", "tactics": "Collection", "tech_description": "Adversaries may search local system sources, such as file systems and configuration files or local databases, to find files of interest and sensitive data prior to Exfiltration.\n\nAdversaries may do this using a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059), such as [cmd](https://attack.mitre.org/software/S0106) as well as a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008), which have functionality to interact with the file system to gather information.(Citation: show_run_config_cmd_cisco) Adversaries may also use [Automated Collection](https://attack.mitre.org/techniques/T1119) on the local system.", "detection": "Monitor processes and command-line arguments for actions that could be taken to collect files from a system. Remote access tools with built-in features may interact directly with the Windows API to gather data. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to collect files such as configuration files with built-in features native to the network device platform.(Citation: Mandiant APT41 Global Intrusion )(Citation: US-CERT-TA18-106A) Monitor CLI activity for unexpected or unauthorized use commands being run by non-standard users from non-standard locations. Data may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nFor network infrastructure devices, collect AAA logging to monitor `show` commands that view configuration files.", "platforms": "Linux, Network, Windows, macOS", "data sources": "Command: Command Execution, File: File Access, Process: OS API Execution, Process: Process Creation, Script: Script Execution"}}, {"id": "t7_cap_0", "label": "Retrieve Embedded Sensitive Data", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5433", "capec_Name": "Retrieve Embedded Sensitive Data", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "Very High", "capec_Skills_Required": "Medium: The attacker must possess knowledge of client code structure as well as ability to reverse-engineer or decompile it or probe it in other ways. This knowledge is specific to the technology and language used for the client distribution", "capec_Prerequisites": "In order to feasibly execute this type of attack, some valuable data must be present in client software. || Additionally, this information must be unprotected, or protected in a flawed fashion, or through a mechanism that fails to resist reverse engineering, statistical, or other attack.", "capec_Consequences": "Scope: Confidentiality | Impact: Read Data || Scope: Integrity | Impact: Modify Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t7_and_0", "label": "AND", "type": "gate"}, {"id": "t7_cwe_1", "label": "Cleartext Transmission of Sensitive Information", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12040", "cwe_Name": "Cleartext Transmission of Sensitive Information", "cwe_Abstraction": "Base", "cwe_Modes_Of_Introduction": "Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t7_sub_1", "label": "Input Capture: Credential API Hooking", "type": "subtech", "metadata": {"subtechnique_name": "Input Capture: Credential API Hooking", "technique_name": "Input Capture", "tactics": "Collection", "detection": "Monitor for calls to the `SetWindowsHookEx` and `SetWinEventHook` functions, which install a hook procedure.(Citation: Microsoft Hook Overview)(Citation: Volatility Detecting Hooks Sept 2012) Also consider analyzing hook chains (which hold pointers to hook procedures for each type of hook) using tools(Citation: Volatility Detecting Hooks Sept 2012)(Citation: PreKageo Winhook Jul 2011)(Citation: Jay GetHooks Sept 2011) or by programmatically examining internal kernel structures.(Citation: Zairon Hooking Dec 2006)(Citation: EyeofRa Detecting Hooking June 2017)\n\nRootkits detectors(Citation: GMER Rootkits) can also be used to monitor for various types of hooking activity.\n\nVerify integrity of live processes by comparing code in memory to that of corresponding static binaries, specifically checking for jumps and other instructions that redirect code flow. Also consider taking snapshots of newly started processes(Citation: Microsoft Process Snapshot) to compare the in-memory IAT to the real addresses of the referenced functions.(Citation: StackExchange Hooks Jul 2012)(Citation: Adlice Software IAT Hooks Oct 2014)", "platforms": "Windows", "data sources": "Process: OS API Execution, Process: Process Metadata"}}, {"id": "t7_cap_1", "label": "Harvesting Information via API Event Monitoring", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12040", "capec_Name": "Harvesting Information via API Event Monitoring", "capec_Typical_Severity": "Low", "capec_Prerequisites": "The target software is utilizing application framework APIs", "capec_Mitigations": "Leverage encryption techniques during information transactions so as to protect them from attack patterns of this kind.", "capec_Consequences": "Scope: Confidentiality | Impact: Read Data"}}, {"id": "t7_and_1", "label": "AND", "type": "gate"}, {"id": "t7_cwe_2", "label": "Improper Authentication", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5432", "cwe_Name": "Improper Authentication", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t7_tech_2", "label": "Browser Session Hijacking", "type": "tech", "metadata": {"CVE ID": "CVE-2014-5432", "technique_name": "Browser Session Hijacking", "tactics": "Collection", "tech_description": "Adversaries may take advantage of security vulnerabilities and inherent functionality in browser software to change content, modify user-behaviors, and intercept information as part of various browser session hijacking techniques.(Citation: Wikipedia Man in the Browser)\n\nA specific example is when an adversary injects software into a browser that allows them to inherit cookies, HTTP sessions, and SSL client certificates of a user then use the browser as a way to pivot into an authenticated intranet.(Citation: Cobalt Strike Browser Pivot)(Citation: ICEBRG Chrome Extensions) Executing browser-based behaviors such as pivoting may require specific process permissions, such as <code>SeDebugPrivilege</code> and/or high-integrity/administrator rights.\n\nAnother example involves pivoting browser traffic from the adversary's browser through the user's browser by setting up a proxy which will redirect web traffic. This does not alter the user's traffic in any way, and the proxy connection can be severed as soon as the browser is closed. The adversary assumes the security context of whichever browser process the proxy is injected into. Browsers typically create a new process for each tab that is opened and permissions and certificates are separated accordingly. With these permissions, an adversary could potentially browse to any resource on an intranet, such as [Sharepoint](https://attack.mitre.org/techniques/T1213/002) or webmail, that is accessible through the browser and which the browser has sufficient permissions. Browser pivoting may also bypass security provided by 2-factor authentication.(Citation: cobaltstrike manual)", "detection": "This may be a difficult technique to detect because adversary traffic may be masked by normal user traffic. New processes may not be created and no additional software dropped to disk. Authentication logs can be used to audit logins to specific web applications, but determining malicious logins versus benign logins may be difficult if activity matches typical user behavior. Monitor for [Process Injection](https://attack.mitre.org/techniques/T1055) against browser applications.", "platforms": "Windows", "data sources": "Logon Session: Logon Session Creation, Process: Process Access, Process: Process Modification", "permissions required": "Administrator, SYSTEM"}}, {"id": "t7_cap_2", "label": "Session Hijacking", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5432", "capec_Name": "Session Hijacking", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "Very High", "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.", "capec_Prerequisites": "An application that leverages sessions to perform authentication.", "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.", "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges"}}, {"id": "t7_and_2", "label": "AND", "type": "gate"}, {"id": "t7_tech_3", "label": "Adversary-in-the-Middle", "type": "tech", "metadata": {"CVE ID": "CVE-2014-5432", "technique_name": "Adversary-in-the-Middle", "tactics": "Collection", "tech_description": "Adversaries may attempt to position themselves between two or more networked devices using an adversary-in-the-middle (AiTM) technique to support follow-on behaviors such as [Network Sniffing](https://attack.mitre.org/techniques/T1040), [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002), or replay attacks ([Exploitation for Credential Access](https://attack.mitre.org/techniques/T1212)). By abusing features of common networking protocols that can determine the flow of network traffic (e.g. ARP, DNS, LLMNR, etc.), adversaries may force a device to communicate through an adversary controlled system so they can collect information or perform additional actions.(Citation: Rapid7 MiTM Basics)\n\nFor example, adversaries may manipulate victim DNS settings to enable other malicious activities such as preventing/redirecting users from accessing legitimate sites and/or pushing additional malware.(Citation: ttint_rat)(Citation: dns_changer_trojans)(Citation: ad_blocker_with_miner) Adversaries may also manipulate DNS and leverage their position in order to intercept user credentials, including access tokens ([Steal Application Access Token](https://attack.mitre.org/techniques/T1528)) and session cookies ([Steal Web Session Cookie](https://attack.mitre.org/techniques/T1539)).(Citation: volexity_0day_sophos_FW)(Citation: Token tactics) [Downgrade Attack](https://attack.mitre.org/techniques/T1562/010)s can also be used to establish an AiTM position, such as by negotiating a less secure, deprecated, or weaker version of communication protocol (SSL/TLS) or encryption algorithm.(Citation: mitm_tls_downgrade_att)(Citation: taxonomy_downgrade_att_tls)(Citation: tlseminar_downgrade_att)\n\nAdversaries may also leverage the AiTM position to attempt to monitor and/or modify traffic, such as in [Transmitted Data Manipulation](https://attack.mitre.org/techniques/T1565/002). Adversaries can setup a position similar to AiTM to prevent traffic from flowing to the appropriate destination, potentially to [Impair Defenses](https://attack.mitre.org/techniques/T1562) and/or in support of a [Network Denial of Service](https://attack.mitre.org/techniques/T1498).", "detection": "Monitor network traffic for anomalies associated with known AiTM behavior. Consider monitoring for modifications to system configuration files involved in shaping network traffic flow.", "platforms": "Linux, Network, Windows, macOS", "data sources": "Application Log: Application Log Content, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Service: Service Creation, Windows Registry: Windows Registry Key Modification"}}, {"id": "t7_cap_3", "label": "Adversary in the Middle (AiTM)", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5432", "capec_Name": "Adversary in the Middle (AiTM)", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "Very High", "capec_Skills_Required": "Medium: This attack can get sophisticated since the attack may use cryptography.", "capec_Prerequisites": "There are two components communicating with each other. || An attacker is able to identify the nature and mechanism of communication between the two target components. || An attacker can eavesdrop on the communication between the target components. || Strong mutual authentication is not used between the two target components yielding opportunity for attacker interposition. || The communication occurs in clear (not encrypted) or with insufficient and spoofable encryption.", "capec_Mitigations": "Ensure Public Keys are signed by a Certificate Authority || Encrypt communications using cryptography (e.g., SSL/TLS) || Use Strong mutual authentication to always fully authenticate both ends of any communications channel. || Exchange public keys using a secure channel", "capec_Consequences": "Scope: Integrity | Impact: Modify Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges || Scope: Confidentiality | Impact: Read Data"}}, {"id": "t7_and_3", "label": "AND", "type": "gate"}, {"id": "t7_cwe2_or_4", "label": "OR", "type": "gate"}, {"id": "t7_tac_or_5", "label": "OR", "type": "gate"}, {"id": "t7_tac_or_6", "label": "OR", "type": "gate"}];
+
+// Build lookup: node_id -> {label, type}
+var nodeInfo = {};
+NODES_DATA.forEach(function(n) { nodeInfo[n.id] = n; });
+
+// ── DOM refs ─────────────────────────────────────────────────────────────────
+var panelCol  = document.getElementById('panel-col');
+var panelBody = document.getElementById('panel-body');
+var panelTitle= document.getElementById('panel-title');
+var closeBtn  = document.getElementById('close-btn');
+var svgScroll = document.getElementById('svg-scroll');
+
+var selectedGroup = null;
+
+// ── Open panel with node data ─────────────────────────────────────────────────
+function showPanel(nodeId) {
+  var info    = nodeInfo[nodeId] || {};
+  var label   = info.label  || nodeId;
+  var ntype   = info.type   || 'unknown';
+  var htmlTbl = NODE_HTML[nodeId] || '<div class="meta-empty">No metadata recorded for this node.</div>';
+
+  panelTitle.textContent = 'Node metadata';
+
+  var badgeClass = 'badge-' + ntype;
+  panelBody.innerHTML =
+    '<p class="node-label-heading">' + escHtml(label) + '</p>' +
+    '<span class="node-type-badge ' + badgeClass + '">' + escHtml(ntype) + '</span>' +
+    htmlTbl;
+
+  panelCol.classList.remove('hidden');
+}
+
+function closePanel() {
+  panelCol.classList.add('hidden');
+  if (selectedGroup) {
+    selectedGroup.classList.remove('selected-node');
+    selectedGroup = null;
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Wire up node clicks ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var groups = svgScroll.querySelectorAll('[data-node-id]');
+  groups.forEach(function(g) {
+    g.addEventListener('click', function(ev) {
+      ev.stopPropagation();
+      var nodeId = g.getAttribute('data-node-id');
+
+      // Deselect previous
+      if (selectedGroup && selectedGroup !== g) {
+        selectedGroup.classList.remove('selected-node');
+      }
+      // Toggle if same node clicked twice
+      if (selectedGroup === g) {
+        closePanel();
+        return;
+      }
+      selectedGroup = g;
+      g.classList.add('selected-node');
+      showPanel(nodeId);
+    });
+  });
+
+  // Click empty canvas area → close panel
+  svgScroll.addEventListener('click', function() { closePanel(); });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePanel();
+  });
+});
+</script>
+</body>
+</html>

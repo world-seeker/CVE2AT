@@ -1,0 +1,35 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	root [label="Compromise Device" fillcolor="#FFD700" fontname=Helvetica shape=box style=filled]
+	t5_tactic [label=Discovery fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	root -> t5_tactic
+	t5_cwe_0 [label="Incorrect Permission Assignment for Critical Resource" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t5_tech_0 [label="File and Directory Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_cap_0 [label="Directory Indexing" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_and_0 -> t5_tech_0
+	t5_and_0 -> t5_cap_0
+	t5_cwe_0 -> t5_and_0
+	t5_cwe_1 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t5_tech_1 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_cap_1 [label="Sniff Application Code" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_and_1 -> t5_tech_1
+	t5_and_1 -> t5_cap_1
+	t5_cwe_1 -> t5_and_1
+	t5_cwe_2 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t5_tech_2 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_cap_2 [label="Utilizing REST's Trust in the System Resource to Obtain Sensitive Data" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_and_2 -> t5_tech_2
+	t5_and_2 -> t5_cap_2
+	t5_cwe_2 -> t5_and_2
+	t5_tac_or_3 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_tac_or_4 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_tac_or_4 -> t5_cwe_1
+	t5_tac_or_4 -> t5_cwe_2
+	t5_tac_or_3 -> t5_cwe_0
+	t5_tac_or_3 -> t5_tac_or_4
+	t5_tactic -> t5_tac_or_3
+}

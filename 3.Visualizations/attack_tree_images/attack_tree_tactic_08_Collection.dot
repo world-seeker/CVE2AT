@@ -1,0 +1,43 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	root [label="Compromise Device" fillcolor="#FFD700" fontname=Helvetica shape=box style=filled]
+	t7_tactic [label=Collection fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	root -> t7_tactic
+	t7_cwe_0 [label="Cleartext Storage of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t7_tech_0 [label="Data from Local System" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t7_cap_0 [label="Retrieve Embedded Sensitive Data" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_and_0 -> t7_tech_0
+	t7_and_0 -> t7_cap_0
+	t7_cwe_0 -> t7_and_0
+	t7_cwe_1 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t7_sub_1 [label="Input Capture: Credential API Hooking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t7_cap_1 [label="Harvesting Information via API Event Monitoring" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_and_1 -> t7_sub_1
+	t7_and_1 -> t7_cap_1
+	t7_cwe_1 -> t7_and_1
+	t7_cwe_2 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t7_tech_2 [label="Browser Session Hijacking" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t7_cap_2 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_and_2 -> t7_tech_2
+	t7_and_2 -> t7_cap_2
+	t7_tech_3 [label="Adversary-in-the-Middle" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t7_cap_3 [label="Adversary in the Middle (AiTM)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_and_3 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_and_3 -> t7_tech_3
+	t7_and_3 -> t7_cap_3
+	t7_cwe2_or_4 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_cwe2_or_4 -> t7_and_2
+	t7_cwe2_or_4 -> t7_and_3
+	t7_cwe_2 -> t7_cwe2_or_4
+	t7_tac_or_5 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_tac_or_6 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_tac_or_6 -> t7_cwe_1
+	t7_tac_or_6 -> t7_cwe_2
+	t7_tac_or_5 -> t7_cwe_0
+	t7_tac_or_5 -> t7_tac_or_6
+	t7_tactic -> t7_tac_or_5
+}

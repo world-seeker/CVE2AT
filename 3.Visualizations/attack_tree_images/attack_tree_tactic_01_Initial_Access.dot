@@ -1,0 +1,15 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	root [label="Compromise Device" fillcolor="#FFD700" fontname=Helvetica shape=box style=filled]
+	t0_tactic [label="Initial Access" fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	root -> t0_tactic
+	t0_cwe_0 [label="Use of Hard-coded Credentials" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t0_sub_0 [label="Valid Accounts: Default Accounts" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t0_cap_0 [label="Try Common or Default Usernames and Passwords" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t0_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t0_and_0 -> t0_sub_0
+	t0_and_0 -> t0_cap_0
+	t0_cwe_0 -> t0_and_0
+	t0_tactic -> t0_cwe_0
+}

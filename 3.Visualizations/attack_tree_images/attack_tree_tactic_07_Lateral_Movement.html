@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Attack Tree — Lateral Movement</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; background: #f4f4f4;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+
+    /* ── Two-column app layout ── */
+    .app { display: flex; height: 100vh; gap: 0; overflow: hidden; }
+
+    /* ── Left: graph canvas ── */
+    .graph-col {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border-right: 2px solid #d0d0d0;
+    }
+    .graph-header {
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+    .graph-header h1 { margin: 0 0 6px; font-size: 20px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .legend-item {
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 13px; border: 1px solid rgba(0,0,0,.12);
+    }
+    .svg-scroll {
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .svg-scroll svg {
+      /* keep native Graphviz size; user can scroll / zoom */
+      width: auto;
+      height: auto;
+      display: block;
+      cursor: default;
+    }
+    /* highlight hovered node groups */
+    .svg-scroll [data-node-id] { cursor: pointer; }
+    .svg-scroll [data-node-id]:hover ellipse,
+    .svg-scroll [data-node-id]:hover polygon,
+    .svg-scroll [data-node-id]:hover path {
+      filter: brightness(0.88);
+    }
+    .selected-node ellipse,
+    .selected-node polygon,
+    .selected-node path {
+      stroke: #1a6fc4 !important;
+      stroke-width: 3px !important;
+    }
+    .graph-footer {
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    /* ── Right: metadata panel ── */
+    .panel-col {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: hidden;
+      transition: flex-basis .2s;
+    }
+    .panel-col.hidden { flex: 0 0 0; overflow: hidden; }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f8f8f8;
+    }
+    .panel-header h2 { margin: 0; font-size: 16px; }
+    .close-btn {
+      border: none; background: transparent;
+      font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px;
+      color: #555;
+    }
+    .close-btn:hover { color: #000; }
+    .panel-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 14px;
+    }
+    .panel-placeholder {
+      color: #888; font-style: italic; margin-top: 20px; text-align: center;
+    }
+    .node-label-heading {
+      font-size: 17px; font-weight: 700;
+      margin: 0 0 4px;
+      word-break: break-word;
+    }
+    .node-type-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* Metadata table */
+    .meta-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 8px; font-size: 14px;
+    }
+    .meta-table th {
+      text-align: left; padding: 6px 8px;
+      background: #f3f3f3; border-bottom: 1px solid #e0e0e0;
+      font-weight: 600; width: 36%; vertical-align: top;
+      word-break: break-word;
+    }
+    .meta-table td {
+      padding: 6px 8px; border-bottom: 1px solid #eee;
+      vertical-align: top; word-break: break-word;
+    }
+    .meta-empty { color: #888; font-style: italic; }
+
+    /* Badge colours by node type */
+    .badge-root    { background: #FFD700; color: #5a4200; }
+    .badge-tactic  { background: #98FB98; color: #1a5c1a; }
+    .badge-cwe     { background: #ADD8E6; color: #1a3a5c; }
+    .badge-tech    { background: #90EE90; color: #1a5c1a; }
+    .badge-subtech { background: #FFFACD; color: #5c5000; }
+    .badge-capec   { background: #FFB6C1; color: #6b0a1e; }
+    .badge-gate    { background: #FFCCCB; color: #7a1a00; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Left column: SVG graph ── -->
+  <div class="graph-col">
+    <div class="graph-header">
+      <h1>Attack Tree — Lateral Movement</h1>
+      <div class="legend">
+        <span class="legend-item" style="background:#FFD700">Compromise Device (root)</span>
+        <span class="legend-item" style="background:#98FB98">Tactic</span>
+        <span class="legend-item" style="background:#ADD8E6">CWE</span>
+        <span class="legend-item" style="background:#90EE90">Technique</span>
+        <span class="legend-item" style="background:#FFFACD">Subtechnique</span>
+        <span class="legend-item" style="background:#FFB6C1">CAPEC</span>
+        <span class="legend-item" style="background:#FFCCCB">OR / AND gates</span>
+      </div>
+    </div>
+
+    <div class="svg-scroll" id="svg-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1252pt" height="608pt" viewBox="0.00 0.00 1251.50 608.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 604)" data-node-id="%3">
+<title>Compromise Device</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-604 1247.5,-604 1247.5,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="root">
+<title>Compromise Device</title>
+<polygon fill="#ffd700" stroke="black" points="722.5,-600 585.5,-600 585.5,-564 722.5,-564 722.5,-600" />
+<text text-anchor="middle" x="654" y="-578.9" font-family="Helvetica,sans-Serif" font-size="12.00">Compromise Device</text>
+</g>
+
+<g id="node2" class="node" data-node-id="t6_tactic">
+<title>Lateral Movement</title>
+<polygon fill="#98fb98" stroke="black" points="717,-506 591,-506 591,-470 717,-470 717,-506" />
+<text text-anchor="middle" x="654" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">Lateral Movement</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="root-&gt;t6_tactic">
+<title>root-&gt;t6_tactic</title>
+<path fill="none" stroke="black" d="M654,-563.88C654,-563.88 654,-516.07 654,-516.07" />
+<polygon fill="black" stroke="black" points="657.5,-516.07 654,-506.07 650.5,-516.07 657.5,-516.07" />
+</g>
+
+<g id="node15" class="node" data-node-id="t6_tac_or_4">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="654" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="654" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge14" class="edge" data-node-id="t6_tactic-&gt;t6_tac_or_4">
+<title>t6_tactic-&gt;t6_tac_or_4</title>
+<path fill="none" stroke="black" d="M654,-469.88C654,-469.88 654,-422.07 654,-422.07" />
+<polygon fill="black" stroke="black" points="657.5,-422.07 654,-412.07 650.5,-422.07 657.5,-422.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t6_cwe_0">
+<title>Incorrect Permission Assignment for Critical Resource</title>
+<polygon fill="#add8e6" stroke="black" points="673.5,-318 344.5,-318 344.5,-282 679.5,-282 679.5,-312 673.5,-318" />
+<polyline fill="none" stroke="black" points="673.5,-318 673.5,-312 " />
+<polyline fill="none" stroke="black" points="679.5,-312 673.5,-312 " />
+<text text-anchor="middle" x="512" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Incorrect Permission Assignment for Critical Resource</text>
+</g>
+
+<g id="node6" class="node" data-node-id="t6_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="512" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="512" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t6_cwe_0-&gt;t6_and_0">
+<title>t6_cwe_0-&gt;t6_and_0</title>
+<path fill="none" stroke="black" d="M512,-281.88C512,-281.88 512,-234.07 512,-234.07" />
+<polygon fill="black" stroke="black" points="515.5,-234.07 512,-224.07 508.5,-234.07 515.5,-234.07" />
+</g>
+
+<g id="node4" class="node" data-node-id="t6_sub_0">
+<title>Use Alternate Authentication Material: Web Session Cookie</title>
+<polygon fill="#fffacd" stroke="black" points="368,-130 0,-130 0,-94 368,-94 368,-130" />
+<text text-anchor="middle" x="184" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use Alternate Authentication Material: Web Session Cookie</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t6_cap_0">
+<title>Reusing Session IDs (aka Session Replay)</title>
+<polygon fill="#ffb6c1" stroke="black" points="665.5,-130 404.5,-130 404.5,-94 665.5,-94 665.5,-130" />
+<text text-anchor="middle" x="535" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Reusing Session IDs (aka Session Replay)</text>
+</g>
+
+<g id="edge2" class="edge" data-node-id="t6_and_0-&gt;t6_sub_0">
+<title>t6_and_0-&gt;t6_sub_0</title>
+<path fill="none" stroke="black" d="M484.87,-206C440.25,-206 356.25,-206 356.25,-206 356.25,-206 356.25,-140.12 356.25,-140.12" />
+<polygon fill="black" stroke="black" points="359.75,-140.12 356.25,-130.12 352.75,-140.12 359.75,-140.12" />
+</g>
+
+<g id="edge3" class="edge" data-node-id="t6_and_0-&gt;t6_cap_0">
+<title>t6_and_0-&gt;t6_cap_0</title>
+<path fill="none" stroke="black" d="M512,-187.88C512,-187.88 512,-140.07 512,-140.07" />
+<polygon fill="black" stroke="black" points="515.5,-140.07 512,-130.07 508.5,-140.07 515.5,-140.07" />
+</g>
+
+<g id="node7" class="node" data-node-id="t6_cwe_1">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="872.5,-318 715.5,-318 715.5,-282 878.5,-282 878.5,-312 872.5,-318" />
+<polyline fill="none" stroke="black" points="872.5,-318 872.5,-312 " />
+<polyline fill="none" stroke="black" points="878.5,-312 872.5,-312 " />
+<text text-anchor="middle" x="797" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t6_cwe1_or_3">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="797" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="797" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge11" class="edge" data-node-id="t6_cwe_1-&gt;t6_cwe1_or_3">
+<title>t6_cwe_1-&gt;t6_cwe1_or_3</title>
+<path fill="none" stroke="black" d="M797,-281.88C797,-281.88 797,-234.07 797,-234.07" />
+<polygon fill="black" stroke="black" points="800.5,-234.07 797,-224.07 793.5,-234.07 800.5,-234.07" />
+</g>
+
+<g id="node8" class="node" data-node-id="t6_sub_1">
+<title>Use Alternate Authentication Material: Application Access Token</title>
+<polygon fill="#fffacd" stroke="black" points="678,-36 280,-36 280,0 678,0 678,-36" />
+<text text-anchor="middle" x="479" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use Alternate Authentication Material: Application Access Token</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t6_cap_1">
+<title>Session Hijacking</title>
+<polygon fill="#ffb6c1" stroke="black" points="833.5,-36 714.5,-36 714.5,0 833.5,0 833.5,-36" />
+<text text-anchor="middle" x="774" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Session Hijacking</text>
+</g>
+
+<g id="node10" class="node" data-node-id="t6_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="774" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="774" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge5" class="edge" data-node-id="t6_and_1-&gt;t6_sub_1">
+<title>t6_and_1-&gt;t6_sub_1</title>
+<path fill="none" stroke="black" d="M746.87,-112C716.58,-112 671.75,-112 671.75,-112 671.75,-112 671.75,-46.12 671.75,-46.12" />
+<polygon fill="black" stroke="black" points="675.25,-46.12 671.75,-36.12 668.25,-46.12 675.25,-46.12" />
+</g>
+
+<g id="edge6" class="edge" data-node-id="t6_and_1-&gt;t6_cap_1">
+<title>t6_and_1-&gt;t6_cap_1</title>
+<path fill="none" stroke="black" d="M774,-93.88C774,-93.88 774,-46.07 774,-46.07" />
+<polygon fill="black" stroke="black" points="777.5,-46.07 774,-36.07 770.5,-46.07 777.5,-46.07" />
+</g>
+
+<g id="node11" class="node" data-node-id="t6_tech_2">
+<title>Remote Service Session Hijacking</title>
+<polygon fill="#90ee90" stroke="black" points="1088,-36 870,-36 870,0 1088,0 1088,-36" />
+<text text-anchor="middle" x="979" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Remote Service Session Hijacking</text>
+</g>
+
+<g id="node12" class="node" data-node-id="t6_cap_2">
+<title>Session Hijacking</title>
+<polygon fill="#ffb6c1" stroke="black" points="1243.5,-36 1124.5,-36 1124.5,0 1243.5,0 1243.5,-36" />
+<text text-anchor="middle" x="1184" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Session Hijacking</text>
+</g>
+
+<g id="node13" class="node" data-node-id="t6_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="979" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="979" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge7" class="edge" data-node-id="t6_and_2-&gt;t6_tech_2">
+<title>t6_and_2-&gt;t6_tech_2</title>
+<path fill="none" stroke="black" d="M979,-93.88C979,-93.88 979,-46.07 979,-46.07" />
+<polygon fill="black" stroke="black" points="982.5,-46.07 979,-36.07 975.5,-46.07 982.5,-46.07" />
+</g>
+
+<g id="edge8" class="edge" data-node-id="t6_and_2-&gt;t6_cap_2">
+<title>t6_and_2-&gt;t6_cap_2</title>
+<path fill="none" stroke="black" d="M1006.22,-112C1061.99,-112 1184,-112 1184,-112 1184,-112 1184,-46.12 1184,-46.12" />
+<polygon fill="black" stroke="black" points="1187.5,-46.12 1184,-36.12 1180.5,-46.12 1187.5,-46.12" />
+</g>
+
+<g id="edge9" class="edge" data-node-id="t6_cwe1_or_3-&gt;t6_and_1">
+<title>t6_cwe1_or_3-&gt;t6_and_1</title>
+<path fill="none" stroke="black" d="M785.5,-189.63C785.5,-189.63 785.5,-138.5 785.5,-138.5" />
+<polygon fill="black" stroke="black" points="789,-138.5 785.5,-128.5 782,-138.5 789,-138.5" />
+</g>
+
+<g id="edge10" class="edge" data-node-id="t6_cwe1_or_3-&gt;t6_and_2">
+<title>t6_cwe1_or_3-&gt;t6_and_2</title>
+<path fill="none" stroke="black" d="M812.5,-190.9C812.5,-164.33 812.5,-112 812.5,-112 812.5,-112 941.88,-112 941.88,-112" />
+<polygon fill="black" stroke="black" points="941.88,-115.5 951.88,-112 941.88,-108.5 941.88,-115.5" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t6_tac_or_4-&gt;t6_cwe_0">
+<title>t6_tac_or_4-&gt;t6_cwe_0</title>
+<path fill="none" stroke="black" d="M653.25,-375.88C653.25,-375.88 653.25,-328.07 653.25,-328.07" />
+<polygon fill="black" stroke="black" points="656.75,-328.07 653.25,-318.07 649.75,-328.07 656.75,-328.07" />
+</g>
+
+<g id="edge13" class="edge" data-node-id="t6_tac_or_4-&gt;t6_cwe_1">
+<title>t6_tac_or_4-&gt;t6_cwe_1</title>
+<path fill="none" stroke="black" d="M681.21,-394C723.58,-394 800.5,-394 800.5,-394 800.5,-394 800.5,-328.12 800.5,-328.12" />
+<polygon fill="black" stroke="black" points="804,-328.12 800.5,-318.12 797,-328.12 804,-328.12" />
+</g>
+</g>
+</svg>
+    </div>
+
+    <div class="graph-footer">
+      Click any node to view its metadata in the right-hand panel. &nbsp;|&nbsp;
+      Scroll / drag to navigate. &nbsp;|&nbsp;
+      Press <kbd>Esc</kbd> to close the panel.
+    </div>
+  </div>
+
+  <!-- ── Right column: metadata panel ── -->
+  <div class="panel-col hidden" id="panel-col">
+    <div class="panel-header">
+      <h2 id="panel-title">Node metadata</h2>
+      <button class="close-btn" id="close-btn" title="Close panel">&times;</button>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-placeholder">Click a node in the graph to see details here.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Data injected by Python ──────────────────────────────────────────────────
+var NODE_HTML  = {"root": "<table class='meta-table'><tr><th>label</th><td>Compromise Device</td></tr></table>", "t6_tactic": "<table class='meta-table'><tr><th>tactic</th><td>Lateral Movement</td></tr></table>", "t6_cwe_0": "<table class='meta-table'><tr><th>cwe_Name</th><td>Incorrect Permission Assignment for Critical Resource</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>baseScore</th><td>9.4</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a &quot;jail&quot; or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t6_sub_0": "<table class='meta-table'><tr><th>technique_name</th><td>Use Alternate Authentication Material</td></tr><tr><th>subtechnique_name</th><td>Use Alternate Authentication Material: Web Session Cookie</td></tr><tr><th>tactics</th><td>Lateral Movement</td></tr><tr><th>detection</th><td>Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.</td></tr><tr><th>platforms</th><td>IaaS, Office Suite, SaaS</td></tr><tr><th>data sources</th><td>Application Log: Application Log Content, Web Credential: Web Credential Usage</td></tr></table>", "t6_cap_0": "<table class='meta-table'><tr><th>capec_Name</th><td>Reusing Session IDs (aka Session Replay)</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>High</td></tr><tr><th>capec_Skills_Required</th><td>Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.</td></tr><tr><th>capec_Prerequisites</th><td>The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.</td></tr><tr><th>capec_Mitigations</th><td>Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges</td></tr></table>", "t6_cwe_1": "<table class='meta-table'><tr><th>cwe_Name</th><td>Improper Authentication</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t6_sub_1": "<table class='meta-table'><tr><th>technique_name</th><td>Use Alternate Authentication Material</td></tr><tr><th>subtechnique_name</th><td>Use Alternate Authentication Material: Application Access Token</td></tr><tr><th>tactics</th><td>Lateral Movement</td></tr><tr><th>detection</th><td>Monitor access token activity for abnormal use and permissions granted to unusual or suspicious applications and APIs. Additionally, administrators should review logs for calls to the AWS Security Token Service (STS) and usage of GCP service accounts in order to identify anomalous actions.(Citation: AWS Logging IAM Calls)(Citation: GCP Monitoring Service Account Usage)</td></tr><tr><th>platforms</th><td>Containers, IaaS, Identity Provider, Office Suite, SaaS</td></tr><tr><th>data sources</th><td>Web Credential: Web Credential Usage</td></tr></table>", "t6_cap_1": "<table class='meta-table'><tr><th>capec_Name</th><td>Session Hijacking</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>Very High</td></tr><tr><th>capec_Skills_Required</th><td>Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.</td></tr><tr><th>capec_Prerequisites</th><td>An application that leverages sessions to perform authentication.</td></tr><tr><th>capec_Mitigations</th><td>Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges</td></tr></table>", "t6_tech_2": "<table class='meta-table'><tr><th>technique_name</th><td>Remote Service Session Hijacking</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>tactics</th><td>Lateral Movement</td></tr><tr><th>tech_description</th><td>Adversaries may take control of preexisting sessions with remote services to move laterally in an environment. Users may use valid credentials to log into a service specifically designed to accept remote connections, such as telnet, SSH, and RDP. When a user logs into a service, a session will be established that will allow them to maintain a continuous interaction with that service.\n\nAdversaries may commandeer these sessions to carry out actions on remote systems. [Remote Service Session Hijacking](https://attack.mitre.org/techniques/T1563) differs from use of [Remote Services](https://attack.mitre.org/techniques/T1021) because it hijacks an existing session rather than creating a new session using [Valid Accounts](https://attack.mitre.org/techniques/T1078).(Citation: RDP Hijacking Medium)(Citation: Breach Post-mortem SSH Hijack)</td></tr><tr><th>detection</th><td>Use of these services may be legitimate, depending upon the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with that service. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time.\n\nMonitor for processes and command-line arguments associated with hijacking service sessions.</td></tr><tr><th>platforms</th><td>Linux, Windows, macOS</td></tr><tr><th>data sources</th><td>Command: Command Execution, Logon Session: Logon Session Creation, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Process: Process Creation</td></tr></table>", "t6_cap_2": "<table class='meta-table'><tr><th>capec_Name</th><td>Session Hijacking</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>capec_Likelihood_Of_Attack</th><td>High</td></tr><tr><th>capec_Typical_Severity</th><td>Very High</td></tr><tr><th>capec_Skills_Required</th><td>Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.</td></tr><tr><th>capec_Prerequisites</th><td>An application that leverages sessions to perform authentication.</td></tr><tr><th>capec_Mitigations</th><td>Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.</td></tr><tr><th>capec_Consequences</th><td>Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges</td></tr></table>"};
+var NODES_DATA = [{"id": "root", "label": "Compromise Device", "type": "root"}, {"id": "t6_tactic", "label": "Lateral Movement", "type": "tactic", "metadata": {"tactic": "Lateral Movement"}}, {"id": "t6_cwe_0", "label": "Incorrect Permission Assignment for Critical Resource", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12041", "cwe_Name": "Incorrect Permission Assignment for Critical Resource", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.", "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.4", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t6_sub_0", "label": "Use Alternate Authentication Material: Web Session Cookie", "type": "subtech", "metadata": {"subtechnique_name": "Use Alternate Authentication Material: Web Session Cookie", "technique_name": "Use Alternate Authentication Material", "tactics": "Lateral Movement", "detection": "Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.", "platforms": "IaaS, Office Suite, SaaS", "data sources": "Application Log: Application Log Content, Web Credential: Web Credential Usage"}}, {"id": "t6_cap_0", "label": "Reusing Session IDs (aka Session Replay)", "type": "capec", "metadata": {"CVE ID": "CVE-2020-12041", "capec_Name": "Reusing Session IDs (aka Session Replay)", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "High", "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.", "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.", "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.", "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"}}, {"id": "t6_and_0", "label": "AND", "type": "gate"}, {"id": "t6_cwe_1", "label": "Improper Authentication", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5432", "cwe_Name": "Improper Authentication", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t6_sub_1", "label": "Use Alternate Authentication Material: Application Access Token", "type": "subtech", "metadata": {"subtechnique_name": "Use Alternate Authentication Material: Application Access Token", "technique_name": "Use Alternate Authentication Material", "tactics": "Lateral Movement", "detection": "Monitor access token activity for abnormal use and permissions granted to unusual or suspicious applications and APIs. Additionally, administrators should review logs for calls to the AWS Security Token Service (STS) and usage of GCP service accounts in order to identify anomalous actions.(Citation: AWS Logging IAM Calls)(Citation: GCP Monitoring Service Account Usage)", "platforms": "Containers, IaaS, Identity Provider, Office Suite, SaaS", "data sources": "Web Credential: Web Credential Usage"}}, {"id": "t6_cap_1", "label": "Session Hijacking", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5432", "capec_Name": "Session Hijacking", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "Very High", "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.", "capec_Prerequisites": "An application that leverages sessions to perform authentication.", "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.", "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges"}}, {"id": "t6_and_1", "label": "AND", "type": "gate"}, {"id": "t6_tech_2", "label": "Remote Service Session Hijacking", "type": "tech", "metadata": {"CVE ID": "CVE-2014-5432", "technique_name": "Remote Service Session Hijacking", "tactics": "Lateral Movement", "tech_description": "Adversaries may take control of preexisting sessions with remote services to move laterally in an environment. Users may use valid credentials to log into a service specifically designed to accept remote connections, such as telnet, SSH, and RDP. When a user logs into a service, a session will be established that will allow them to maintain a continuous interaction with that service.\n\nAdversaries may commandeer these sessions to carry out actions on remote systems. [Remote Service Session Hijacking](https://attack.mitre.org/techniques/T1563) differs from use of [Remote Services](https://attack.mitre.org/techniques/T1021) because it hijacks an existing session rather than creating a new session using [Valid Accounts](https://attack.mitre.org/techniques/T1078).(Citation: RDP Hijacking Medium)(Citation: Breach Post-mortem SSH Hijack)", "detection": "Use of these services may be legitimate, depending upon the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with that service. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time.\n\nMonitor for processes and command-line arguments associated with hijacking service sessions.", "platforms": "Linux, Windows, macOS", "data sources": "Command: Command Execution, Logon Session: Logon Session Creation, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Process: Process Creation"}}, {"id": "t6_cap_2", "label": "Session Hijacking", "type": "capec", "metadata": {"CVE ID": "CVE-2014-5432", "capec_Name": "Session Hijacking", "capec_Likelihood_Of_Attack": "High", "capec_Typical_Severity": "Very High", "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.", "capec_Prerequisites": "An application that leverages sessions to perform authentication.", "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.", "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges"}}, {"id": "t6_and_2", "label": "AND", "type": "gate"}, {"id": "t6_cwe1_or_3", "label": "OR", "type": "gate"}, {"id": "t6_tac_or_4", "label": "OR", "type": "gate"}];
+
+// Build lookup: node_id -> {label, type}
+var nodeInfo = {};
+NODES_DATA.forEach(function(n) { nodeInfo[n.id] = n; });
+
+// ── DOM refs ─────────────────────────────────────────────────────────────────
+var panelCol  = document.getElementById('panel-col');
+var panelBody = document.getElementById('panel-body');
+var panelTitle= document.getElementById('panel-title');
+var closeBtn  = document.getElementById('close-btn');
+var svgScroll = document.getElementById('svg-scroll');
+
+var selectedGroup = null;
+
+// ── Open panel with node data ─────────────────────────────────────────────────
+function showPanel(nodeId) {
+  var info    = nodeInfo[nodeId] || {};
+  var label   = info.label  || nodeId;
+  var ntype   = info.type   || 'unknown';
+  var htmlTbl = NODE_HTML[nodeId] || '<div class="meta-empty">No metadata recorded for this node.</div>';
+
+  panelTitle.textContent = 'Node metadata';
+
+  var badgeClass = 'badge-' + ntype;
+  panelBody.innerHTML =
+    '<p class="node-label-heading">' + escHtml(label) + '</p>' +
+    '<span class="node-type-badge ' + badgeClass + '">' + escHtml(ntype) + '</span>' +
+    htmlTbl;
+
+  panelCol.classList.remove('hidden');
+}
+
+function closePanel() {
+  panelCol.classList.add('hidden');
+  if (selectedGroup) {
+    selectedGroup.classList.remove('selected-node');
+    selectedGroup = null;
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Wire up node clicks ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var groups = svgScroll.querySelectorAll('[data-node-id]');
+  groups.forEach(function(g) {
+    g.addEventListener('click', function(ev) {
+      ev.stopPropagation();
+      var nodeId = g.getAttribute('data-node-id');
+
+      // Deselect previous
+      if (selectedGroup && selectedGroup !== g) {
+        selectedGroup.classList.remove('selected-node');
+      }
+      // Toggle if same node clicked twice
+      if (selectedGroup === g) {
+        closePanel();
+        return;
+      }
+      selectedGroup = g;
+      g.classList.add('selected-node');
+      showPanel(nodeId);
+    });
+  });
+
+  // Click empty canvas area → close panel
+  svgScroll.addEventListener('click', function() { closePanel(); });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePanel();
+  });
+});
+</script>
+</body>
+</html>

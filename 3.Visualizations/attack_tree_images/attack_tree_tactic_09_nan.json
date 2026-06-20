@@ -1,0 +1,225 @@
+{
+    "tactic": "nan",
+    "nodes": [
+        {
+            "id": "root",
+            "label": "Compromise Device",
+            "type": "root"
+        },
+        {
+            "id": "t8_tactic",
+            "label": "nan",
+            "type": "tactic",
+            "metadata": {
+                "tactic": "nan"
+            }
+        },
+        {
+            "id": "t8_cwe_0",
+            "label": "Incorrect Permission Assignment for Critical Resource",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "cwe_Name": "Incorrect Permission Assignment for Critical Resource",
+                "cwe_Abstraction": "Class",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.",
+                "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A",
+                "attackVector": "NETWORK",
+                "baseScore": "9.4",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t8_cwe_1",
+            "label": "Use of Hard-coded Password",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039",
+                "cwe_Name": "Use of Hard-coded Password",
+                "cwe_Abstraction": "Variant",
+                "cwe_Modes_Of_Introduction": "Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic. | Architecture and Design: N/A",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: If hard-coded passwords are used, it is almost certain that malicious users will gain access through the account in question.",
+                "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication: apply strong one-way hashes to your passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When receiving an incoming password during authentication, take the hash of the password and compare it to the hash that you have saved. Use randomly assigned salts for each separate hash that you generate. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.",
+                "attackVector": "NETWORK | PHYSICAL",
+                "baseScore": "9.8 | 6.8 | 2.4",
+                "baseSeverity": "CRITICAL | MEDIUM | LOW",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH | LOW",
+                "availabilityImpact": "HIGH | NONE",
+                "exploitabilityScore": "3.9 | 0.9"
+            }
+        },
+        {
+            "id": "t8_cwe_2",
+            "label": "Operation on a Resource after Expiration or Release",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2020-12043",
+                "cwe_Name": "Operation on a Resource after Expiration or Release",
+                "cwe_Abstraction": "Class",
+                "cwe_Modes_Of_Introduction": "Implementation: N/A | Operation: N/A",
+                "cwe_Common_Consequences": "Scope: Integrity, Confidentiality | Impact: Modify Application Data, Read Application Data | Note: If a released resource is subsequently reused or reallocated, then an attempt to use the original resource might allow access to sensitive data that is associated with a different user or entity. || Scope: Other, Availability | Impact: Other, DoS: Crash, Exit, or Restart | Note: When a resource is released it might not be in an expected state, later attempts to access the resource may lead to resultant errors that may lead to a crash.",
+                "attackVector": "NETWORK",
+                "baseScore": "9.8",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t8_cwe_3",
+            "label": "Cleartext Transmission of Sensitive Information",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2020-12040",
+                "cwe_Name": "Cleartext Transmission of Sensitive Information",
+                "cwe_Abstraction": "Base",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.",
+                "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A",
+                "attackVector": "NETWORK",
+                "baseScore": "9.8",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t8_cwe_4",
+            "label": "Improper Authentication",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "cwe_Name": "Improper Authentication",
+                "cwe_Abstraction": "Class",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.",
+                "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A",
+                "attackVector": "NETWORK",
+                "baseScore": "9.8",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t8_cwe_5",
+            "label": "DEPRECATED: Authentication Bypass Issues",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "cwe_Name": "DEPRECATED: Authentication Bypass Issues",
+                "cwe_Abstraction": "Class",
+                "attackVector": "NETWORK",
+                "baseScore": "9.8",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t8_tac_or_0",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t8_tac_or_1",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t8_tac_or_2",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t8_tac_or_3",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t8_tac_or_4",
+            "label": "OR",
+            "type": "gate"
+        }
+    ],
+    "edges": [
+        {
+            "from": "root",
+            "to": "t8_tactic"
+        },
+        {
+            "from": "t8_tac_or_2",
+            "to": "t8_cwe_1"
+        },
+        {
+            "from": "t8_tac_or_2",
+            "to": "t8_cwe_2"
+        },
+        {
+            "from": "t8_tac_or_1",
+            "to": "t8_cwe_0"
+        },
+        {
+            "from": "t8_tac_or_1",
+            "to": "t8_tac_or_2"
+        },
+        {
+            "from": "t8_tac_or_4",
+            "to": "t8_cwe_4"
+        },
+        {
+            "from": "t8_tac_or_4",
+            "to": "t8_cwe_5"
+        },
+        {
+            "from": "t8_tac_or_3",
+            "to": "t8_cwe_3"
+        },
+        {
+            "from": "t8_tac_or_3",
+            "to": "t8_tac_or_4"
+        },
+        {
+            "from": "t8_tac_or_0",
+            "to": "t8_tac_or_1"
+        },
+        {
+            "from": "t8_tac_or_0",
+            "to": "t8_tac_or_3"
+        },
+        {
+            "from": "t8_tactic",
+            "to": "t8_tac_or_0"
+        }
+    ]
+}

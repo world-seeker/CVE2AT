@@ -1,0 +1,232 @@
+{
+    "tactic": "Lateral Movement",
+    "nodes": [
+        {
+            "id": "root",
+            "label": "Compromise Device",
+            "type": "root"
+        },
+        {
+            "id": "t6_tactic",
+            "label": "Lateral Movement",
+            "type": "tactic",
+            "metadata": {
+                "tactic": "Lateral Movement"
+            }
+        },
+        {
+            "id": "t6_cwe_0",
+            "label": "Incorrect Permission Assignment for Critical Resource",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "cwe_Name": "Incorrect Permission Assignment for Critical Resource",
+                "cwe_Abstraction": "Class",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.",
+                "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A",
+                "attackVector": "NETWORK",
+                "baseScore": "9.4",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t6_sub_0",
+            "label": "Use Alternate Authentication Material: Web Session Cookie",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Use Alternate Authentication Material: Web Session Cookie",
+                "technique_name": "Use Alternate Authentication Material",
+                "tactics": "Lateral Movement",
+                "detection": "Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.",
+                "platforms": "IaaS, Office Suite, SaaS",
+                "data sources": "Application Log: Application Log Content, Web Credential: Web Credential Usage"
+            }
+        },
+        {
+            "id": "t6_cap_0",
+            "label": "Reusing Session IDs (aka Session Replay)",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "capec_Name": "Reusing Session IDs (aka Session Replay)",
+                "capec_Likelihood_Of_Attack": "High",
+                "capec_Typical_Severity": "High",
+                "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+                "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+                "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+                "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"
+            }
+        },
+        {
+            "id": "t6_and_0",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t6_cwe_1",
+            "label": "Improper Authentication",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "cwe_Name": "Improper Authentication",
+                "cwe_Abstraction": "Class",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.",
+                "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A",
+                "attackVector": "NETWORK",
+                "baseScore": "9.8",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t6_sub_1",
+            "label": "Use Alternate Authentication Material: Application Access Token",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Use Alternate Authentication Material: Application Access Token",
+                "technique_name": "Use Alternate Authentication Material",
+                "tactics": "Lateral Movement",
+                "detection": "Monitor access token activity for abnormal use and permissions granted to unusual or suspicious applications and APIs. Additionally, administrators should review logs for calls to the AWS Security Token Service (STS) and usage of GCP service accounts in order to identify anomalous actions.(Citation: AWS Logging IAM Calls)(Citation: GCP Monitoring Service Account Usage)",
+                "platforms": "Containers, IaaS, Identity Provider, Office Suite, SaaS",
+                "data sources": "Web Credential: Web Credential Usage"
+            }
+        },
+        {
+            "id": "t6_cap_1",
+            "label": "Session Hijacking",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "capec_Name": "Session Hijacking",
+                "capec_Likelihood_Of_Attack": "High",
+                "capec_Typical_Severity": "Very High",
+                "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.",
+                "capec_Prerequisites": "An application that leverages sessions to perform authentication.",
+                "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.",
+                "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges"
+            }
+        },
+        {
+            "id": "t6_and_1",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t6_tech_2",
+            "label": "Remote Service Session Hijacking",
+            "type": "tech",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "technique_name": "Remote Service Session Hijacking",
+                "tactics": "Lateral Movement",
+                "tech_description": "Adversaries may take control of preexisting sessions with remote services to move laterally in an environment. Users may use valid credentials to log into a service specifically designed to accept remote connections, such as telnet, SSH, and RDP. When a user logs into a service, a session will be established that will allow them to maintain a continuous interaction with that service.\n\nAdversaries may commandeer these sessions to carry out actions on remote systems. [Remote Service Session Hijacking](https://attack.mitre.org/techniques/T1563) differs from use of [Remote Services](https://attack.mitre.org/techniques/T1021) because it hijacks an existing session rather than creating a new session using [Valid Accounts](https://attack.mitre.org/techniques/T1078).(Citation: RDP Hijacking Medium)(Citation: Breach Post-mortem SSH Hijack)",
+                "detection": "Use of these services may be legitimate, depending upon the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with that service. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time.\n\nMonitor for processes and command-line arguments associated with hijacking service sessions.",
+                "platforms": "Linux, Windows, macOS",
+                "data sources": "Command: Command Execution, Logon Session: Logon Session Creation, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Process: Process Creation"
+            }
+        },
+        {
+            "id": "t6_cap_2",
+            "label": "Session Hijacking",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "capec_Name": "Session Hijacking",
+                "capec_Likelihood_Of_Attack": "High",
+                "capec_Typical_Severity": "Very High",
+                "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.",
+                "capec_Prerequisites": "An application that leverages sessions to perform authentication.",
+                "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.",
+                "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges"
+            }
+        },
+        {
+            "id": "t6_and_2",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t6_cwe1_or_3",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t6_tac_or_4",
+            "label": "OR",
+            "type": "gate"
+        }
+    ],
+    "edges": [
+        {
+            "from": "root",
+            "to": "t6_tactic"
+        },
+        {
+            "from": "t6_and_0",
+            "to": "t6_sub_0"
+        },
+        {
+            "from": "t6_and_0",
+            "to": "t6_cap_0"
+        },
+        {
+            "from": "t6_cwe_0",
+            "to": "t6_and_0"
+        },
+        {
+            "from": "t6_and_1",
+            "to": "t6_sub_1"
+        },
+        {
+            "from": "t6_and_1",
+            "to": "t6_cap_1"
+        },
+        {
+            "from": "t6_and_2",
+            "to": "t6_tech_2"
+        },
+        {
+            "from": "t6_and_2",
+            "to": "t6_cap_2"
+        },
+        {
+            "from": "t6_cwe1_or_3",
+            "to": "t6_and_1"
+        },
+        {
+            "from": "t6_cwe1_or_3",
+            "to": "t6_and_2"
+        },
+        {
+            "from": "t6_cwe_1",
+            "to": "t6_cwe1_or_3"
+        },
+        {
+            "from": "t6_tac_or_4",
+            "to": "t6_cwe_0"
+        },
+        {
+            "from": "t6_tac_or_4",
+            "to": "t6_cwe_1"
+        },
+        {
+            "from": "t6_tactic",
+            "to": "t6_tac_or_4"
+        }
+    ]
+}

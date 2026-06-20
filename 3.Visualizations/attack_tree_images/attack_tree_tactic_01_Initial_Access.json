@@ -1,0 +1,96 @@
+{
+    "tactic": "Initial Access",
+    "nodes": [
+        {
+            "id": "root",
+            "label": "Compromise Device",
+            "type": "root"
+        },
+        {
+            "id": "t0_tactic",
+            "label": "Initial Access",
+            "type": "tactic",
+            "metadata": {
+                "tactic": "Initial Access"
+            }
+        },
+        {
+            "id": "t0_cwe_0",
+            "label": "Use of Hard-coded Credentials",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039",
+                "cwe_Name": "Use of Hard-coded Credentials",
+                "cwe_Abstraction": "Base",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A",
+                "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.",
+                "attackVector": "NETWORK | PHYSICAL",
+                "baseScore": "9.8 | 6.8 | 2.4",
+                "baseSeverity": "CRITICAL | MEDIUM | LOW",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH | LOW",
+                "availabilityImpact": "HIGH | NONE",
+                "exploitabilityScore": "3.9 | 0.9"
+            }
+        },
+        {
+            "id": "t0_sub_0",
+            "label": "Valid Accounts: Default Accounts",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Valid Accounts: Default Accounts",
+                "technique_name": "Valid Accounts",
+                "tactics": "Initial Access",
+                "detection": "Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.",
+                "platforms": "Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS",
+                "data sources": "Logon Session: Logon Session Creation, User Account: User Account Authentication"
+            }
+        },
+        {
+            "id": "t0_cap_0",
+            "label": "Try Common or Default Usernames and Passwords",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039",
+                "capec_Name": "Try Common or Default Usernames and Passwords",
+                "capec_Likelihood_Of_Attack": "Medium",
+                "capec_Typical_Severity": "High",
+                "capec_Skills_Required": "Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.",
+                "capec_Prerequisites": "The system uses one factor password based authentication.The adversary has the means to interact with the system.",
+                "capec_Mitigations": "Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.",
+                "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"
+            }
+        },
+        {
+            "id": "t0_and_0",
+            "label": "AND",
+            "type": "gate"
+        }
+    ],
+    "edges": [
+        {
+            "from": "root",
+            "to": "t0_tactic"
+        },
+        {
+            "from": "t0_and_0",
+            "to": "t0_sub_0"
+        },
+        {
+            "from": "t0_and_0",
+            "to": "t0_cap_0"
+        },
+        {
+            "from": "t0_cwe_0",
+            "to": "t0_and_0"
+        },
+        {
+            "from": "t0_tactic",
+            "to": "t0_cwe_0"
+        }
+    ]
+}

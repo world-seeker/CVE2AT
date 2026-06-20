@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Attack Tree — nan</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; background: #f4f4f4;
+                  font-family: Arial, Helvetica, sans-serif; font-size: 15px; }
+
+    /* ── Two-column app layout ── */
+    .app { display: flex; height: 100vh; gap: 0; overflow: hidden; }
+
+    /* ── Left: graph canvas ── */
+    .graph-col {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border-right: 2px solid #d0d0d0;
+    }
+    .graph-header {
+      padding: 10px 16px 8px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+    .graph-header h1 { margin: 0 0 6px; font-size: 20px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .legend-item {
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 13px; border: 1px solid rgba(0,0,0,.12);
+    }
+    .svg-scroll {
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 12px;
+      background: #fafafa;
+    }
+    .svg-scroll svg {
+      /* keep native Graphviz size; user can scroll / zoom */
+      width: auto;
+      height: auto;
+      display: block;
+      cursor: default;
+    }
+    /* highlight hovered node groups */
+    .svg-scroll [data-node-id] { cursor: pointer; }
+    .svg-scroll [data-node-id]:hover ellipse,
+    .svg-scroll [data-node-id]:hover polygon,
+    .svg-scroll [data-node-id]:hover path {
+      filter: brightness(0.88);
+    }
+    .selected-node ellipse,
+    .selected-node polygon,
+    .selected-node path {
+      stroke: #1a6fc4 !important;
+      stroke-width: 3px !important;
+    }
+    .graph-footer {
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    /* ── Right: metadata panel ── */
+    .panel-col {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      overflow: hidden;
+      transition: flex-basis .2s;
+    }
+    .panel-col.hidden { flex: 0 0 0; overflow: hidden; }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f8f8f8;
+    }
+    .panel-header h2 { margin: 0; font-size: 16px; }
+    .close-btn {
+      border: none; background: transparent;
+      font-size: 22px; cursor: pointer; line-height: 1; padding: 0 4px;
+      color: #555;
+    }
+    .close-btn:hover { color: #000; }
+    .panel-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 14px;
+    }
+    .panel-placeholder {
+      color: #888; font-style: italic; margin-top: 20px; text-align: center;
+    }
+    .node-label-heading {
+      font-size: 17px; font-weight: 700;
+      margin: 0 0 4px;
+      word-break: break-word;
+    }
+    .node-type-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* Metadata table */
+    .meta-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 8px; font-size: 14px;
+    }
+    .meta-table th {
+      text-align: left; padding: 6px 8px;
+      background: #f3f3f3; border-bottom: 1px solid #e0e0e0;
+      font-weight: 600; width: 36%; vertical-align: top;
+      word-break: break-word;
+    }
+    .meta-table td {
+      padding: 6px 8px; border-bottom: 1px solid #eee;
+      vertical-align: top; word-break: break-word;
+    }
+    .meta-empty { color: #888; font-style: italic; }
+
+    /* Badge colours by node type */
+    .badge-root    { background: #FFD700; color: #5a4200; }
+    .badge-tactic  { background: #98FB98; color: #1a5c1a; }
+    .badge-cwe     { background: #ADD8E6; color: #1a3a5c; }
+    .badge-tech    { background: #90EE90; color: #1a5c1a; }
+    .badge-subtech { background: #FFFACD; color: #5c5000; }
+    .badge-capec   { background: #FFB6C1; color: #6b0a1e; }
+    .badge-gate    { background: #FFCCCB; color: #7a1a00; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Left column: SVG graph ── -->
+  <div class="graph-col">
+    <div class="graph-header">
+      <h1>Attack Tree — nan</h1>
+      <div class="legend">
+        <span class="legend-item" style="background:#FFD700">Compromise Device (root)</span>
+        <span class="legend-item" style="background:#98FB98">Tactic</span>
+        <span class="legend-item" style="background:#ADD8E6">CWE</span>
+        <span class="legend-item" style="background:#90EE90">Technique</span>
+        <span class="legend-item" style="background:#FFFACD">Subtechnique</span>
+        <span class="legend-item" style="background:#FFB6C1">CAPEC</span>
+        <span class="legend-item" style="background:#FFCCCB">OR / AND gates</span>
+      </div>
+    </div>
+
+    <div class="svg-scroll" id="svg-scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1190pt" height="514pt" viewBox="0.00 0.00 1190.00 514.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 510)" data-node-id="%3">
+<title>Compromise Device</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-510 1186,-510 1186,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="root">
+<title>Compromise Device</title>
+<polygon fill="#ffd700" stroke="black" points="573,-506 436,-506 436,-470 573,-470 573,-506" />
+<text text-anchor="middle" x="504.5" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">Compromise Device</text>
+</g>
+
+<g id="node2" class="node" data-node-id="t8_tactic">
+<title>nan</title>
+<polygon fill="#98fb98" stroke="black" points="531.5,-412 477.5,-412 477.5,-376 531.5,-376 531.5,-412" />
+<text text-anchor="middle" x="504.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">nan</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="root-&gt;t8_tactic">
+<title>root-&gt;t8_tactic</title>
+<path fill="none" stroke="black" d="M504.5,-469.88C504.5,-469.88 504.5,-422.07 504.5,-422.07" />
+<polygon fill="black" stroke="black" points="508,-422.07 504.5,-412.07 501,-422.07 508,-422.07" />
+</g>
+
+<g id="node9" class="node" data-node-id="t8_tac_or_0">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="504.5" cy="-300" rx="27" ry="18" />
+<text text-anchor="middle" x="504.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge12" class="edge" data-node-id="t8_tactic-&gt;t8_tac_or_0">
+<title>t8_tactic-&gt;t8_tac_or_0</title>
+<path fill="none" stroke="black" d="M504.5,-375.88C504.5,-375.88 504.5,-328.07 504.5,-328.07" />
+<polygon fill="black" stroke="black" points="508,-328.07 504.5,-318.07 501,-328.07 508,-328.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t8_cwe_0">
+<title>Incorrect Permission Assignment for Critical Resource</title>
+<polygon fill="#add8e6" stroke="black" points="329,-130 0,-130 0,-94 335,-94 335,-124 329,-130" />
+<polyline fill="none" stroke="black" points="329,-130 329,-124 " />
+<polyline fill="none" stroke="black" points="335,-124 329,-124 " />
+<text text-anchor="middle" x="167.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Incorrect Permission Assignment for Critical Resource</text>
+</g>
+
+<g id="node4" class="node" data-node-id="t8_cwe_1">
+<title>Use of Hard-coded Password</title>
+<polygon fill="#add8e6" stroke="black" points="228.5,-36 46.5,-36 46.5,0 234.5,0 234.5,-30 228.5,-36" />
+<polyline fill="none" stroke="black" points="228.5,-36 228.5,-30 " />
+<polyline fill="none" stroke="black" points="234.5,-30 228.5,-30 " />
+<text text-anchor="middle" x="140.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use of Hard-coded Password</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t8_cwe_2">
+<title>Operation on a Resource after Expiration or Release</title>
+<polygon fill="#add8e6" stroke="black" points="592.5,-36 270.5,-36 270.5,0 598.5,0 598.5,-30 592.5,-36" />
+<polyline fill="none" stroke="black" points="592.5,-36 592.5,-30 " />
+<polyline fill="none" stroke="black" points="598.5,-30 592.5,-30 " />
+<text text-anchor="middle" x="434.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Operation on a Resource after Expiration or Release</text>
+</g>
+
+<g id="node6" class="node" data-node-id="t8_cwe_3">
+<title>Cleartext Transmission of Sensitive Information</title>
+<polygon fill="#add8e6" stroke="black" points="753.5,-130 461.5,-130 461.5,-94 759.5,-94 759.5,-124 753.5,-130" />
+<polyline fill="none" stroke="black" points="753.5,-130 753.5,-124 " />
+<polyline fill="none" stroke="black" points="759.5,-124 753.5,-124 " />
+<text text-anchor="middle" x="610.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Cleartext Transmission of Sensitive Information</text>
+</g>
+
+<g id="node7" class="node" data-node-id="t8_cwe_4">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="863,-36 706,-36 706,0 869,0 869,-30 863,-36" />
+<polyline fill="none" stroke="black" points="863,-36 863,-30 " />
+<polyline fill="none" stroke="black" points="869,-30 863,-30 " />
+<text text-anchor="middle" x="787.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node8" class="node" data-node-id="t8_cwe_5">
+<title>DEPRECATED: Authentication Bypass Issues</title>
+<polygon fill="#add8e6" stroke="black" points="1176,-36 905,-36 905,0 1182,0 1182,-30 1176,-36" />
+<polyline fill="none" stroke="black" points="1176,-36 1176,-30 " />
+<polyline fill="none" stroke="black" points="1182,-30 1176,-30 " />
+<text text-anchor="middle" x="1043.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">DEPRECATED: Authentication Bypass Issues</text>
+</g>
+
+<g id="node10" class="node" data-node-id="t8_tac_or_1">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="398.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="398.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge10" class="edge" data-node-id="t8_tac_or_0-&gt;t8_tac_or_1">
+<title>t8_tac_or_0-&gt;t8_tac_or_1</title>
+<path fill="none" stroke="black" d="M504.5,-281.88C504.5,-254.56 504.5,-206 504.5,-206 504.5,-206 435.52,-206 435.52,-206" />
+<polygon fill="black" stroke="black" points="435.52,-202.5 425.52,-206 435.52,-209.5 435.52,-202.5" />
+</g>
+
+<g id="node12" class="node" data-node-id="t8_tac_or_3">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="610.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="610.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge11" class="edge" data-node-id="t8_tac_or_0-&gt;t8_tac_or_3">
+<title>t8_tac_or_0-&gt;t8_tac_or_3</title>
+<path fill="none" stroke="black" d="M531.52,-300C562.93,-300 610.5,-300 610.5,-300 610.5,-300 610.5,-234.12 610.5,-234.12" />
+<polygon fill="black" stroke="black" points="614,-234.12 610.5,-224.12 607,-234.12 614,-234.12" />
+</g>
+
+<g id="edge4" class="edge" data-node-id="t8_tac_or_1-&gt;t8_cwe_0">
+<title>t8_tac_or_1-&gt;t8_cwe_0</title>
+<path fill="none" stroke="black" d="M371.09,-206C309.9,-206 167.5,-206 167.5,-206 167.5,-206 167.5,-140.12 167.5,-140.12" />
+<polygon fill="black" stroke="black" points="171,-140.12 167.5,-130.12 164,-140.12 171,-140.12" />
+</g>
+
+<g id="node11" class="node" data-node-id="t8_tac_or_2">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="398.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="398.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge5" class="edge" data-node-id="t8_tac_or_1-&gt;t8_tac_or_2">
+<title>t8_tac_or_1-&gt;t8_tac_or_2</title>
+<path fill="none" stroke="black" d="M398.5,-187.88C398.5,-187.88 398.5,-140.07 398.5,-140.07" />
+<polygon fill="black" stroke="black" points="402,-140.07 398.5,-130.07 395,-140.07 402,-140.07" />
+</g>
+
+<g id="edge2" class="edge" data-node-id="t8_tac_or_2-&gt;t8_cwe_1">
+<title>t8_tac_or_2-&gt;t8_cwe_1</title>
+<path fill="none" stroke="black" d="M389.5,-94.77C389.5,-81.35 389.5,-65 389.5,-65 389.5,-65 140.5,-65 140.5,-65 140.5,-65 140.5,-46.04 140.5,-46.04" />
+<polygon fill="black" stroke="black" points="144,-46.04 140.5,-36.04 137,-46.04 144,-46.04" />
+</g>
+
+<g id="edge3" class="edge" data-node-id="t8_tac_or_2-&gt;t8_cwe_2">
+<title>t8_tac_or_2-&gt;t8_cwe_2</title>
+<path fill="none" stroke="black" d="M407.5,-94.76C407.5,-94.76 407.5,-46.09 407.5,-46.09" />
+<polygon fill="black" stroke="black" points="411,-46.09 407.5,-36.09 404,-46.09 411,-46.09" />
+</g>
+
+<g id="edge8" class="edge" data-node-id="t8_tac_or_3-&gt;t8_cwe_3">
+<title>t8_tac_or_3-&gt;t8_cwe_3</title>
+<path fill="none" stroke="black" d="M610.5,-187.88C610.5,-187.88 610.5,-140.07 610.5,-140.07" />
+<polygon fill="black" stroke="black" points="614,-140.07 610.5,-130.07 607,-140.07 614,-140.07" />
+</g>
+
+<g id="node13" class="node" data-node-id="t8_tac_or_4">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="822.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="822.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge9" class="edge" data-node-id="t8_tac_or_3-&gt;t8_tac_or_4">
+<title>t8_tac_or_3-&gt;t8_tac_or_4</title>
+<path fill="none" stroke="black" d="M637.78,-206C695.04,-206 822.5,-206 822.5,-206 822.5,-206 822.5,-140.12 822.5,-140.12" />
+<polygon fill="black" stroke="black" points="826,-140.12 822.5,-130.12 819,-140.12 826,-140.12" />
+</g>
+
+<g id="edge6" class="edge" data-node-id="t8_tac_or_4-&gt;t8_cwe_4">
+<title>t8_tac_or_4-&gt;t8_cwe_4</title>
+<path fill="none" stroke="black" d="M822.5,-93.88C822.5,-93.88 822.5,-46.07 822.5,-46.07" />
+<polygon fill="black" stroke="black" points="826,-46.07 822.5,-36.07 819,-46.07 826,-46.07" />
+</g>
+
+<g id="edge7" class="edge" data-node-id="t8_tac_or_4-&gt;t8_cwe_5">
+<title>t8_tac_or_4-&gt;t8_cwe_5</title>
+<path fill="none" stroke="black" d="M849.6,-112C908.61,-112 1043.5,-112 1043.5,-112 1043.5,-112 1043.5,-46.12 1043.5,-46.12" />
+<polygon fill="black" stroke="black" points="1047,-46.12 1043.5,-36.12 1040,-46.12 1047,-46.12" />
+</g>
+</g>
+</svg>
+    </div>
+
+    <div class="graph-footer">
+      Click any node to view its metadata in the right-hand panel. &nbsp;|&nbsp;
+      Scroll / drag to navigate. &nbsp;|&nbsp;
+      Press <kbd>Esc</kbd> to close the panel.
+    </div>
+  </div>
+
+  <!-- ── Right column: metadata panel ── -->
+  <div class="panel-col hidden" id="panel-col">
+    <div class="panel-header">
+      <h2 id="panel-title">Node metadata</h2>
+      <button class="close-btn" id="close-btn" title="Close panel">&times;</button>
+    </div>
+    <div class="panel-body" id="panel-body">
+      <div class="panel-placeholder">Click a node in the graph to see details here.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Data injected by Python ──────────────────────────────────────────────────
+var NODE_HTML  = {"root": "<table class='meta-table'><tr><th>label</th><td>Compromise Device</td></tr></table>", "t8_tactic": "<table class='meta-table'><tr><th>tactic</th><td>nan</td></tr></table>", "t8_cwe_0": "<table class='meta-table'><tr><th>cwe_Name</th><td>Incorrect Permission Assignment for Critical Resource</td></tr><tr><th>CVE ID</th><td>CVE-2020-12041</td></tr><tr><th>baseScore</th><td>9.4</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a &quot;jail&quot; or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t8_cwe_1": "<table class='meta-table'><tr><th>cwe_Name</th><td>Use of Hard-coded Password</td></tr><tr><th>CVE ID</th><td>CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039</td></tr><tr><th>baseScore</th><td>9.8 | 6.8 | 2.4</td></tr><tr><th>baseSeverity</th><td>CRITICAL | MEDIUM | LOW</td></tr><tr><th>attackVector</th><td>NETWORK | PHYSICAL</td></tr><tr><th>cwe_Abstraction</th><td>Variant</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic. | Architecture and Design: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: If hard-coded passwords are used, it is almost certain that malicious users will gain access through the account in question.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication: apply strong one-way hashes to your passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When receiving an incoming password during authentication, take the hash of the password and compare it to the hash that you have saved. Use randomly assigned salts for each separate hash that you generate. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH | LOW</td></tr><tr><th>availabilityImpact</th><td>HIGH | NONE</td></tr><tr><th>exploitabilityScore</th><td>3.9 | 0.9</td></tr></table>", "t8_cwe_2": "<table class='meta-table'><tr><th>cwe_Name</th><td>Operation on a Resource after Expiration or Release</td></tr><tr><th>CVE ID</th><td>CVE-2020-12043</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Implementation: N/A | Operation: N/A</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality | Impact: Modify Application Data, Read Application Data | Note: If a released resource is subsequently reused or reallocated, then an attempt to use the original resource might allow access to sensitive data that is associated with a different user or entity. || Scope: Other, Availability | Impact: Other, DoS: Crash, Exit, or Restart | Note: When a resource is released it might not be in an expected state, later attempts to access the resource may lead to resultant errors that may lead to a crash.</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t8_cwe_3": "<table class='meta-table'><tr><th>cwe_Name</th><td>Cleartext Transmission of Sensitive Information</td></tr><tr><th>CVE ID</th><td>CVE-2020-12040</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Base</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t8_cwe_4": "<table class='meta-table'><tr><th>cwe_Name</th><td>Improper Authentication</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>cwe_Modes_Of_Introduction</th><td>Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.</td></tr><tr><th>cwe_Likelihood_Of_Exploit</th><td>High</td></tr><tr><th>cwe_Common_Consequences</th><td>Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.</td></tr><tr><th>cwe_Potential_Mitigations</th><td>Phase: Architecture and Design | Description: N/A</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>", "t8_cwe_5": "<table class='meta-table'><tr><th>cwe_Name</th><td>DEPRECATED: Authentication Bypass Issues</td></tr><tr><th>CVE ID</th><td>CVE-2014-5432</td></tr><tr><th>baseScore</th><td>9.8</td></tr><tr><th>baseSeverity</th><td>CRITICAL</td></tr><tr><th>attackVector</th><td>NETWORK</td></tr><tr><th>cwe_Abstraction</th><td>Class</td></tr><tr><th>attackComplexity</th><td>LOW</td></tr><tr><th>privilegesRequired</th><td>NONE</td></tr><tr><th>userInteraction</th><td>NONE</td></tr><tr><th>confidentialityImpact</th><td>HIGH</td></tr><tr><th>availabilityImpact</th><td>HIGH</td></tr><tr><th>exploitabilityScore</th><td>3.9</td></tr></table>"};
+var NODES_DATA = [{"id": "root", "label": "Compromise Device", "type": "root"}, {"id": "t8_tactic", "label": "nan", "type": "tactic", "metadata": {"tactic": "nan"}}, {"id": "t8_cwe_0", "label": "Incorrect Permission Assignment for Critical Resource", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12041", "cwe_Name": "Incorrect Permission Assignment for Critical Resource", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.", "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.4", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t8_cwe_1", "label": "Use of Hard-coded Password", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039", "cwe_Name": "Use of Hard-coded Password", "cwe_Abstraction": "Variant", "cwe_Modes_Of_Introduction": "Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic. | Architecture and Design: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: If hard-coded passwords are used, it is almost certain that malicious users will gain access through the account in question.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication: apply strong one-way hashes to your passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When receiving an incoming password during authentication, take the hash of the password and compare it to the hash that you have saved. Use randomly assigned salts for each separate hash that you generate. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.", "attackVector": "NETWORK | PHYSICAL", "baseScore": "9.8 | 6.8 | 2.4", "baseSeverity": "CRITICAL | MEDIUM | LOW", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH | LOW", "availabilityImpact": "HIGH | NONE", "exploitabilityScore": "3.9 | 0.9"}}, {"id": "t8_cwe_2", "label": "Operation on a Resource after Expiration or Release", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12043", "cwe_Name": "Operation on a Resource after Expiration or Release", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Implementation: N/A | Operation: N/A", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality | Impact: Modify Application Data, Read Application Data | Note: If a released resource is subsequently reused or reallocated, then an attempt to use the original resource might allow access to sensitive data that is associated with a different user or entity. || Scope: Other, Availability | Impact: Other, DoS: Crash, Exit, or Restart | Note: When a resource is released it might not be in an expected state, later attempts to access the resource may lead to resultant errors that may lead to a crash.", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t8_cwe_3", "label": "Cleartext Transmission of Sensitive Information", "type": "cwe", "metadata": {"CVE ID": "CVE-2020-12040", "cwe_Name": "Cleartext Transmission of Sensitive Information", "cwe_Abstraction": "Base", "cwe_Modes_Of_Introduction": "Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t8_cwe_4", "label": "Improper Authentication", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5432", "cwe_Name": "Improper Authentication", "cwe_Abstraction": "Class", "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.", "cwe_Likelihood_Of_Exploit": "High", "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.", "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t8_cwe_5", "label": "DEPRECATED: Authentication Bypass Issues", "type": "cwe", "metadata": {"CVE ID": "CVE-2014-5432", "cwe_Name": "DEPRECATED: Authentication Bypass Issues", "cwe_Abstraction": "Class", "attackVector": "NETWORK", "baseScore": "9.8", "baseSeverity": "CRITICAL", "attackComplexity": "LOW", "privilegesRequired": "NONE", "userInteraction": "NONE", "confidentialityImpact": "HIGH", "availabilityImpact": "HIGH", "exploitabilityScore": "3.9"}}, {"id": "t8_tac_or_0", "label": "OR", "type": "gate"}, {"id": "t8_tac_or_1", "label": "OR", "type": "gate"}, {"id": "t8_tac_or_2", "label": "OR", "type": "gate"}, {"id": "t8_tac_or_3", "label": "OR", "type": "gate"}, {"id": "t8_tac_or_4", "label": "OR", "type": "gate"}];
+
+// Build lookup: node_id -> {label, type}
+var nodeInfo = {};
+NODES_DATA.forEach(function(n) { nodeInfo[n.id] = n; });
+
+// ── DOM refs ─────────────────────────────────────────────────────────────────
+var panelCol  = document.getElementById('panel-col');
+var panelBody = document.getElementById('panel-body');
+var panelTitle= document.getElementById('panel-title');
+var closeBtn  = document.getElementById('close-btn');
+var svgScroll = document.getElementById('svg-scroll');
+
+var selectedGroup = null;
+
+// ── Open panel with node data ─────────────────────────────────────────────────
+function showPanel(nodeId) {
+  var info    = nodeInfo[nodeId] || {};
+  var label   = info.label  || nodeId;
+  var ntype   = info.type   || 'unknown';
+  var htmlTbl = NODE_HTML[nodeId] || '<div class="meta-empty">No metadata recorded for this node.</div>';
+
+  panelTitle.textContent = 'Node metadata';
+
+  var badgeClass = 'badge-' + ntype;
+  panelBody.innerHTML =
+    '<p class="node-label-heading">' + escHtml(label) + '</p>' +
+    '<span class="node-type-badge ' + badgeClass + '">' + escHtml(ntype) + '</span>' +
+    htmlTbl;
+
+  panelCol.classList.remove('hidden');
+}
+
+function closePanel() {
+  panelCol.classList.add('hidden');
+  if (selectedGroup) {
+    selectedGroup.classList.remove('selected-node');
+    selectedGroup = null;
+  }
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Wire up node clicks ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var groups = svgScroll.querySelectorAll('[data-node-id]');
+  groups.forEach(function(g) {
+    g.addEventListener('click', function(ev) {
+      ev.stopPropagation();
+      var nodeId = g.getAttribute('data-node-id');
+
+      // Deselect previous
+      if (selectedGroup && selectedGroup !== g) {
+        selectedGroup.classList.remove('selected-node');
+      }
+      // Toggle if same node clicked twice
+      if (selectedGroup === g) {
+        closePanel();
+        return;
+      }
+      selectedGroup = g;
+      g.classList.add('selected-node');
+      showPanel(nodeId);
+    });
+  });
+
+  // Click empty canvas area → close panel
+  svgScroll.addEventListener('click', function() { closePanel(); });
+
+  closeBtn.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePanel();
+  });
+});
+</script>
+</body>
+</html>

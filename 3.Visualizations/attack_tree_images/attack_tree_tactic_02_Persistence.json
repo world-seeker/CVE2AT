@@ -1,0 +1,413 @@
+{
+    "tactic": "Persistence",
+    "nodes": [
+        {
+            "id": "root",
+            "label": "Compromise Device",
+            "type": "root"
+        },
+        {
+            "id": "t1_tactic",
+            "label": "Persistence",
+            "type": "tactic",
+            "metadata": {
+                "tactic": "Persistence"
+            }
+        },
+        {
+            "id": "t1_cwe_0",
+            "label": "Incorrect Permission Assignment for Critical Resource",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "cwe_Name": "Incorrect Permission Assignment for Critical Resource",
+                "cwe_Abstraction": "Class",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.",
+                "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A",
+                "attackVector": "NETWORK",
+                "baseScore": "9.4",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t1_sub_0",
+            "label": "Hijack Execution Flow: Services File Permissions Weakness",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Hijack Execution Flow: Services File Permissions Weakness",
+                "technique_name": "Hijack Execution Flow",
+                "tactics": "Persistence",
+                "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.",
+                "platforms": "Windows",
+                "data sources": "File: File Creation, File: File Modification, Process: Process Creation, Service: Service Metadata"
+            }
+        },
+        {
+            "id": "t1_cap_0",
+            "label": "Accessing Functionality Not Properly Constrained by ACLs",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "capec_Name": "Accessing Functionality Not Properly Constrained by ACLs",
+                "capec_Likelihood_Of_Attack": "High",
+                "capec_Typical_Severity": "High",
+                "capec_Skills_Required": "Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.",
+                "capec_Prerequisites": "The application must be navigable in a manner that associates elements (subsections) of the application with ACLs. || The various resources, or individual URLs, must be somehow discoverable by the attacker || The administrator must have forgotten to associate an ACL or has associated an inappropriately permissive ACL with a particular navigable resource.",
+                "capec_Mitigations": "In a J2EE setting, administrators can associate a role that is impossible for the authenticator to grant users, such as \"NoAccess\", with all Servlets to which access is guarded by a limited number of servlets visible to, and accessible by, the user. Having done so, any direct access to those protected Servlets will be prohibited by the web container. In a more general setting, the administrator must mark every resource besides the ones supposed to be exposed to the user as accessible by a role impossible for the user to assume. The default security setting must be to deny access and then grant access only to those resources intended by business logic.",
+                "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"
+            }
+        },
+        {
+            "id": "t1_and_0",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t1_sub_1",
+            "label": "Hijack Execution Flow: Executable Installer File Permissions Weakness",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Hijack Execution Flow: Executable Installer File Permissions Weakness",
+                "technique_name": "Hijack Execution Flow",
+                "tactics": "Persistence",
+                "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.",
+                "platforms": "Windows",
+                "data sources": "File: File Creation, File: File Modification, Module: Module Load, Process: Process Creation, Service: Service Metadata"
+            }
+        },
+        {
+            "id": "t1_cap_1",
+            "label": "Accessing Functionality Not Properly Constrained by ACLs",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "capec_Name": "Accessing Functionality Not Properly Constrained by ACLs",
+                "capec_Likelihood_Of_Attack": "High",
+                "capec_Typical_Severity": "High",
+                "capec_Skills_Required": "Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.",
+                "capec_Prerequisites": "The application must be navigable in a manner that associates elements (subsections) of the application with ACLs. || The various resources, or individual URLs, must be somehow discoverable by the attacker || The administrator must have forgotten to associate an ACL or has associated an inappropriately permissive ACL with a particular navigable resource.",
+                "capec_Mitigations": "In a J2EE setting, administrators can associate a role that is impossible for the authenticator to grant users, such as \"NoAccess\", with all Servlets to which access is guarded by a limited number of servlets visible to, and accessible by, the user. Having done so, any direct access to those protected Servlets will be prohibited by the web container. In a more general setting, the administrator must mark every resource besides the ones supposed to be exposed to the user as accessible by a role impossible for the user to assume. The default security setting must be to deny access and then grant access only to those resources intended by business logic.",
+                "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"
+            }
+        },
+        {
+            "id": "t1_and_1",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t1_sub_2",
+            "label": "Server Software Component: Terminal Services DLL",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Server Software Component: Terminal Services DLL",
+                "technique_name": "Server Software Component",
+                "tactics": "Persistence",
+                "detection": "Monitor for changes to Registry keys associated with <code>ServiceDll</code> and other subkey values under <code>HKLM\\System\\CurrentControlSet\\services\\TermService\\Parameters\\</code>.\n\nMonitor unexpected changes and/or interactions with <code>termsrv.dll</code>, which is typically stored in <code>%SystemRoot%\\System32\\</code>.\n\nMonitor commands as well as  processes and arguments for potential adversary actions to modify Registry values (ex: <code>reg.exe</code>) or modify/replace the legitimate <code>termsrv.dll</code>.\n\nMonitor module loads by the Terminal Services process (ex: <code>svchost.exe -k termsvcs</code>) for unexpected DLLs (the default is <code>%SystemRoot%\\System32\\termsrv.dll</code>, though an adversary could also use [Match Legitimate Name or Location](https://attack.mitre.org/techniques/T1036/005) on a malicious payload).",
+                "platforms": "Windows",
+                "data sources": "Command: Command Execution, File: File Modification, Module: Module Load, Process: Process Creation, Windows Registry: Windows Registry Key Modification"
+            }
+        },
+        {
+            "id": "t1_cap_2",
+            "label": "Replace Binaries",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "capec_Name": "Replace Binaries",
+                "capec_Typical_Severity": "High",
+                "capec_Prerequisites": "The attacker must be able to place the malicious binary on the target machine.",
+                "capec_Mitigations": "Insure that binaries commonly used by the system have the correct file permissions. Set operating system policies that restrict privilege elevation of non-Administrators. Use auditing tools to observe changes to system services."
+            }
+        },
+        {
+            "id": "t1_and_2",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t1_tech_3",
+            "label": "Compromise Host Software Binary",
+            "type": "tech",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "technique_name": "Compromise Host Software Binary",
+                "tactics": "Persistence",
+                "tech_description": "Adversaries may modify host software binaries to establish persistent access to systems. Software binaries/executables provide a wide range of system commands or services, programs, and libraries. Common software binaries are SSH clients, FTP clients, email clients, web browsers, and many other user or server applications.\n\nAdversaries may establish persistence though modifications to host software binaries. For example, an adversary may replace or otherwise infect a legitimate application binary (or support files) with a backdoor. Since these binaries may be routinely executed by applications or the user, the adversary can leverage this for persistent access to the host. An adversary may also modify a software binary such as an SSH client in order to persistently collect credentials during logins (i.e., [Modify Authentication Process](https://attack.mitre.org/techniques/T1556)).(Citation: Google Cloud Mandiant UNC3886 2024)\n\nAn adversary may also modify an existing binary by patching in malicious functionality (e.g., IAT Hooking/Entry point patching)(Citation: Unit42 Banking Trojans Hooking 2022) prior to the binary\u2019s legitimate execution. For example, an adversary may modify the entry point of a binary to point to malicious code patched in by the adversary before resuming normal execution flow.(Citation: ESET FontOnLake Analysis 2021)\n\nAfter modifying a binary, an adversary may attempt to [Impair Defenses](https://attack.mitre.org/techniques/T1562) by preventing it from updating (e.g., via the `yum-versionlock` command or `versionlock.list` file in Linux systems that use the yum package manager).(Citation: Google Cloud Mandiant UNC3886 2024)",
+                "detection": "Collect and analyze signing certificate metadata and check signature validity on software that executes within the environment. Look for changes to client software that do not correlate with known software or patch cycles. \n\nConsider monitoring for anomalous behavior from client applications, such as atypical module loads, file reads/writes, or network connections.",
+                "platforms": "Linux, Windows, macOS",
+                "data sources": "File: File Creation, File: File Deletion, File: File Metadata, File: File Modification"
+            }
+        },
+        {
+            "id": "t1_cap_3",
+            "label": "Replace Binaries",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2020-12041",
+                "capec_Name": "Replace Binaries",
+                "capec_Typical_Severity": "High",
+                "capec_Prerequisites": "The attacker must be able to place the malicious binary on the target machine.",
+                "capec_Mitigations": "Insure that binaries commonly used by the system have the correct file permissions. Set operating system policies that restrict privilege elevation of non-Administrators. Use auditing tools to observe changes to system services."
+            }
+        },
+        {
+            "id": "t1_and_3",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t1_cwe0_or_4",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t1_cwe0_or_5",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t1_cwe0_or_6",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t1_cwe_1",
+            "label": "Use of Hard-coded Credentials",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039",
+                "cwe_Name": "Use of Hard-coded Credentials",
+                "cwe_Abstraction": "Base",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A",
+                "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.",
+                "attackVector": "NETWORK | PHYSICAL",
+                "baseScore": "9.8 | 6.8 | 2.4",
+                "baseSeverity": "CRITICAL | MEDIUM | LOW",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH | LOW",
+                "availabilityImpact": "HIGH | NONE",
+                "exploitabilityScore": "3.9 | 0.9"
+            }
+        },
+        {
+            "id": "t1_sub_7",
+            "label": "Valid Accounts: Default Accounts",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Valid Accounts: Default Accounts",
+                "technique_name": "Valid Accounts",
+                "tactics": "Persistence",
+                "detection": "Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.",
+                "platforms": "Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS",
+                "data sources": "Logon Session: Logon Session Creation, User Account: User Account Authentication"
+            }
+        },
+        {
+            "id": "t1_cap_7",
+            "label": "Try Common or Default Usernames and Passwords",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2014-5434 | CVE-2020-12047 | CVE-2014-5431 | CVE-2020-12045 | CVE-2020-12039",
+                "capec_Name": "Try Common or Default Usernames and Passwords",
+                "capec_Likelihood_Of_Attack": "Medium",
+                "capec_Typical_Severity": "High",
+                "capec_Skills_Required": "Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.",
+                "capec_Prerequisites": "The system uses one factor password based authentication.The adversary has the means to interact with the system.",
+                "capec_Mitigations": "Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.",
+                "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges"
+            }
+        },
+        {
+            "id": "t1_and_7",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t1_cwe_2",
+            "label": "Improper Authentication",
+            "type": "cwe",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "cwe_Name": "Improper Authentication",
+                "cwe_Abstraction": "Class",
+                "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+                "cwe_Likelihood_Of_Exploit": "High",
+                "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.",
+                "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A",
+                "attackVector": "NETWORK",
+                "baseScore": "9.8",
+                "baseSeverity": "CRITICAL",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "confidentialityImpact": "HIGH",
+                "availabilityImpact": "HIGH",
+                "exploitabilityScore": "3.9"
+            }
+        },
+        {
+            "id": "t1_sub_8",
+            "label": "Server Software Component: Web Shell",
+            "type": "subtech",
+            "metadata": {
+                "subtechnique_name": "Server Software Component: Web Shell",
+                "technique_name": "Server Software Component",
+                "tactics": "Persistence",
+                "detection": "Web shells can be difficult to detect. Unlike other forms of persistent remote access, they do not initiate connections. The portion of the Web shell that is on the server may be small and innocuous looking. The PHP version of the China Chopper Web shell, for example, is the following short payload: (Citation: Lee 2013) \n\n<code>&lt;?php @eval($_POST['password']);&gt;</code>\n\nNevertheless, detection mechanisms exist. Process monitoring may be used to detect Web servers that perform suspicious actions such as spawning cmd.exe or accessing files that are not in the Web directory.(Citation: NSA Cyber Mitigating Web Shells)\n\nFile monitoring may be used to detect changes to files in the Web directory of a Web server that do not match with updates to the Web server's content and may indicate implantation of a Web shell script.(Citation: NSA Cyber Mitigating Web Shells)\n\nLog authentication attempts to the server and any unusual traffic patterns to or from the server and internal network. (Citation: US-CERT Alert TA15-314A Web Shells)",
+                "platforms": "Linux, Network, Windows, macOS",
+                "data sources": "Application Log: Application Log Content, File: File Creation, File: File Modification, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Process: Process Creation"
+            }
+        },
+        {
+            "id": "t1_cap_8",
+            "label": "Upload a Web Shell to a Web Server",
+            "type": "capec",
+            "metadata": {
+                "CVE ID": "CVE-2014-5432",
+                "capec_Name": "Upload a Web Shell to a Web Server",
+                "capec_Typical_Severity": "High",
+                "capec_Prerequisites": "The web server is susceptible to one of the various web application exploits that allows for uploading a shell file.",
+                "capec_Mitigations": "Make sure your web server is up-to-date with all patches to protect against known vulnerabilities. || Ensure that the file permissions in directories on the web server from which files can be execute is set to the \"least privilege\" settings, and that those directories contents is controlled by an allowlist.",
+                "capec_Consequences": "Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges || Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands"
+            }
+        },
+        {
+            "id": "t1_and_8",
+            "label": "AND",
+            "type": "gate"
+        },
+        {
+            "id": "t1_tac_or_9",
+            "label": "OR",
+            "type": "gate"
+        },
+        {
+            "id": "t1_tac_or_10",
+            "label": "OR",
+            "type": "gate"
+        }
+    ],
+    "edges": [
+        {
+            "from": "root",
+            "to": "t1_tactic"
+        },
+        {
+            "from": "t1_and_0",
+            "to": "t1_sub_0"
+        },
+        {
+            "from": "t1_and_0",
+            "to": "t1_cap_0"
+        },
+        {
+            "from": "t1_and_1",
+            "to": "t1_sub_1"
+        },
+        {
+            "from": "t1_and_1",
+            "to": "t1_cap_1"
+        },
+        {
+            "from": "t1_and_2",
+            "to": "t1_sub_2"
+        },
+        {
+            "from": "t1_and_2",
+            "to": "t1_cap_2"
+        },
+        {
+            "from": "t1_and_3",
+            "to": "t1_tech_3"
+        },
+        {
+            "from": "t1_and_3",
+            "to": "t1_cap_3"
+        },
+        {
+            "from": "t1_cwe0_or_5",
+            "to": "t1_and_0"
+        },
+        {
+            "from": "t1_cwe0_or_5",
+            "to": "t1_and_1"
+        },
+        {
+            "from": "t1_cwe0_or_6",
+            "to": "t1_and_2"
+        },
+        {
+            "from": "t1_cwe0_or_6",
+            "to": "t1_and_3"
+        },
+        {
+            "from": "t1_cwe0_or_4",
+            "to": "t1_cwe0_or_5"
+        },
+        {
+            "from": "t1_cwe0_or_4",
+            "to": "t1_cwe0_or_6"
+        },
+        {
+            "from": "t1_cwe_0",
+            "to": "t1_cwe0_or_4"
+        },
+        {
+            "from": "t1_and_7",
+            "to": "t1_sub_7"
+        },
+        {
+            "from": "t1_and_7",
+            "to": "t1_cap_7"
+        },
+        {
+            "from": "t1_cwe_1",
+            "to": "t1_and_7"
+        },
+        {
+            "from": "t1_and_8",
+            "to": "t1_sub_8"
+        },
+        {
+            "from": "t1_and_8",
+            "to": "t1_cap_8"
+        },
+        {
+            "from": "t1_cwe_2",
+            "to": "t1_and_8"
+        },
+        {
+            "from": "t1_tac_or_10",
+            "to": "t1_cwe_1"
+        },
+        {
+            "from": "t1_tac_or_10",
+            "to": "t1_cwe_2"
+        },
+        {
+            "from": "t1_tac_or_9",
+            "to": "t1_cwe_0"
+        },
+        {
+            "from": "t1_tac_or_9",
+            "to": "t1_tac_or_10"
+        },
+        {
+            "from": "t1_tactic",
+            "to": "t1_tac_or_9"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	root [label="Compromise Device" fillcolor="#FFD700" fontname=Helvetica shape=box style=filled]
+	t6_tactic [label="Lateral Movement" fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	root -> t6_tactic
+	t6_cwe_0 [label="Incorrect Permission Assignment for Critical Resource" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t6_sub_0 [label="Use Alternate Authentication Material: Web Session Cookie" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t6_cap_0 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t6_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t6_and_0 -> t6_sub_0
+	t6_and_0 -> t6_cap_0
+	t6_cwe_0 -> t6_and_0
+	t6_cwe_1 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t6_sub_1 [label="Use Alternate Authentication Material: Application Access Token" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t6_cap_1 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t6_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t6_and_1 -> t6_sub_1
+	t6_and_1 -> t6_cap_1
+	t6_tech_2 [label="Remote Service Session Hijacking" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t6_cap_2 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t6_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t6_and_2 -> t6_tech_2
+	t6_and_2 -> t6_cap_2
+	t6_cwe1_or_3 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t6_cwe1_or_3 -> t6_and_1
+	t6_cwe1_or_3 -> t6_and_2
+	t6_cwe_1 -> t6_cwe1_or_3
+	t6_tac_or_4 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t6_tac_or_4 -> t6_cwe_0
+	t6_tac_or_4 -> t6_cwe_1
+	t6_tactic -> t6_tac_or_4
+}

@@ -1,0 +1,59 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	root [label="Compromise Device" fillcolor="#FFD700" fontname=Helvetica shape=box style=filled]
+	t1_tactic [label=Persistence fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	root -> t1_tactic
+	t1_cwe_0 [label="Incorrect Permission Assignment for Critical Resource" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t1_sub_0 [label="Hijack Execution Flow: Services File Permissions Weakness" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_cap_0 [label="Accessing Functionality Not Properly Constrained by ACLs" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_and_0 -> t1_sub_0
+	t1_and_0 -> t1_cap_0
+	t1_sub_1 [label="Hijack Execution Flow: Executable Installer File Permissions Weakness" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_cap_1 [label="Accessing Functionality Not Properly Constrained by ACLs" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_and_1 -> t1_sub_1
+	t1_and_1 -> t1_cap_1
+	t1_sub_2 [label="Server Software Component: Terminal Services DLL" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_cap_2 [label="Replace Binaries" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_and_2 -> t1_sub_2
+	t1_and_2 -> t1_cap_2
+	t1_tech_3 [label="Compromise Host Software Binary" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t1_cap_3 [label="Replace Binaries" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_and_3 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_and_3 -> t1_tech_3
+	t1_and_3 -> t1_cap_3
+	t1_cwe0_or_4 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_cwe0_or_5 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_cwe0_or_5 -> t1_and_0
+	t1_cwe0_or_5 -> t1_and_1
+	t1_cwe0_or_6 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_cwe0_or_6 -> t1_and_2
+	t1_cwe0_or_6 -> t1_and_3
+	t1_cwe0_or_4 -> t1_cwe0_or_5
+	t1_cwe0_or_4 -> t1_cwe0_or_6
+	t1_cwe_0 -> t1_cwe0_or_4
+	t1_cwe_1 [label="Use of Hard-coded Credentials" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t1_sub_7 [label="Valid Accounts: Default Accounts" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_cap_7 [label="Try Common or Default Usernames and Passwords" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_and_7 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_and_7 -> t1_sub_7
+	t1_and_7 -> t1_cap_7
+	t1_cwe_1 -> t1_and_7
+	t1_cwe_2 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t1_sub_8 [label="Server Software Component: Web Shell" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_cap_8 [label="Upload a Web Shell to a Web Server" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_and_8 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_and_8 -> t1_sub_8
+	t1_and_8 -> t1_cap_8
+	t1_cwe_2 -> t1_and_8
+	t1_tac_or_9 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_tac_or_10 [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_tac_or_10 -> t1_cwe_1
+	t1_tac_or_10 -> t1_cwe_2
+	t1_tac_or_9 -> t1_cwe_0
+	t1_tac_or_9 -> t1_tac_or_10
+	t1_tactic -> t1_tac_or_9
+}
