@@ -1,0 +1,594 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="7668pt" height="514pt" viewBox="0.00 0.00 7667.50 514.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 510)" data-node-id="%3">
+<title>Defense Evasion</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-510 7663.5,-510 7663.5,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="t3_tactic">
+<title>Defense Evasion</title>
+<polygon fill="#98fb98" stroke="black" points="1113.5,-506 997.5,-506 997.5,-470 1113.5,-470 1113.5,-506" />
+<text text-anchor="middle" x="1055.5" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">Defense Evasion</text>
+</g>
+
+<g id="node49" class="node" data-node-id="t3_tac_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1055.5" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="1055.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge45" class="edge" data-node-id="t3_tactic-&gt;t3_tac_or">
+<title>t3_tactic-&gt;t3_tac_or</title>
+<path fill="none" stroke="black" d="M1055.5,-469.88C1055.5,-469.88 1055.5,-422.07 1055.5,-422.07" />
+<polygon fill="black" stroke="black" points="1059,-422.07 1055.5,-412.07 1052,-422.07 1059,-422.07" />
+</g>
+
+<g id="node2" class="node" data-node-id="t3_cwe_0">
+<title>Use of Hard-coded Credentials</title>
+<polygon fill="#add8e6" stroke="black" points="884,-318 691,-318 691,-282 890,-282 890,-312 884,-318" />
+<polyline fill="none" stroke="black" points="884,-318 884,-312 " />
+<polyline fill="none" stroke="black" points="890,-312 884,-312 " />
+<text text-anchor="middle" x="790.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use of Hard-coded Credentials</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t3_0_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="408.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="408.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge3" class="edge" data-node-id="t3_cwe_0-&gt;t3_0_and_0">
+<title>t3_cwe_0-&gt;t3_0_and_0</title>
+<path fill="none" stroke="black" d="M690.63,-300C577.45,-300 408.5,-300 408.5,-300 408.5,-300 408.5,-234.12 408.5,-234.12" />
+<polygon fill="black" stroke="black" points="412,-234.12 408.5,-224.12 405,-234.12 412,-234.12" />
+</g>
+
+<g id="node3" class="node" data-node-id="t3_0_sub_0">
+<title>Valid Accounts: Default Accounts</title>
+<polygon fill="#fffacd" stroke="black" points="213,-130 0,-130 0,-94 213,-94 213,-130" />
+<text text-anchor="middle" x="106.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Valid Accounts: Default Accounts</text>
+</g>
+
+<g id="node4" class="node" data-node-id="t3_0_cap_0">
+<title>Try Common or Default Usernames and Passwords</title>
+<polygon fill="#ffb6c1" stroke="black" points="568,-130 249,-130 249,-94 568,-94 568,-130" />
+<text text-anchor="middle" x="408.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Try Common or Default Usernames and Passwords</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="t3_0_and_0-&gt;t3_0_sub_0">
+<title>t3_0_and_0-&gt;t3_0_sub_0</title>
+<path fill="none" stroke="black" d="M381.43,-206C307.31,-206 106.5,-206 106.5,-206 106.5,-206 106.5,-140.12 106.5,-140.12" />
+<polygon fill="black" stroke="black" points="110,-140.12 106.5,-130.12 103,-140.12 110,-140.12" />
+</g>
+
+<g id="edge2" class="edge" data-node-id="t3_0_and_0-&gt;t3_0_cap_0">
+<title>t3_0_and_0-&gt;t3_0_cap_0</title>
+<path fill="none" stroke="black" d="M408.5,-187.88C408.5,-187.88 408.5,-140.07 408.5,-140.07" />
+<polygon fill="black" stroke="black" points="412,-140.07 408.5,-130.07 405,-140.07 412,-140.07" />
+</g>
+
+<g id="node6" class="node" data-node-id="t3_cwe_1">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="1131,-318 974,-318 974,-282 1137,-282 1137,-312 1131,-318" />
+<polyline fill="none" stroke="black" points="1131,-318 1131,-312 " />
+<polyline fill="none" stroke="black" points="1137,-312 1131,-312 " />
+<text text-anchor="middle" x="1055.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node19" class="node" data-node-id="t3_cwe1_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1055.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="1055.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge12" class="edge" data-node-id="t3_cwe_1-&gt;t3_cwe1_or">
+<title>t3_cwe_1-&gt;t3_cwe1_or</title>
+<path fill="none" stroke="black" d="M1055.5,-281.88C1055.5,-281.88 1055.5,-234.07 1055.5,-234.07" />
+<polygon fill="black" stroke="black" points="1059,-234.07 1055.5,-224.07 1052,-234.07 1059,-234.07" />
+</g>
+
+<g id="node7" class="node" data-node-id="t3_1_tech_1">
+<title>Abuse Elevation Control Mechanism</title>
+<polygon fill="#90ee90" stroke="black" points="343.5,-36 113.5,-36 113.5,0 343.5,0 343.5,-36" />
+<text text-anchor="middle" x="228.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Abuse Elevation Control Mechanism</text>
+</g>
+
+<g id="node8" class="node" data-node-id="t3_1_cap_1">
+<title>Authentication Abuse</title>
+<polygon fill="#ffb6c1" stroke="black" points="523.5,-36 379.5,-36 379.5,0 523.5,0 523.5,-36" />
+<text text-anchor="middle" x="451.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Authentication Abuse</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t3_1_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="631.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="631.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t3_1_and_1-&gt;t3_1_tech_1">
+<title>t3_1_and_1-&gt;t3_1_tech_1</title>
+<path fill="none" stroke="black" d="M622.5,-94.78C622.5,-84.72 622.5,-74 622.5,-74 622.5,-74 296.25,-74 296.25,-74 296.25,-74 296.25,-46.03 296.25,-46.03" />
+<polygon fill="black" stroke="black" points="299.75,-46.03 296.25,-36.03 292.75,-46.03 299.75,-46.03" />
+</g>
+
+<g id="edge5" class="edge" data-node-id="t3_1_and_1-&gt;t3_1_cap_1">
+<title>t3_1_and_1-&gt;t3_1_cap_1</title>
+<path fill="none" stroke="black" d="M640.5,-94.9C640.5,-78.11 640.5,-55 640.5,-55 640.5,-55 451.5,-55 451.5,-55 451.5,-55 451.5,-46.07 451.5,-46.07" />
+<polygon fill="black" stroke="black" points="455,-46.07 451.5,-36.07 448,-46.07 455,-46.07" />
+</g>
+
+<g id="node10" class="node" data-node-id="t3_1_tech_2">
+<title>Abuse Elevation Control Mechanism</title>
+<polygon fill="#90ee90" stroke="black" points="789.5,-36 559.5,-36 559.5,0 789.5,0 789.5,-36" />
+<text text-anchor="middle" x="674.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Abuse Elevation Control Mechanism</text>
+</g>
+
+<g id="node11" class="node" data-node-id="t3_1_cap_2">
+<title>Authentication Bypass</title>
+<polygon fill="#ffb6c1" stroke="black" points="975,-36 826,-36 826,0 975,0 975,-36" />
+<text text-anchor="middle" x="900.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Authentication Bypass</text>
+</g>
+
+<g id="node12" class="node" data-node-id="t3_1_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="900.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="900.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge6" class="edge" data-node-id="t3_1_and_2-&gt;t3_1_tech_2">
+<title>t3_1_and_2-&gt;t3_1_tech_2</title>
+<path fill="none" stroke="black" d="M873.32,-112C827.6,-112 740.25,-112 740.25,-112 740.25,-112 740.25,-46.12 740.25,-46.12" />
+<polygon fill="black" stroke="black" points="743.75,-46.12 740.25,-36.12 736.75,-46.12 743.75,-46.12" />
+</g>
+
+<g id="edge7" class="edge" data-node-id="t3_1_and_2-&gt;t3_1_cap_2">
+<title>t3_1_and_2-&gt;t3_1_cap_2</title>
+<path fill="none" stroke="black" d="M900.5,-93.88C900.5,-93.88 900.5,-46.07 900.5,-46.07" />
+<polygon fill="black" stroke="black" points="904,-46.07 900.5,-36.07 897,-46.07 904,-46.07" />
+</g>
+
+<g id="node13" class="node" data-node-id="t3_1_sub_3">
+<title>Use Alternate Authentication Material: Application Access Token</title>
+<polygon fill="#fffacd" stroke="black" points="1409.5,-36 1011.5,-36 1011.5,0 1409.5,0 1409.5,-36" />
+<text text-anchor="middle" x="1210.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use Alternate Authentication Material: Application Access Token</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t3_1_cap_3">
+<title>Session Hijacking</title>
+<polygon fill="#ffb6c1" stroke="black" points="1565,-36 1446,-36 1446,0 1565,0 1565,-36" />
+<text text-anchor="middle" x="1505.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Session Hijacking</text>
+</g>
+
+<g id="node15" class="node" data-node-id="t3_1_and_3">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1210.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="1210.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge8" class="edge" data-node-id="t3_1_and_3-&gt;t3_1_sub_3">
+<title>t3_1_and_3-&gt;t3_1_sub_3</title>
+<path fill="none" stroke="black" d="M1210.5,-93.88C1210.5,-93.88 1210.5,-46.07 1210.5,-46.07" />
+<polygon fill="black" stroke="black" points="1214,-46.07 1210.5,-36.07 1207,-46.07 1214,-46.07" />
+</g>
+
+<g id="edge9" class="edge" data-node-id="t3_1_and_3-&gt;t3_1_cap_3">
+<title>t3_1_and_3-&gt;t3_1_cap_3</title>
+<path fill="none" stroke="black" d="M1237.72,-112C1310.75,-112 1505.5,-112 1505.5,-112 1505.5,-112 1505.5,-46.12 1505.5,-46.12" />
+<polygon fill="black" stroke="black" points="1509,-46.12 1505.5,-36.12 1502,-46.12 1509,-46.12" />
+</g>
+
+<g id="node16" class="node" data-node-id="t3_1_tech_4">
+<title>Access Token Manipulation</title>
+<polygon fill="#90ee90" stroke="black" points="1777.5,-36 1601.5,-36 1601.5,0 1777.5,0 1777.5,-36" />
+<text text-anchor="middle" x="1689.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Access Token Manipulation</text>
+</g>
+
+<g id="node17" class="node" data-node-id="t3_1_cap_4">
+<title>Token Impersonation</title>
+<polygon fill="#ffb6c1" stroke="black" points="1955.5,-36 1813.5,-36 1813.5,0 1955.5,0 1955.5,-36" />
+<text text-anchor="middle" x="1884.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Token Impersonation</text>
+</g>
+
+<g id="node18" class="node" data-node-id="t3_1_and_4">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1689.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="1689.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge10" class="edge" data-node-id="t3_1_and_4-&gt;t3_1_tech_4">
+<title>t3_1_and_4-&gt;t3_1_tech_4</title>
+<path fill="none" stroke="black" d="M1689.5,-93.88C1689.5,-93.88 1689.5,-46.07 1689.5,-46.07" />
+<polygon fill="black" stroke="black" points="1693,-46.07 1689.5,-36.07 1686,-46.07 1693,-46.07" />
+</g>
+
+<g id="edge11" class="edge" data-node-id="t3_1_and_4-&gt;t3_1_cap_4">
+<title>t3_1_and_4-&gt;t3_1_cap_4</title>
+<path fill="none" stroke="black" d="M1714.99,-106C1767.85,-106 1884.5,-106 1884.5,-106 1884.5,-106 1884.5,-46.23 1884.5,-46.23" />
+<polygon fill="black" stroke="black" points="1888,-46.23 1884.5,-36.23 1881,-46.23 1888,-46.23" />
+</g>
+
+<g id="edge13" class="edge" data-node-id="t3_cwe1_or-&gt;t3_1_and_1">
+<title>t3_cwe1_or-&gt;t3_1_and_1</title>
+<path fill="none" stroke="black" d="M1029.93,-212C938.26,-212 631.5,-212 631.5,-212 631.5,-212 631.5,-140.34 631.5,-140.34" />
+<polygon fill="black" stroke="black" points="635,-140.34 631.5,-130.34 628,-140.34 635,-140.34" />
+</g>
+
+<g id="edge14" class="edge" data-node-id="t3_cwe1_or-&gt;t3_1_and_2">
+<title>t3_cwe1_or-&gt;t3_1_and_2</title>
+<path fill="none" stroke="black" d="M1029.94,-200C987.89,-200 908.75,-200 908.75,-200 908.75,-200 908.75,-139.39 908.75,-139.39" />
+<polygon fill="black" stroke="black" points="912.25,-139.39 908.75,-129.39 905.25,-139.39 912.25,-139.39" />
+</g>
+
+<g id="edge15" class="edge" data-node-id="t3_cwe1_or-&gt;t3_1_and_3">
+<title>t3_cwe1_or-&gt;t3_1_and_3</title>
+<path fill="none" stroke="black" d="M1055.5,-187.88C1055.5,-160.56 1055.5,-112 1055.5,-112 1055.5,-112 1173.15,-112 1173.15,-112" />
+<polygon fill="black" stroke="black" points="1173.15,-115.5 1183.15,-112 1173.15,-108.5 1173.15,-115.5" />
+</g>
+
+<g id="edge16" class="edge" data-node-id="t3_cwe1_or-&gt;t3_1_and_4">
+<title>t3_cwe1_or-&gt;t3_1_and_4</title>
+<path fill="none" stroke="black" d="M1079.97,-198C1196.48,-198 1689.5,-198 1689.5,-198 1689.5,-198 1689.5,-140.24 1689.5,-140.24" />
+<polygon fill="black" stroke="black" points="1693,-140.24 1689.5,-130.24 1686,-140.24 1693,-140.24" />
+</g>
+
+<g id="node20" class="node" data-node-id="t3_cwe_2">
+<title>Incorrect Permission Assignment for Critical Resource</title>
+<polygon fill="#add8e6" stroke="black" points="3127,-318 2798,-318 2798,-282 3133,-282 3133,-312 3127,-318" />
+<polyline fill="none" stroke="black" points="3127,-318 3127,-312 " />
+<polyline fill="none" stroke="black" points="3133,-312 3127,-312 " />
+<text text-anchor="middle" x="2965.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Incorrect Permission Assignment for Critical Resource</text>
+</g>
+
+<g id="node48" class="node" data-node-id="t3_cwe2_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="4446.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="4446.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge35" class="edge" data-node-id="t3_cwe_2-&gt;t3_cwe2_or">
+<title>t3_cwe_2-&gt;t3_cwe2_or</title>
+<path fill="none" stroke="black" d="M3097.33,-281.8C3097.33,-257.64 3097.33,-218 3097.33,-218 3097.33,-218 4416.12,-218 4416.12,-218" />
+<polygon fill="black" stroke="black" points="4416.12,-221.5 4426.12,-218 4416.12,-214.5 4416.12,-221.5" />
+</g>
+
+<g id="node21" class="node" data-node-id="t3_2_sub_5">
+<title>Hijack Execution Flow: Services File Permissions Weakness</title>
+<polygon fill="#fffacd" stroke="black" points="2355,-36 1992,-36 1992,0 2355,0 2355,-36" />
+<text text-anchor="middle" x="2173.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Hijack Execution Flow: Services File Permissions Weakness</text>
+</g>
+
+<g id="node22" class="node" data-node-id="t3_2_cap_5">
+<title>Accessing Functionality Not Properly Constrained by ACLs</title>
+<polygon fill="#ffb6c1" stroke="black" points="2750,-36 2391,-36 2391,0 2750,0 2750,-36" />
+<text text-anchor="middle" x="2570.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Accessing Functionality Not Properly Constrained by ACLs</text>
+</g>
+
+<g id="node23" class="node" data-node-id="t3_2_and_5">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2570.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="2570.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge17" class="edge" data-node-id="t3_2_and_5-&gt;t3_2_sub_5">
+<title>t3_2_and_5-&gt;t3_2_sub_5</title>
+<path fill="none" stroke="black" d="M2544.76,-118C2456.78,-118 2173.5,-118 2173.5,-118 2173.5,-118 2173.5,-46.34 2173.5,-46.34" />
+<polygon fill="black" stroke="black" points="2177,-46.34 2173.5,-36.34 2170,-46.34 2177,-46.34" />
+</g>
+
+<g id="edge18" class="edge" data-node-id="t3_2_and_5-&gt;t3_2_cap_5">
+<title>t3_2_and_5-&gt;t3_2_cap_5</title>
+<path fill="none" stroke="black" d="M2570.5,-93.88C2570.5,-93.88 2570.5,-46.07 2570.5,-46.07" />
+<polygon fill="black" stroke="black" points="2574,-46.07 2570.5,-36.07 2567,-46.07 2574,-46.07" />
+</g>
+
+<g id="node24" class="node" data-node-id="t3_2_tech_6">
+<title>Abuse Elevation Control Mechanism</title>
+<polygon fill="#90ee90" stroke="black" points="3016.5,-36 2786.5,-36 2786.5,0 3016.5,0 3016.5,-36" />
+<text text-anchor="middle" x="2901.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Abuse Elevation Control Mechanism</text>
+</g>
+
+<g id="node25" class="node" data-node-id="t3_2_cap_6">
+<title>Privilege Abuse</title>
+<polygon fill="#ffb6c1" stroke="black" points="3160,-36 3053,-36 3053,0 3160,0 3160,-36" />
+<text text-anchor="middle" x="3106.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Privilege Abuse</text>
+</g>
+
+<g id="node26" class="node" data-node-id="t3_2_and_6">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3106.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="3106.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge19" class="edge" data-node-id="t3_2_and_6-&gt;t3_2_tech_6">
+<title>t3_2_and_6-&gt;t3_2_tech_6</title>
+<path fill="none" stroke="black" d="M3079.21,-112C3024.64,-112 2907.25,-112 2907.25,-112 2907.25,-112 2907.25,-46.12 2907.25,-46.12" />
+<polygon fill="black" stroke="black" points="2910.75,-46.12 2907.25,-36.12 2903.75,-46.12 2910.75,-46.12" />
+</g>
+
+<g id="edge20" class="edge" data-node-id="t3_2_and_6-&gt;t3_2_cap_6">
+<title>t3_2_and_6-&gt;t3_2_cap_6</title>
+<path fill="none" stroke="black" d="M3106.5,-93.88C3106.5,-93.88 3106.5,-46.07 3106.5,-46.07" />
+<polygon fill="black" stroke="black" points="3110,-46.07 3106.5,-36.07 3103,-46.07 3110,-46.07" />
+</g>
+
+<g id="node27" class="node" data-node-id="t3_2_sub_7">
+<title>Hijack Execution Flow: Executable Installer File Permissions Weakness</title>
+<polygon fill="#fffacd" stroke="black" points="3627,-36 3196,-36 3196,0 3627,0 3627,-36" />
+<text text-anchor="middle" x="3411.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Hijack Execution Flow: Executable Installer File Permissions Weakness</text>
+</g>
+
+<g id="node28" class="node" data-node-id="t3_2_cap_7">
+<title>Using Malicious Files</title>
+<polygon fill="#ffb6c1" stroke="black" points="3800,-36 3663,-36 3663,0 3800,0 3800,-36" />
+<text text-anchor="middle" x="3731.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Using Malicious Files</text>
+</g>
+
+<g id="node29" class="node" data-node-id="t3_2_and_7">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3731.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="3731.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge21" class="edge" data-node-id="t3_2_and_7-&gt;t3_2_sub_7">
+<title>t3_2_and_7-&gt;t3_2_sub_7</title>
+<path fill="none" stroke="black" d="M3704.49,-112C3627.35,-112 3411.5,-112 3411.5,-112 3411.5,-112 3411.5,-46.12 3411.5,-46.12" />
+<polygon fill="black" stroke="black" points="3415,-46.12 3411.5,-36.12 3408,-46.12 3415,-46.12" />
+</g>
+
+<g id="edge22" class="edge" data-node-id="t3_2_and_7-&gt;t3_2_cap_7">
+<title>t3_2_and_7-&gt;t3_2_cap_7</title>
+<path fill="none" stroke="black" d="M3731.5,-93.88C3731.5,-93.88 3731.5,-46.07 3731.5,-46.07" />
+<polygon fill="black" stroke="black" points="3735,-46.07 3731.5,-36.07 3728,-46.07 3735,-46.07" />
+</g>
+
+<g id="node30" class="node" data-node-id="t3_2_sub_8">
+<title>Hijack Execution Flow: Services File Permissions Weakness</title>
+<polygon fill="#fffacd" stroke="black" points="4199,-36 3836,-36 3836,0 4199,0 4199,-36" />
+<text text-anchor="middle" x="4017.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Hijack Execution Flow: Services File Permissions Weakness</text>
+</g>
+
+<g id="node31" class="node" data-node-id="t3_2_cap_8">
+<title>Using Malicious Files</title>
+<polygon fill="#ffb6c1" stroke="black" points="4372,-36 4235,-36 4235,0 4372,0 4372,-36" />
+<text text-anchor="middle" x="4303.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Using Malicious Files</text>
+</g>
+
+<g id="node32" class="node" data-node-id="t3_2_and_8">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="4303.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="4303.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge23" class="edge" data-node-id="t3_2_and_8-&gt;t3_2_sub_8">
+<title>t3_2_and_8-&gt;t3_2_sub_8</title>
+<path fill="none" stroke="black" d="M4276.34,-112C4204.95,-112 4017.5,-112 4017.5,-112 4017.5,-112 4017.5,-46.12 4017.5,-46.12" />
+<polygon fill="black" stroke="black" points="4021,-46.12 4017.5,-36.12 4014,-46.12 4021,-46.12" />
+</g>
+
+<g id="edge24" class="edge" data-node-id="t3_2_and_8-&gt;t3_2_cap_8">
+<title>t3_2_and_8-&gt;t3_2_cap_8</title>
+<path fill="none" stroke="black" d="M4303.5,-93.88C4303.5,-93.88 4303.5,-46.07 4303.5,-46.07" />
+<polygon fill="black" stroke="black" points="4307,-46.07 4303.5,-36.07 4300,-46.07 4307,-46.07" />
+</g>
+
+<g id="node33" class="node" data-node-id="t3_2_sub_9">
+<title>Hijack Execution Flow: Services File Permissions Weakness</title>
+<polygon fill="#fffacd" stroke="black" points="4771,-36 4408,-36 4408,0 4771,0 4771,-36" />
+<text text-anchor="middle" x="4589.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Hijack Execution Flow: Services File Permissions Weakness</text>
+</g>
+
+<g id="node34" class="node" data-node-id="t3_2_cap_9">
+<title>Exploiting Incorrectly Configured Access Control Security Levels</title>
+<polygon fill="#ffb6c1" stroke="black" points="5202,-36 4807,-36 4807,0 5202,0 5202,-36" />
+<text text-anchor="middle" x="5004.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Exploiting Incorrectly Configured Access Control Security Levels</text>
+</g>
+
+<g id="node35" class="node" data-node-id="t3_2_and_9">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="4589.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="4589.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge25" class="edge" data-node-id="t3_2_and_9-&gt;t3_2_sub_9">
+<title>t3_2_and_9-&gt;t3_2_sub_9</title>
+<path fill="none" stroke="black" d="M4589.5,-93.88C4589.5,-93.88 4589.5,-46.07 4589.5,-46.07" />
+<polygon fill="black" stroke="black" points="4593,-46.07 4589.5,-36.07 4586,-46.07 4593,-46.07" />
+</g>
+
+<g id="edge26" class="edge" data-node-id="t3_2_and_9-&gt;t3_2_cap_9">
+<title>t3_2_and_9-&gt;t3_2_cap_9</title>
+<path fill="none" stroke="black" d="M4616.73,-112C4709.06,-112 5004.5,-112 5004.5,-112 5004.5,-112 5004.5,-46.12 5004.5,-46.12" />
+<polygon fill="black" stroke="black" points="5008,-46.12 5004.5,-36.12 5001,-46.12 5008,-46.12" />
+</g>
+
+<g id="node36" class="node" data-node-id="t3_2_sub_10">
+<title>Subvert Trust Controls: Code Signing</title>
+<polygon fill="#fffacd" stroke="black" points="5471,-36 5238,-36 5238,0 5471,0 5471,-36" />
+<text text-anchor="middle" x="5354.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Subvert Trust Controls: Code Signing</text>
+</g>
+
+<g id="node37" class="node" data-node-id="t3_2_cap_10">
+<title>Signing Malicious Code</title>
+<polygon fill="#ffb6c1" stroke="black" points="5660,-36 5507,-36 5507,0 5660,0 5660,-36" />
+<text text-anchor="middle" x="5583.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Signing Malicious Code</text>
+</g>
+
+<g id="node38" class="node" data-node-id="t3_2_and_10">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="5354.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="5354.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge27" class="edge" data-node-id="t3_2_and_10-&gt;t3_2_sub_10">
+<title>t3_2_and_10-&gt;t3_2_sub_10</title>
+<path fill="none" stroke="black" d="M5354.5,-93.88C5354.5,-93.88 5354.5,-46.07 5354.5,-46.07" />
+<polygon fill="black" stroke="black" points="5358,-46.07 5354.5,-36.07 5351,-46.07 5358,-46.07" />
+</g>
+
+<g id="edge28" class="edge" data-node-id="t3_2_and_10-&gt;t3_2_cap_10">
+<title>t3_2_and_10-&gt;t3_2_cap_10</title>
+<path fill="none" stroke="black" d="M5381.67,-112C5442.33,-112 5583.5,-112 5583.5,-112 5583.5,-112 5583.5,-46.12 5583.5,-46.12" />
+<polygon fill="black" stroke="black" points="5587,-46.12 5583.5,-36.12 5580,-46.12 5587,-46.12" />
+</g>
+
+<g id="node39" class="node" data-node-id="t3_2_sub_11">
+<title>Access Token Manipulation: Token Impersonation/Theft</title>
+<polygon fill="#fffacd" stroke="black" points="6040.5,-36 5696.5,-36 5696.5,0 6040.5,0 6040.5,-36" />
+<text text-anchor="middle" x="5868.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Access Token Manipulation: Token Impersonation/Theft</text>
+</g>
+
+<g id="node40" class="node" data-node-id="t3_2_cap_11">
+<title>Reusing Session IDs (aka Session Replay)</title>
+<polygon fill="#ffb6c1" stroke="black" points="6338,-36 6077,-36 6077,0 6338,0 6338,-36" />
+<text text-anchor="middle" x="6207.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Reusing Session IDs (aka Session Replay)</text>
+</g>
+
+<g id="node41" class="node" data-node-id="t3_2_and_11">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="5868.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="5868.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge29" class="edge" data-node-id="t3_2_and_11-&gt;t3_2_sub_11">
+<title>t3_2_and_11-&gt;t3_2_sub_11</title>
+<path fill="none" stroke="black" d="M5868.5,-93.88C5868.5,-93.88 5868.5,-46.07 5868.5,-46.07" />
+<polygon fill="black" stroke="black" points="5872,-46.07 5868.5,-36.07 5865,-46.07 5872,-46.07" />
+</g>
+
+<g id="edge30" class="edge" data-node-id="t3_2_and_11-&gt;t3_2_cap_11">
+<title>t3_2_and_11-&gt;t3_2_cap_11</title>
+<path fill="none" stroke="black" d="M5895.67,-112C5976.11,-112 6207.5,-112 6207.5,-112 6207.5,-112 6207.5,-46.12 6207.5,-46.12" />
+<polygon fill="black" stroke="black" points="6211,-46.12 6207.5,-36.12 6204,-46.12 6211,-46.12" />
+</g>
+
+<g id="node42" class="node" data-node-id="t3_2_sub_12">
+<title>Use Alternate Authentication Material: Web Session Cookie</title>
+<polygon fill="#fffacd" stroke="black" points="6742.5,-36 6374.5,-36 6374.5,0 6742.5,0 6742.5,-36" />
+<text text-anchor="middle" x="6558.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use Alternate Authentication Material: Web Session Cookie</text>
+</g>
+
+<g id="node43" class="node" data-node-id="t3_2_cap_12">
+<title>Reusing Session IDs (aka Session Replay)</title>
+<polygon fill="#ffb6c1" stroke="black" points="7040,-36 6779,-36 6779,0 7040,0 7040,-36" />
+<text text-anchor="middle" x="6909.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Reusing Session IDs (aka Session Replay)</text>
+</g>
+
+<g id="node44" class="node" data-node-id="t3_2_and_12">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="6558.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="6558.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge31" class="edge" data-node-id="t3_2_and_12-&gt;t3_2_sub_12">
+<title>t3_2_and_12-&gt;t3_2_sub_12</title>
+<path fill="none" stroke="black" d="M6558.5,-93.88C6558.5,-93.88 6558.5,-46.07 6558.5,-46.07" />
+<polygon fill="black" stroke="black" points="6562,-46.07 6558.5,-36.07 6555,-46.07 6562,-46.07" />
+</g>
+
+<g id="edge32" class="edge" data-node-id="t3_2_and_12-&gt;t3_2_cap_12">
+<title>t3_2_and_12-&gt;t3_2_cap_12</title>
+<path fill="none" stroke="black" d="M6585.75,-112C6668.22,-112 6909.5,-112 6909.5,-112 6909.5,-112 6909.5,-46.12 6909.5,-46.12" />
+<polygon fill="black" stroke="black" points="6913,-46.12 6909.5,-36.12 6906,-46.12 6913,-46.12" />
+</g>
+
+<g id="node45" class="node" data-node-id="t3_2_sub_13">
+<title>Hijack Execution Flow: Executable Installer File Permissions Weakness</title>
+<polygon fill="#fffacd" stroke="black" points="7507,-36 7076,-36 7076,0 7507,0 7507,-36" />
+<text text-anchor="middle" x="7291.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Hijack Execution Flow: Executable Installer File Permissions Weakness</text>
+</g>
+
+<g id="node46" class="node" data-node-id="t3_2_cap_13">
+<title>Replace Binaries</title>
+<polygon fill="#ffb6c1" stroke="black" points="7659.5,-36 7543.5,-36 7543.5,0 7659.5,0 7659.5,-36" />
+<text text-anchor="middle" x="7601.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Replace Binaries</text>
+</g>
+
+<g id="node47" class="node" data-node-id="t3_2_and_13">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="7291.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="7291.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge33" class="edge" data-node-id="t3_2_and_13-&gt;t3_2_sub_13">
+<title>t3_2_and_13-&gt;t3_2_sub_13</title>
+<path fill="none" stroke="black" d="M7291.5,-93.88C7291.5,-93.88 7291.5,-46.07 7291.5,-46.07" />
+<polygon fill="black" stroke="black" points="7295,-46.07 7291.5,-36.07 7288,-46.07 7295,-46.07" />
+</g>
+
+<g id="edge34" class="edge" data-node-id="t3_2_and_13-&gt;t3_2_cap_13">
+<title>t3_2_and_13-&gt;t3_2_cap_13</title>
+<path fill="none" stroke="black" d="M7318.74,-112C7394.38,-112 7601.5,-112 7601.5,-112 7601.5,-112 7601.5,-46.12 7601.5,-46.12" />
+<polygon fill="black" stroke="black" points="7605,-46.12 7601.5,-36.12 7598,-46.12 7605,-46.12" />
+</g>
+
+<g id="edge36" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_5">
+<title>t3_cwe2_or-&gt;t3_2_and_5</title>
+<path fill="none" stroke="black" d="M4421.4,-213C4198.78,-213 2570.5,-213 2570.5,-213 2570.5,-213 2570.5,-140.06 2570.5,-140.06" />
+<polygon fill="black" stroke="black" points="2574,-140.06 2570.5,-130.06 2567,-140.06 2574,-140.06" />
+</g>
+
+<g id="edge37" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_6">
+<title>t3_cwe2_or-&gt;t3_2_and_6</title>
+<path fill="none" stroke="black" d="M4419.61,-208C4231.08,-208 3115.17,-208 3115.17,-208 3115.17,-208 3115.17,-139.16 3115.17,-139.16" />
+<polygon fill="black" stroke="black" points="3118.67,-139.16 3115.17,-129.16 3111.67,-139.16 3118.67,-139.16" />
+</g>
+
+<g id="edge38" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_7">
+<title>t3_cwe2_or-&gt;t3_2_and_7</title>
+<path fill="none" stroke="black" d="M4419.78,-203C4289.97,-203 3731.5,-203 3731.5,-203 3731.5,-203 3731.5,-140.42 3731.5,-140.42" />
+<polygon fill="black" stroke="black" points="3735,-140.42 3731.5,-130.42 3728,-140.42 3735,-140.42" />
+</g>
+
+<g id="edge39" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_8">
+<title>t3_cwe2_or-&gt;t3_2_and_8</title>
+<path fill="none" stroke="black" d="M4427.81,-193C4389.04,-193 4303.5,-193 4303.5,-193 4303.5,-193 4303.5,-140.38 4303.5,-140.38" />
+<polygon fill="black" stroke="black" points="4307,-140.38 4303.5,-130.38 4300,-140.38 4307,-140.38" />
+</g>
+
+<g id="edge40" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_9">
+<title>t3_cwe2_or-&gt;t3_2_and_9</title>
+<path fill="none" stroke="black" d="M4466.69,-194C4506.1,-194 4589.5,-194 4589.5,-194 4589.5,-194 4589.5,-140.2 4589.5,-140.2" />
+<polygon fill="black" stroke="black" points="4593,-140.2 4589.5,-130.2 4586,-140.2 4593,-140.2" />
+</g>
+
+<g id="edge41" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_10">
+<title>t3_cwe2_or-&gt;t3_2_and_10</title>
+<path fill="none" stroke="black" d="M4472.21,-200C4619.98,-200 5354.5,-200 5354.5,-200 5354.5,-200 5354.5,-140.23 5354.5,-140.23" />
+<polygon fill="black" stroke="black" points="5358,-140.23 5354.5,-130.23 5351,-140.23 5358,-140.23" />
+</g>
+
+<g id="edge42" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_11">
+<title>t3_cwe2_or-&gt;t3_2_and_11</title>
+<path fill="none" stroke="black" d="M4473.64,-206C4670.23,-206 5868.5,-206 5868.5,-206 5868.5,-206 5868.5,-140.12 5868.5,-140.12" />
+<polygon fill="black" stroke="black" points="5872,-140.12 5868.5,-130.12 5865,-140.12 5872,-140.12" />
+</g>
+
+<g id="edge43" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_12">
+<title>t3_cwe2_or-&gt;t3_2_and_12</title>
+<path fill="none" stroke="black" d="M4472.06,-212C4711.91,-212 6558.5,-212 6558.5,-212 6558.5,-212 6558.5,-140.34 6558.5,-140.34" />
+<polygon fill="black" stroke="black" points="6562,-140.34 6558.5,-130.34 6555,-140.34 6562,-140.34" />
+</g>
+
+<g id="edge44" class="edge" data-node-id="t3_cwe2_or-&gt;t3_2_and_13">
+<title>t3_cwe2_or-&gt;t3_2_and_13</title>
+<path fill="none" stroke="black" d="M4466.97,-218C4722.83,-218 7291.5,-218 7291.5,-218 7291.5,-218 7291.5,-140.46 7291.5,-140.46" />
+<polygon fill="black" stroke="black" points="7295,-140.46 7291.5,-130.46 7288,-140.46 7295,-140.46" />
+</g>
+
+<g id="edge46" class="edge" data-node-id="t3_tac_or-&gt;t3_cwe_0">
+<title>t3_tac_or-&gt;t3_cwe_0</title>
+<path fill="none" stroke="black" d="M1028.14,-394C960.43,-394 790.5,-394 790.5,-394 790.5,-394 790.5,-328.12 790.5,-328.12" />
+<polygon fill="black" stroke="black" points="794,-328.12 790.5,-318.12 787,-328.12 794,-328.12" />
+</g>
+
+<g id="edge47" class="edge" data-node-id="t3_tac_or-&gt;t3_cwe_1">
+<title>t3_tac_or-&gt;t3_cwe_1</title>
+<path fill="none" stroke="black" d="M1055.5,-375.88C1055.5,-375.88 1055.5,-328.07 1055.5,-328.07" />
+<polygon fill="black" stroke="black" points="1059,-328.07 1055.5,-318.07 1052,-328.07 1059,-328.07" />
+</g>
+
+<g id="edge48" class="edge" data-node-id="t3_tac_or-&gt;t3_cwe_2">
+<title>t3_tac_or-&gt;t3_cwe_2</title>
+<path fill="none" stroke="black" d="M1082.5,-394C1314.65,-394 2965.5,-394 2965.5,-394 2965.5,-394 2965.5,-328.12 2965.5,-328.12" />
+<polygon fill="black" stroke="black" points="2969,-328.12 2965.5,-318.12 2962,-328.12 2969,-328.12" />
+</g>
+</g>
+</svg>

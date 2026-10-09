@@ -1,0 +1,124 @@
+CAPEC,Name,Abstraction,Likelihood,Severity
+CAPEC-3,Using Leading 'Ghost' Character Sequences to Bypass Input Filters,Detailed,Medium,Medium
+CAPEC-6,Argument Injection,Standard,High,High
+CAPEC-7,Blind SQL Injection,Detailed,High,High
+CAPEC-8,Buffer Overflow in an API Call,Detailed,High,High
+CAPEC-9,Buffer Overflow in Local Command-Line Utilities,Detailed,High,High
+CAPEC-10,Buffer Overflow via Environment Variables,Detailed,High,High
+CAPEC-12,Choosing Message Identifier,Standard,High,High
+CAPEC-13,Subverting Environment Variable Values,Detailed,High,Very High
+CAPEC-14,Client-side Injection-induced Buffer Overflow,Detailed,Medium,High
+CAPEC-21,Exploitation of Trusted Identifiers,Meta,High,High
+CAPEC-22,Exploiting Trust in Client,Meta,High,High
+CAPEC-24,Filter Failure through Buffer Overflow,Detailed,High,High
+CAPEC-28,Fuzzing,Meta,High,Medium
+CAPEC-34,HTTP Response Splitting,Detailed,Medium,High
+CAPEC-36,Using Unpublished Interfaces or Functionality,Standard,Medium,High
+CAPEC-42,MIME Conversion,Detailed,High,High
+CAPEC-43,Exploiting Multiple Input Interpretation Layers,Detailed,Medium,High
+CAPEC-45,Buffer Overflow via Symbolic Links,Detailed,High,High
+CAPEC-46,Overflow Variables and Tags,Detailed,High,High
+CAPEC-47,Buffer Overflow via Parameter Expansion,Detailed,Medium,High
+CAPEC-51,Poison Web Service Registry,Detailed,High,Very High
+CAPEC-52,Embedding NULL Bytes,Detailed,High,High
+CAPEC-53,"Postfix, Null Terminate, and Backslash",Detailed,High,High
+CAPEC-57,Utilizing REST's Trust in the System Resource to Obtain Sensitive Data,Detailed,Medium,Very High
+CAPEC-59,Session Credential Falsification through Prediction,Detailed,High,High
+CAPEC-60,Reusing Session IDs (aka Session Replay),Detailed,High,High
+CAPEC-62,Cross Site Request Forgery,Standard,High,Very High
+CAPEC-64,Using Slashes and URL Encoding Combined to Bypass Validation Logic,Detailed,High,High
+CAPEC-65,Sniff Application Code,Detailed,Low,High
+CAPEC-67,String Format Overflow in syslog(),Detailed,High,Very High
+CAPEC-71,Using Unicode Encoding to Bypass Validation Logic,Detailed,Medium,High
+CAPEC-72,URL Encoding,Detailed,High,High
+CAPEC-76,Manipulating Web Input to File System Calls,Detailed,High,Very High
+CAPEC-78,Using Escaped Slashes in Alternate Encoding,Detailed,High,High
+CAPEC-79,Using Slashes in Alternate Encoding,Detailed,High,High
+CAPEC-80,Using UTF-8 Encoding to Bypass Validation Logic,Detailed,High,High
+CAPEC-83,XPath Injection,Detailed,High,High
+CAPEC-84,XQuery Injection,Detailed,High,Very High
+CAPEC-94,Adversary in the Middle (AiTM),Meta,High,Very High
+CAPEC-95,WSDL Scanning,Detailed,High,High
+CAPEC-101,Server Side Include (SSI) Injection,Detailed,High,High
+CAPEC-102,Session Sidejacking,Detailed,High,High
+CAPEC-105,HTTP Request Splitting,Detailed,Medium,High
+CAPEC-108,Command Line Execution through SQL Injection,Detailed,Low,Very High
+CAPEC-112,Brute Force,Meta,—,High
+CAPEC-114,Authentication Abuse,Meta,—,Medium
+CAPEC-115,Authentication Bypass,Meta,—,Medium
+CAPEC-116,Excavation,Meta,High,Medium
+CAPEC-117,Interception,Meta,Low,Medium
+CAPEC-120,Double Encoding,Detailed,Low,Medium
+CAPEC-135,Format String Injection,Standard,High,High
+CAPEC-151,Identity Spoofing,Meta,Medium,Medium
+CAPEC-166,Force the System to Reset Values,Standard,—,Medium
+CAPEC-169,Footprinting,Meta,High,Very Low
+CAPEC-194,Fake the Source of Data,Standard,—,Medium
+CAPEC-216,Communication Channel Manipulation,Meta,—,—
+CAPEC-224,Fingerprinting,Meta,High,Very Low
+CAPEC-250,XML Injection,Standard,High,—
+CAPEC-267,Leverage Alternate Encoding,Standard,High,High
+CAPEC-273,HTTP Response Smuggling,Detailed,Medium,High
+CAPEC-285,ICMP Echo Request Ping,Detailed,Medium,Low
+CAPEC-287,TCP SYN Scan,Detailed,—,Low
+CAPEC-290,Enumerate Mail Exchange (MX) Records,Detailed,—,Low
+CAPEC-291,DNS Zone Transfers,Detailed,—,Low
+CAPEC-292,Host Discovery,Standard,—,Low
+CAPEC-293,Traceroute Route Enumeration,Detailed,—,Low
+CAPEC-294,ICMP Address Mask Request,Detailed,—,Low
+CAPEC-295,Timestamp Request,Detailed,—,Low
+CAPEC-296,ICMP Information Request,Detailed,—,Low
+CAPEC-297,TCP ACK Ping,Detailed,—,Low
+CAPEC-298,UDP Ping,Detailed,—,Low
+CAPEC-299,TCP SYN Ping,Detailed,—,Low
+CAPEC-300,Port Scanning,Standard,—,Low
+CAPEC-301,TCP Connect Scan,Detailed,—,Low
+CAPEC-302,TCP FIN Scan,Detailed,—,Low
+CAPEC-303,TCP Xmas Scan,Detailed,—,Low
+CAPEC-304,TCP Null Scan,Detailed,—,Low
+CAPEC-305,TCP ACK Scan,Detailed,—,Low
+CAPEC-306,TCP Window Scan,Detailed,—,Low
+CAPEC-307,TCP RPC Scan,Detailed,—,Low
+CAPEC-308,UDP Scan,Detailed,—,Low
+CAPEC-309,Network Topology Mapping,Standard,—,Low
+CAPEC-310,Scanning for Vulnerable Software,Detailed,—,Low
+CAPEC-312,Active OS Fingerprinting,Standard,Medium,Low
+CAPEC-313,Passive OS Fingerprinting,Standard,High,Low
+CAPEC-317,IP ID Sequencing Probe,Detailed,Medium,Low
+CAPEC-318,IP 'ID' Echoed Byte-Order Probe,Detailed,Medium,Low
+CAPEC-319,IP (DF) 'Don't Fragment Bit' Echoing Probe,Detailed,Medium,Low
+CAPEC-320,TCP Timestamp Probe,Detailed,Medium,Low
+CAPEC-321,TCP Sequence Number Probe,Detailed,Medium,Low
+CAPEC-322,TCP (ISN) Greatest Common Divisor Probe,Detailed,Medium,Low
+CAPEC-323,TCP (ISN) Counter Rate Probe,Detailed,Medium,Low
+CAPEC-324,TCP (ISN) Sequence Predictability Probe,Detailed,Medium,Low
+CAPEC-325,TCP Congestion Control Flag (ECN) Probe,Detailed,Medium,Low
+CAPEC-326,TCP Initial Window Size Probe,Detailed,Medium,Low
+CAPEC-327,TCP Options Probe,Detailed,Medium,Low
+CAPEC-328,TCP 'RST' Flag Checksum Probe,Detailed,Medium,Low
+CAPEC-329,ICMP Error Message Quoting Probe,Detailed,Medium,Low
+CAPEC-330,ICMP Error Message Echoing Integrity Probe,Detailed,Medium,Low
+CAPEC-383,Harvesting Information via API Event Monitoring,Detailed,—,Low
+CAPEC-459,Creating a Rogue Certification Authority Certificate,Detailed,Medium,Very High
+CAPEC-461,Web Services API Signature Forgery Leveraging Hash Function Extension Weakness,Standard,—,High
+CAPEC-472,Browser Fingerprinting,Detailed,—,Low
+CAPEC-473,Signature Spoof,Standard,—,—
+CAPEC-476,Signature Spoofing by Misrepresentation,Detailed,Low,High
+CAPEC-477,Signature Spoofing by Mixing Signed and Unsigned Content,Detailed,Low,High
+CAPEC-485,Signature Spoofing by Key Recreation,Detailed,Low,High
+CAPEC-497,File Discovery,Standard,High,Very Low
+CAPEC-508,Shoulder Surfing,Detailed,High,High
+CAPEC-540,Overread Buffers,Standard,Low,High
+CAPEC-573,Process Footprinting,Standard,Low,Low
+CAPEC-574,Services Footprinting,Standard,Low,Low
+CAPEC-575,Account Footprinting,Standard,Low,Low
+CAPEC-576,Group Permission Footprinting,Standard,Low,Low
+CAPEC-577,Owner Footprinting,Standard,Low,Low
+CAPEC-593,Session Hijacking,Standard,High,Very High
+CAPEC-616,Establish Rogue Location,Standard,Medium,Medium
+CAPEC-633,Token Impersonation,Detailed,—,Medium
+CAPEC-643,Identify Shared Files/Directories on System,Detailed,Medium,Medium
+CAPEC-646,Peripheral Footprinting,Standard,Low,Medium
+CAPEC-650,Upload a Web Shell to a Web Server,Detailed,—,High
+CAPEC-651,Eavesdropping,Standard,—,Medium
+CAPEC-667,Bluetooth Impersonation AttackS (BIAS),Detailed,Medium,High

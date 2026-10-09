@@ -1,0 +1,45 @@
+cwe,technique,subtechnique,capec,seen_in_tactic,kept_under_tactic
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Initial Access,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Initial Access,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Initial Access,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Initial Access,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Persistence,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Persistence,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Persistence,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Persistence,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Persistence,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Privilege Escalation,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Privilege Escalation,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Privilege Escalation,Initial Access
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Services File Permissions Weakness,Accessing Functionality Not Properly Constrained by ACLs,Privilege Escalation,Persistence
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Executable Installer File Permissions Weakness,Using Malicious Files,Privilege Escalation,Persistence
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Services File Permissions Weakness,Using Malicious Files,Privilege Escalation,Persistence
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Services File Permissions Weakness,Exploiting Incorrectly Configured Access Control Security Levels,Privilege Escalation,Persistence
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Executable Installer File Permissions Weakness,Replace Binaries,Privilege Escalation,Persistence
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Privilege Escalation,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Privilege Escalation,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Defense Evasion,Initial Access
+Improper Authentication,Abuse Elevation Control Mechanism,,Authentication Abuse,Defense Evasion,Privilege Escalation
+Improper Authentication,Abuse Elevation Control Mechanism,,Authentication Bypass,Defense Evasion,Privilege Escalation
+Improper Authentication,Access Token Manipulation,,Token Impersonation,Defense Evasion,Privilege Escalation
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Defense Evasion,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Defense Evasion,Initial Access
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Services File Permissions Weakness,Accessing Functionality Not Properly Constrained by ACLs,Defense Evasion,Persistence
+Incorrect Permission Assignment for Critical Resource,Abuse Elevation Control Mechanism,,Privilege Abuse,Defense Evasion,Privilege Escalation
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Executable Installer File Permissions Weakness,Using Malicious Files,Defense Evasion,Persistence
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Services File Permissions Weakness,Using Malicious Files,Defense Evasion,Persistence
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Services File Permissions Weakness,Exploiting Incorrectly Configured Access Control Security Levels,Defense Evasion,Persistence
+Incorrect Permission Assignment for Critical Resource,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Defense Evasion,Privilege Escalation
+Incorrect Permission Assignment for Critical Resource,Hijack Execution Flow,Hijack Execution Flow: Executable Installer File Permissions Weakness,Replace Binaries,Defense Evasion,Persistence
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Defense Evasion,Initial Access
+Use of Hard-coded Credentials,Valid Accounts,Valid Accounts: Default Accounts,Try Common or Default Usernames and Passwords,Defense Evasion,Initial Access
+Use of Hard-coded Credentials,Unsecured Credentials,Unsecured Credentials: Credentials In Files,Read Sensitive Constants Within an Executable,Credential Access,Credential Access
+Use of Hard-coded Credentials,Unsecured Credentials,Unsecured Credentials: Credentials In Files,Read Sensitive Constants Within an Executable,Credential Access,Credential Access
+Use of Hard-coded Credentials,Unsecured Credentials,Unsecured Credentials: Credentials In Files,Read Sensitive Constants Within an Executable,Credential Access,Credential Access
+Use of Hard-coded Credentials,Unsecured Credentials,Unsecured Credentials: Credentials In Files,Read Sensitive Constants Within an Executable,Credential Access,Credential Access
+Improper Authentication,Network Sniffing,,Utilizing REST's Trust in the System Resource to Obtain Sensitive Data,Discovery,Credential Access
+Cleartext Transmission of Sensitive Information,Network Sniffing,,Sniff Application Code,Discovery,Credential Access
+Improper Authentication,Use Alternate Authentication Material,Use Alternate Authentication Material: Application Access Token,Session Hijacking,Lateral Movement,Defense Evasion
+Incorrect Permission Assignment for Critical Resource,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Lateral Movement,Defense Evasion
+Improper Authentication,Adversary-in-the-Middle,,Adversary in the Middle (AiTM),Collection,Credential Access
+Cleartext Transmission of Sensitive Information,Input Capture,Input Capture: Credential API Hooking,Harvesting Information via API Event Monitoring,Collection,Credential Access

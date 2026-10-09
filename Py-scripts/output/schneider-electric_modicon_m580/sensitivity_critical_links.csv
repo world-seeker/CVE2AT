@@ -1,0 +1,26 @@
+kind,link_type,rank,link,paths_lost,share_of_paths,cumulative_paths_lost,cumulative_share
+single,cve_cwe,1,CVE-2018-7847 -> CWE-287,15,0.20270270270270271,,
+single,cve_cwe,2,CVE-2018-7842 -> CWE-290,12,0.16216216216216217,,
+single,cve_cwe,3,CVE-2020-7475 -> CWE-74,8,0.10810810810810811,,
+single,cve_cwe,4,CVE-2019-6821 -> CWE-330,2,0.02702702702702703,,
+single,cve_cwe,5,CVE-2018-7844 -> CWE-200,0,0.0,,
+single,cwe_capec,1,CWE-200 -> CAPEC-13,7,0.0945945945945946,,
+single,cwe_capec,2,CWE-74 -> CAPEC-13,7,0.0945945945945946,,
+single,cwe_capec,3,CWE-200 -> CAPEC-60,4,0.05405405405405406,,
+single,cwe_capec,4,CWE-287 -> CAPEC-593,4,0.05405405405405406,,
+single,cwe_capec,5,CWE-290 -> CAPEC-21,4,0.05405405405405406,,
+single,capec_technique,1,CAPEC-13 -> T1574.006,6,0.08108108108108109,,
+single,capec_technique,2,CAPEC-13 -> T1574.007,6,0.08108108108108109,,
+single,capec_technique,3,CAPEC-60 -> T1134.001,4,0.05405405405405406,,
+single,capec_technique,4,CAPEC-60 -> T1550.004,4,0.05405405405405406,,
+single,capec_technique,5,CAPEC-94 -> T1557,4,0.05405405405405406,,
+single,technique_tactic,1,T1040 -> Credential Access,2,0.02702702702702703,,
+single,technique_tactic,2,T1040 -> Discovery,2,0.02702702702702703,,
+single,technique_tactic,3,T1082 -> Discovery,2,0.02702702702702703,,
+single,technique_tactic,4,T1134 -> Defense Evasion,2,0.02702702702702703,,
+single,technique_tactic,5,T1134 -> Privilege Escalation,2,0.02702702702702703,,
+greedy,cwe_capec,1,CWE-200 -> CAPEC-13,7,0.0945945945945946,7.0,0.0945945945945946
+greedy,cwe_capec,2,CWE-74 -> CAPEC-13,7,0.0945945945945946,14.0,0.1891891891891892
+greedy,cwe_capec,3,CWE-200 -> CAPEC-60,4,0.05405405405405406,18.0,0.24324324324324326
+greedy,cwe_capec,4,CWE-287 -> CAPEC-593,4,0.05405405405405406,22.0,0.2972972972972973
+greedy,cwe_capec,5,CWE-290 -> CAPEC-21,4,0.05405405405405406,26.0,0.35135135135135137

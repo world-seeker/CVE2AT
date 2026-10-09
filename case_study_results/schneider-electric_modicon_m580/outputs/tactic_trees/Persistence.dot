@@ -1,0 +1,47 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	t1_tactic [label=Persistence fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	t1_cwe_0 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t1_0_sub_0 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_0_cap_0 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_0_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_0_and_0 -> t1_0_sub_0
+	t1_0_and_0 -> t1_0_cap_0
+	t1_0_sub_1 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_0_cap_1 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_0_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_0_and_1 -> t1_0_sub_1
+	t1_0_and_1 -> t1_0_cap_1
+	t1_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_cwe_0 -> t1_cwe0_or
+	t1_cwe0_or -> t1_0_and_0
+	t1_cwe0_or -> t1_0_and_1
+	t1_cwe_1 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t1_1_sub_2 [label="Server Software Component: Web Shell" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_1_cap_2 [label="Upload a Web Shell to a Web Server" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_1_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_1_and_2 -> t1_1_sub_2
+	t1_1_and_2 -> t1_1_cap_2
+	t1_cwe_1 -> t1_1_and_2
+	t1_cwe_2 [label="Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t1_2_sub_3 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_2_cap_3 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_2_and_3 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_2_and_3 -> t1_2_sub_3
+	t1_2_and_3 -> t1_2_cap_3
+	t1_2_sub_4 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t1_2_cap_4 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t1_2_and_4 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_2_and_4 -> t1_2_sub_4
+	t1_2_and_4 -> t1_2_cap_4
+	t1_cwe2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_cwe_2 -> t1_cwe2_or
+	t1_cwe2_or -> t1_2_and_3
+	t1_cwe2_or -> t1_2_and_4
+	t1_tac_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t1_tactic -> t1_tac_or
+	t1_tac_or -> t1_cwe_0
+	t1_tac_or -> t1_cwe_1
+	t1_tac_or -> t1_cwe_2
+}

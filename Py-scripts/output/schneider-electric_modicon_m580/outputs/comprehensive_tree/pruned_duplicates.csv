@@ -1,0 +1,159 @@
+cwe,technique,subtechnique,capec,seen_in_tactic,kept_under_tactic
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Host Information,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Active Scanning,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Network Information,,Network Topology Mapping,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Host Information,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Active Scanning,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Network Information,,Network Topology Mapping,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Host Information,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Active Scanning,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Network Information,,Network Topology Mapping,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Host Information,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Active Scanning,,Footprinting,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Gather Victim Network Information,,Network Topology Mapping,Reconnaissance,Reconnaissance
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Persistence,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Privilege Escalation,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Privilege Escalation,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Privilege Escalation,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Privilege Escalation,Privilege Escalation
+Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection'),Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection'),Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Privilege Escalation,Persistence
+Authentication Bypass by Spoofing,Access Token Manipulation,,Exploitation of Trusted Identifiers,Defense Evasion,Privilege Escalation
+Authentication Bypass by Spoofing,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Defense Evasion,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Defense Evasion,Privilege Escalation
+Improper Authentication,Abuse Elevation Control Mechanism,,Authentication Abuse,Defense Evasion,Privilege Escalation
+Improper Authentication,Abuse Elevation Control Mechanism,,Authentication Bypass,Defense Evasion,Privilege Escalation
+Improper Authentication,Access Token Manipulation,,Token Impersonation,Defense Evasion,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Impair Defenses,Impair Defenses: Impair Command History Logging,Subverting Environment Variable Values,Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Defense Evasion,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Masquerading,Masquerading: Match Legitimate Name or Location,Establish Rogue Location,Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Impair Defenses,Impair Defenses: Impair Command History Logging,Subverting Environment Variable Values,Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Defense Evasion,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Masquerading,Masquerading: Match Legitimate Name or Location,Establish Rogue Location,Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Impair Defenses,Impair Defenses: Impair Command History Logging,Subverting Environment Variable Values,Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Defense Evasion,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Masquerading,Masquerading: Match Legitimate Name or Location,Establish Rogue Location,Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Impair Defenses,Impair Defenses: Impair Command History Logging,Subverting Environment Variable Values,Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Access Token Manipulation,Access Token Manipulation: Token Impersonation/Theft,Reusing Session IDs (aka Session Replay),Defense Evasion,Privilege Escalation
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Defense Evasion,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Masquerading,Masquerading: Match Legitimate Name or Location,Establish Rogue Location,Defense Evasion,Defense Evasion
+Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection'),Hijack Execution Flow,Hijack Execution Flow: Dynamic Linker Hijacking,Subverting Environment Variable Values,Defense Evasion,Persistence
+Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection'),Hijack Execution Flow,Hijack Execution Flow: Path Interception by PATH Environment Variable,Subverting Environment Variable Values,Defense Evasion,Persistence
+Exposure of Sensitive Information to an Unauthorized Actor,Multi-Factor Authentication Interception,,Eavesdropping,Credential Access,Credential Access
+Cleartext Transmission of Sensitive Information,Input Capture,Input Capture: Credential API Hooking,Harvesting Information via API Event Monitoring,Credential Access,Credential Access
+Cleartext Transmission of Sensitive Information,Network Sniffing,,Sniff Application Code,Credential Access,Credential Access
+Exposure of Sensitive Information to an Unauthorized Actor,Multi-Factor Authentication Interception,,Eavesdropping,Credential Access,Credential Access
+Exposure of Sensitive Information to an Unauthorized Actor,Multi-Factor Authentication Interception,,Eavesdropping,Credential Access,Credential Access
+Exposure of Sensitive Information to an Unauthorized Actor,Multi-Factor Authentication Interception,,Eavesdropping,Credential Access,Credential Access
+Improper Authentication,Network Sniffing,,Utilizing REST's Trust in the System Resource to Obtain Sensitive Data,Discovery,Credential Access
+Exposure of Sensitive Information to an Unauthorized Actor,Browser Information Discovery,,Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Remote System Discovery,,Host Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Time Discovery,,Timestamp Request,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Service Discovery,,Port Scanning,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Configuration Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Connections Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Active OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Passive OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,File and Directory Discovery,,File Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Process Discovery,,Process Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Service Discovery,,Services Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Account Discovery,,Account Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Permission Groups Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Group Policy Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Owner/User Discovery,,Owner Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Share Discovery,,Identify Shared Files/Directories on System,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Peripheral Device Discovery,,Peripheral Footprinting,Discovery,Discovery
+Cleartext Transmission of Sensitive Information,Network Sniffing,,Sniff Application Code,Discovery,Credential Access
+Cleartext Transmission of Sensitive Information,Network Sniffing,,Sniff Application Code,Discovery,Credential Access
+Exposure of Sensitive Information to an Unauthorized Actor,Browser Information Discovery,,Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Remote System Discovery,,Host Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Time Discovery,,Timestamp Request,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Service Discovery,,Port Scanning,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Configuration Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Connections Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Active OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Passive OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,File and Directory Discovery,,File Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Process Discovery,,Process Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Service Discovery,,Services Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Account Discovery,,Account Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Permission Groups Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Group Policy Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Owner/User Discovery,,Owner Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Share Discovery,,Identify Shared Files/Directories on System,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Peripheral Device Discovery,,Peripheral Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Browser Information Discovery,,Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Remote System Discovery,,Host Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Time Discovery,,Timestamp Request,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Service Discovery,,Port Scanning,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Configuration Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Connections Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Active OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Passive OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,File and Directory Discovery,,File Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Process Discovery,,Process Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Service Discovery,,Services Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Account Discovery,,Account Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Permission Groups Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Group Policy Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Owner/User Discovery,,Owner Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Share Discovery,,Identify Shared Files/Directories on System,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Peripheral Device Discovery,,Peripheral Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Browser Information Discovery,,Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Remote System Discovery,,Host Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Time Discovery,,Timestamp Request,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Service Discovery,,Port Scanning,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Configuration Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Network Connections Discovery,,Network Topology Mapping,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Active OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Information Discovery,,Passive OS Fingerprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,File and Directory Discovery,,File Discovery,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Process Discovery,,Process Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Service Discovery,,Services Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Account Discovery,,Account Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Permission Groups Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Group Policy Discovery,,Group Permission Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,System Owner/User Discovery,,Owner Footprinting,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Network Share Discovery,,Identify Shared Files/Directories on System,Discovery,Discovery
+Exposure of Sensitive Information to an Unauthorized Actor,Peripheral Device Discovery,,Peripheral Footprinting,Discovery,Discovery
+Authentication Bypass by Spoofing,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Lateral Movement,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Lateral Movement,Defense Evasion
+Improper Authentication,Use Alternate Authentication Material,Use Alternate Authentication Material: Application Access Token,Session Hijacking,Lateral Movement,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Lateral Movement,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Lateral Movement,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Lateral Movement,Defense Evasion
+Exposure of Sensitive Information to an Unauthorized Actor,Use Alternate Authentication Material,Use Alternate Authentication Material: Web Session Cookie,Reusing Session IDs (aka Session Replay),Lateral Movement,Defense Evasion
+Authentication Bypass by Spoofing,Adversary-in-the-Middle,,Adversary in the Middle (AiTM),Collection,Credential Access
+Improper Authentication,Adversary-in-the-Middle,,Adversary in the Middle (AiTM),Collection,Credential Access
+Cleartext Transmission of Sensitive Information,Input Capture,Input Capture: Credential API Hooking,Harvesting Information via API Event Monitoring,Collection,Credential Access
+Cleartext Transmission of Sensitive Information,Input Capture,Input Capture: Credential API Hooking,Harvesting Information via API Event Monitoring,Collection,Credential Access

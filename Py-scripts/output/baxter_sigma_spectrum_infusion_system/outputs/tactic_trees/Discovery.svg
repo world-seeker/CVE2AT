@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1306pt" height="420pt" viewBox="0.00 0.00 1305.50 420.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 416)" data-node-id="%3">
+<title>Discovery</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-416 1301.5,-416 1301.5,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="t5_tactic">
+<title>Discovery</title>
+<polygon fill="#98fb98" stroke="black" points="720,-412 645,-412 645,-376 720,-376 720,-412" />
+<text text-anchor="middle" x="682.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">Discovery</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t5_tac_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="682.5" cy="-300" rx="27" ry="18" />
+<text text-anchor="middle" x="682.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge10" class="edge" data-node-id="t5_tactic-&gt;t5_tac_or">
+<title>t5_tactic-&gt;t5_tac_or</title>
+<path fill="none" stroke="black" d="M682.5,-375.88C682.5,-375.88 682.5,-328.07 682.5,-328.07" />
+<polygon fill="black" stroke="black" points="686,-328.07 682.5,-318.07 679,-328.07 686,-328.07" />
+</g>
+
+<g id="node2" class="node" data-node-id="t5_cwe_0">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="470,-224 313,-224 313,-188 476,-188 476,-218 470,-224" />
+<polyline fill="none" stroke="black" points="470,-224 470,-218 " />
+<polyline fill="none" stroke="black" points="476,-218 470,-218 " />
+<text text-anchor="middle" x="394.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t5_0_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="366.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="366.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge3" class="edge" data-node-id="t5_cwe_0-&gt;t5_0_and_0">
+<title>t5_cwe_0-&gt;t5_0_and_0</title>
+<path fill="none" stroke="black" d="M366.5,-187.88C366.5,-187.88 366.5,-140.07 366.5,-140.07" />
+<polygon fill="black" stroke="black" points="370,-140.07 366.5,-130.07 363,-140.07 370,-140.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t5_0_tech_0">
+<title>Network Sniffing</title>
+<polygon fill="#90ee90" stroke="black" points="115,-36 0,-36 0,0 115,0 115,-36" />
+<text text-anchor="middle" x="57.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Sniffing</text>
+</g>
+
+<g id="node4" class="node" data-node-id="t5_0_cap_0">
+<title>Utilizing REST's Trust in the System Resource to Obtain Sensitive Data</title>
+<polygon fill="#ffb6c1" stroke="black" points="582,-36 151,-36 151,0 582,0 582,-36" />
+<text text-anchor="middle" x="366.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Utilizing REST's Trust in the System Resource to Obtain Sensitive Data</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="t5_0_and_0-&gt;t5_0_tech_0">
+<title>t5_0_and_0-&gt;t5_0_tech_0</title>
+<path fill="none" stroke="black" d="M339.35,-112C263.95,-112 57.5,-112 57.5,-112 57.5,-112 57.5,-46.12 57.5,-46.12" />
+<polygon fill="black" stroke="black" points="61,-46.12 57.5,-36.12 54,-46.12 61,-46.12" />
+</g>
+
+<g id="edge2" class="edge" data-node-id="t5_0_and_0-&gt;t5_0_cap_0">
+<title>t5_0_and_0-&gt;t5_0_cap_0</title>
+<path fill="none" stroke="black" d="M366.5,-93.88C366.5,-93.88 366.5,-46.07 366.5,-46.07" />
+<polygon fill="black" stroke="black" points="370,-46.07 366.5,-36.07 363,-46.07 370,-46.07" />
+</g>
+
+<g id="node6" class="node" data-node-id="t5_cwe_1">
+<title>Cleartext Transmission of Sensitive Information</title>
+<polygon fill="#add8e6" stroke="black" points="825.5,-224 533.5,-224 533.5,-188 831.5,-188 831.5,-218 825.5,-224" />
+<polyline fill="none" stroke="black" points="825.5,-224 825.5,-218 " />
+<polyline fill="none" stroke="black" points="831.5,-218 825.5,-218 " />
+<text text-anchor="middle" x="682.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Cleartext Transmission of Sensitive Information</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t5_1_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="682.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="682.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge6" class="edge" data-node-id="t5_cwe_1-&gt;t5_1_and_1">
+<title>t5_cwe_1-&gt;t5_1_and_1</title>
+<path fill="none" stroke="black" d="M682.5,-187.88C682.5,-187.88 682.5,-140.07 682.5,-140.07" />
+<polygon fill="black" stroke="black" points="686,-140.07 682.5,-130.07 679,-140.07 686,-140.07" />
+</g>
+
+<g id="node7" class="node" data-node-id="t5_1_tech_1">
+<title>Network Sniffing</title>
+<polygon fill="#90ee90" stroke="black" points="733,-36 618,-36 618,0 733,0 733,-36" />
+<text text-anchor="middle" x="675.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Sniffing</text>
+</g>
+
+<g id="node8" class="node" data-node-id="t5_1_cap_1">
+<title>Sniff Application Code</title>
+<polygon fill="#ffb6c1" stroke="black" points="916,-36 769,-36 769,0 916,0 916,-36" />
+<text text-anchor="middle" x="842.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Sniff Application Code</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t5_1_and_1-&gt;t5_1_tech_1">
+<title>t5_1_and_1-&gt;t5_1_tech_1</title>
+<path fill="none" stroke="black" d="M682.5,-93.88C682.5,-93.88 682.5,-46.07 682.5,-46.07" />
+<polygon fill="black" stroke="black" points="686,-46.07 682.5,-36.07 679,-46.07 686,-46.07" />
+</g>
+
+<g id="edge5" class="edge" data-node-id="t5_1_and_1-&gt;t5_1_cap_1">
+<title>t5_1_and_1-&gt;t5_1_cap_1</title>
+<path fill="none" stroke="black" d="M709.51,-112C744.28,-112 800.25,-112 800.25,-112 800.25,-112 800.25,-46.12 800.25,-46.12" />
+<polygon fill="black" stroke="black" points="803.75,-46.12 800.25,-36.12 796.75,-46.12 803.75,-46.12" />
+</g>
+
+<g id="node10" class="node" data-node-id="t5_cwe_2">
+<title>Incorrect Permission Assignment for Critical Resource</title>
+<polygon fill="#add8e6" stroke="black" points="1201,-224 872,-224 872,-188 1207,-188 1207,-218 1201,-224" />
+<polyline fill="none" stroke="black" points="1201,-224 1201,-218 " />
+<polyline fill="none" stroke="black" points="1207,-218 1201,-218 " />
+<text text-anchor="middle" x="1039.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">Incorrect Permission Assignment for Critical Resource</text>
+</g>
+
+<g id="node13" class="node" data-node-id="t5_2_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1043.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="1043.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge9" class="edge" data-node-id="t5_cwe_2-&gt;t5_2_and_2">
+<title>t5_cwe_2-&gt;t5_2_and_2</title>
+<path fill="none" stroke="black" d="M1043.5,-187.88C1043.5,-187.88 1043.5,-140.07 1043.5,-140.07" />
+<polygon fill="black" stroke="black" points="1047,-140.07 1043.5,-130.07 1040,-140.07 1047,-140.07" />
+</g>
+
+<g id="node11" class="node" data-node-id="t5_2_tech_2">
+<title>File and Directory Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="1135,-36 952,-36 952,0 1135,0 1135,-36" />
+<text text-anchor="middle" x="1043.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">File and Directory Discovery</text>
+</g>
+
+<g id="node12" class="node" data-node-id="t5_2_cap_2">
+<title>Directory Indexing</title>
+<polygon fill="#ffb6c1" stroke="black" points="1297.5,-36 1171.5,-36 1171.5,0 1297.5,0 1297.5,-36" />
+<text text-anchor="middle" x="1234.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Directory Indexing</text>
+</g>
+
+<g id="edge7" class="edge" data-node-id="t5_2_and_2-&gt;t5_2_tech_2">
+<title>t5_2_and_2-&gt;t5_2_tech_2</title>
+<path fill="none" stroke="black" d="M1043.5,-93.88C1043.5,-93.88 1043.5,-46.07 1043.5,-46.07" />
+<polygon fill="black" stroke="black" points="1047,-46.07 1043.5,-36.07 1040,-46.07 1047,-46.07" />
+</g>
+
+<g id="edge8" class="edge" data-node-id="t5_2_and_2-&gt;t5_2_cap_2">
+<title>t5_2_and_2-&gt;t5_2_cap_2</title>
+<path fill="none" stroke="black" d="M1070.57,-112C1112.72,-112 1189.25,-112 1189.25,-112 1189.25,-112 1189.25,-46.12 1189.25,-46.12" />
+<polygon fill="black" stroke="black" points="1192.75,-46.12 1189.25,-36.12 1185.75,-46.12 1192.75,-46.12" />
+</g>
+
+<g id="edge11" class="edge" data-node-id="t5_tac_or-&gt;t5_cwe_0">
+<title>t5_tac_or-&gt;t5_cwe_0</title>
+<path fill="none" stroke="black" d="M655.41,-300C583.71,-300 394.5,-300 394.5,-300 394.5,-300 394.5,-234.12 394.5,-234.12" />
+<polygon fill="black" stroke="black" points="398,-234.12 394.5,-224.12 391,-234.12 398,-234.12" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t5_tac_or-&gt;t5_cwe_1">
+<title>t5_tac_or-&gt;t5_cwe_1</title>
+<path fill="none" stroke="black" d="M682.5,-281.88C682.5,-281.88 682.5,-234.07 682.5,-234.07" />
+<polygon fill="black" stroke="black" points="686,-234.07 682.5,-224.07 679,-234.07 686,-234.07" />
+</g>
+
+<g id="edge13" class="edge" data-node-id="t5_tac_or-&gt;t5_cwe_2">
+<title>t5_tac_or-&gt;t5_cwe_2</title>
+<path fill="none" stroke="black" d="M709.63,-300C792.94,-300 1039.5,-300 1039.5,-300 1039.5,-300 1039.5,-234.12 1039.5,-234.12" />
+<polygon fill="black" stroke="black" points="1043,-234.12 1039.5,-224.12 1036,-234.12 1043,-234.12" />
+</g>
+</g>
+</svg>

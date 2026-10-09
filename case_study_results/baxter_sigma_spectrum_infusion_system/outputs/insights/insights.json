@@ -1,0 +1,372 @@
+{
+  "device": "baxter_sigma_spectrum_infusion_system",
+  "overview": [
+    {
+      "label": "CVEs in scope",
+      "value": 10
+    },
+    {
+      "label": "CVEs reaching a tactic",
+      "value": 9
+    },
+    {
+      "label": "Weaknesses",
+      "value": 5
+    },
+    {
+      "label": "CAPEC patterns",
+      "value": 20
+    },
+    {
+      "label": "Techniques",
+      "value": 16
+    },
+    {
+      "label": "Tactics",
+      "value": 8
+    },
+    {
+      "label": "Paths",
+      "value": 51
+    }
+  ],
+  "core_insights": [
+    {
+      "key": "weakness",
+      "title": "One weakness, many stages",
+      "headline": "Use of Hard-coded Credentials (CWE-798) underlies 5 of 10 CVEs and reaches 5 of 8 tactic subtrees. Ranked one by one they read as separate findings; the tree groups them under one recurring weakness.",
+      "facts": [
+        {
+          "label": "CVEs",
+          "value": "5 of 10 in scope"
+        },
+        {
+          "label": "Tactic subtrees",
+          "value": "5 of 8 (Initial Access, Persistence, Privilege Escalation, Defense Evasion, Credential Access)"
+        },
+        {
+          "label": "CVSS base scores",
+          "value": "2.4 to 9.8"
+        },
+        {
+          "label": "Lowest-scoring",
+          "value": "CVE-2020-12039 (2.4, PHYSICAL)"
+        },
+        {
+          "label": "Same for all of them",
+          "value": "attack complexity LOW, privileges required NONE, user interaction NONE"
+        },
+        {
+          "label": "Attack vector",
+          "value": "NETWORK x3, PHYSICAL x2"
+        }
+      ],
+      "bars": [
+        {
+          "label": "Initial Access",
+          "value": 1,
+          "annotation": ""
+        },
+        {
+          "label": "Persistence",
+          "value": 1,
+          "annotation": ""
+        },
+        {
+          "label": "Privilege Escalation",
+          "value": 1,
+          "annotation": ""
+        },
+        {
+          "label": "Defense Evasion",
+          "value": 1,
+          "annotation": ""
+        },
+        {
+          "label": "Credential Access",
+          "value": 1,
+          "annotation": ""
+        },
+        {
+          "label": "Discovery",
+          "value": 0,
+          "annotation": ""
+        },
+        {
+          "label": "Lateral Movement",
+          "value": 0,
+          "annotation": ""
+        },
+        {
+          "label": "Collection",
+          "value": 0,
+          "annotation": ""
+        }
+      ],
+      "table": {},
+      "note": "CVE-2020-12039 scores 2.4 and would rank low by severity alone, yet it feeds the same weakness-centred progression as the others."
+    },
+    {
+      "key": "path_count",
+      "title": "Path count is not CVE count",
+      "headline": "Defense Evasion has 14 paths from 7 CVEs, while Initial Access has 1 path from 5 CVEs. CVE count is only a rough guide to how many paths a tactic opens.",
+      "facts": [
+        {
+          "label": "Widest tactic",
+          "value": "Defense Evasion: 14 paths from 7 CVEs"
+        },
+        {
+          "label": "Narrowest per CVE",
+          "value": "Initial Access: 1 path from 5 CVEs"
+        },
+        {
+          "label": "Dominant CVE there",
+          "value": "CVE-2020-12041 alone gives 9 of 14 paths, through 5 techniques and 7 CAPEC patterns"
+        },
+        {
+          "label": "Collapse",
+          "value": "all 5 CVEs lead to one step: Valid Accounts: Default Accounts (T1078.001)"
+        },
+        {
+          "label": "Rank correlation, CVEs vs paths",
+          "value": "0.66 across 8 tactics"
+        }
+      ],
+      "bars": [
+        {
+          "label": "Initial Access",
+          "value": 1,
+          "annotation": "from 5 CVEs"
+        },
+        {
+          "label": "Persistence",
+          "value": 9,
+          "annotation": "from 7 CVEs"
+        },
+        {
+          "label": "Privilege Escalation",
+          "value": 11,
+          "annotation": "from 7 CVEs"
+        },
+        {
+          "label": "Defense Evasion",
+          "value": 14,
+          "annotation": "from 7 CVEs"
+        },
+        {
+          "label": "Credential Access",
+          "value": 6,
+          "annotation": "from 8 CVEs"
+        },
+        {
+          "label": "Discovery",
+          "value": 3,
+          "annotation": "from 3 CVEs"
+        },
+        {
+          "label": "Lateral Movement",
+          "value": 3,
+          "annotation": "from 2 CVEs"
+        },
+        {
+          "label": "Collection",
+          "value": 4,
+          "annotation": "from 3 CVEs"
+        }
+      ],
+      "table": {},
+      "note": ""
+    },
+    {
+      "key": "redundancy",
+      "title": "Redundancy shows where one control helps twice",
+      "headline": "44 CAPEC references collapse to 20 distinct patterns (54.5% repeat one already used in another tactic). The same mechanisms recur across stages, so one control can cut paths in several of them.",
+      "facts": [
+        {
+          "label": "CAPEC references over all tactics",
+          "value": 44
+        },
+        {
+          "label": "Distinct CAPEC patterns",
+          "value": 20
+        },
+        {
+          "label": "ATT&CK techniques over all tactics",
+          "value": 27
+        },
+        {
+          "label": "Distinct ATT&CK techniques",
+          "value": 16
+        }
+      ],
+      "bars": [
+        {
+          "label": "T1078.001  Valid Accounts: Default Accounts",
+          "value": 4,
+          "annotation": "Initial Access, Persistence, Privilege Escalation, Defense Evasion"
+        },
+        {
+          "label": "T1574.010  Hijack Execution Flow: Services File Permissions Weakness",
+          "value": 3,
+          "annotation": "Persistence, Privilege Escalation, Defense Evasion"
+        },
+        {
+          "label": "T1574.005  Hijack Execution Flow: Executable Installer File Permissions Weakness",
+          "value": 3,
+          "annotation": "Persistence, Privilege Escalation, Defense Evasion"
+        }
+      ],
+      "table": {},
+      "note": "A control aimed at Valid Accounts: Default Accounts (T1078.001) would reach paths under Initial Access, Persistence, Privilege Escalation, Defense Evasion."
+    }
+  ],
+  "additional_insights": [
+    {
+      "key": "leverage",
+      "title": "Where a fix removes the most paths",
+      "headline": "Fixing CVE-2020-12041 alone removes 25 of 51 paths (49.0%), the most of any single CVE. Its base score ranks only #7 of 9, so severity alone would not point to it.",
+      "facts": [
+        {
+          "label": "Paths resting on one CVE",
+          "value": "46 of 51 (90.2%)"
+        },
+        {
+          "label": "CVSS rank of CVE-2020-12041",
+          "value": "#7 of 9 by base score (9.4)"
+        }
+      ],
+      "bars": [],
+      "table": {
+        "columns": [
+          "Fixes",
+          "CVEs fixed",
+          "Paths removed",
+          "Share"
+        ],
+        "rows": [
+          [
+            1,
+            "CVE-2020-12041",
+            25,
+            "49.0%"
+          ],
+          [
+            2,
+            "CVE-2014-5432, CVE-2020-12041",
+            40,
+            "78.4%"
+          ],
+          [
+            3,
+            "CVE-2014-5432, CVE-2020-12040, CVE-2020-12041",
+            44,
+            "86.3%"
+          ]
+        ]
+      },
+      "note": "A path is removed only when every CVE supporting it is fixed. Sets are the best of all combinations of that size (greedy for very large devices)."
+    },
+    {
+      "key": "exposure",
+      "title": "How easily the paths can be reached",
+      "headline": "51 of 51 paths (100.0%) can be driven remotely: at least one supporting CVE is reachable over the network with no privileges and no user interaction.",
+      "facts": [
+        {
+          "label": "Remote, no privileges, no interaction",
+          "value": "51 of 51 (100.0%)"
+        },
+        {
+          "label": "Physical access is the only route",
+          "value": "0 of 51"
+        }
+      ],
+      "bars": [
+        {
+          "label": "Network",
+          "value": 51,
+          "annotation": "100.0%"
+        }
+      ],
+      "table": {},
+      "note": "Taken from each CVE's CVSS metrics; a path counts at the easiest of its CVEs."
+    },
+    {
+      "key": "concentration",
+      "title": "Which weakness feeds the most paths",
+      "headline": "Incorrect Permission Assignment for Critical Resource (CWE-732) supports 25 of 51 paths (49.0%) from 1 CVE.",
+      "facts": [
+        {
+          "label": "Weaknesses in the tree",
+          "value": 5
+        }
+      ],
+      "bars": [
+        {
+          "label": "Incorrect Permission Assignment for Critical Resource (CWE-732)",
+          "value": 25,
+          "annotation": "49.0%, from 1 CVE"
+        },
+        {
+          "label": "Improper Authentication (CWE-287)",
+          "value": 15,
+          "annotation": "29.4%, from 1 CVE"
+        },
+        {
+          "label": "Use of Hard-coded Credentials (CWE-798)",
+          "value": 5,
+          "annotation": "9.8%, from 5 CVEs"
+        },
+        {
+          "label": "Cleartext Transmission of Sensitive Information (CWE-319)",
+          "value": 4,
+          "annotation": "7.8%, from 1 CVE"
+        },
+        {
+          "label": "Cleartext Storage of Sensitive Information (CWE-312)",
+          "value": 2,
+          "annotation": "3.9%, from 1 CVE"
+        }
+      ],
+      "table": {},
+      "note": "Use of Hard-coded Credentials (CWE-798) has more CVEs (5) but fewer paths (5): CVE counts and path counts rank the weaknesses differently."
+    },
+    {
+      "key": "coverage",
+      "title": "Where public mappings run out",
+      "headline": "The paths reach 8 of 14 ATT&CK tactics. Most dropped chain rows (9 of 17) are lost at one step: CAPEC pattern has no ATT&CK technique.",
+      "facts": [
+        {
+          "label": "Tactics reached",
+          "value": "8 of 14"
+        },
+        {
+          "label": "Not reached",
+          "value": "Reconnaissance, Resource Development, Execution, Command and Control, Exfiltration, Impact"
+        },
+        {
+          "label": "CVEs with a complete chain",
+          "value": "9 of 10"
+        }
+      ],
+      "bars": [
+        {
+          "label": "CAPEC pattern has no ATT&CK technique",
+          "value": 9,
+          "annotation": ""
+        },
+        {
+          "label": "CWE has no usable CAPEC pattern",
+          "value": 7,
+          "annotation": ""
+        },
+        {
+          "label": "CWE not in the reference set",
+          "value": 1,
+          "annotation": ""
+        }
+      ],
+      "table": {},
+      "note": "Tactics not reached show gaps in public cross-references, not evidence that the device is safe from them."
+    }
+  ]
+}

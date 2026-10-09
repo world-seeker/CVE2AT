@@ -1,0 +1,356 @@
+{
+  "device": "schneider-electric_modicon_m580",
+  "overview": [
+    {
+      "label": "CVEs in scope",
+      "value": 40
+    },
+    {
+      "label": "CVEs reaching a tactic",
+      "value": 11
+    },
+    {
+      "label": "Weaknesses",
+      "value": 6
+    },
+    {
+      "label": "CAPEC patterns",
+      "value": 33
+    },
+    {
+      "label": "Techniques",
+      "value": 38
+    },
+    {
+      "label": "Tactics",
+      "value": 8
+    },
+    {
+      "label": "Paths",
+      "value": 74
+    }
+  ],
+  "core_insights": [
+    {
+      "key": "weakness",
+      "title": "One weakness, many stages",
+      "headline": "Exposure of Sensitive Information to an Unauthorized Actor (CWE-200) underlies 5 of 40 CVEs and reaches 7 of 8 tactic subtrees. Ranked one by one they read as separate findings; the tree groups them under one recurring weakness.",
+      "facts": [
+        {
+          "label": "CVEs",
+          "value": "5 of 40 in scope"
+        },
+        {
+          "label": "Tactic subtrees",
+          "value": "7 of 8 (Reconnaissance, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement)"
+        },
+        {
+          "label": "CVSS base scores",
+          "value": "all 7.5"
+        },
+        {
+          "label": "Same for all of them",
+          "value": "attack complexity LOW, privileges required NONE, user interaction NONE"
+        }
+      ],
+      "bars": [
+        {
+          "label": "Reconnaissance",
+          "value": 3,
+          "annotation": ""
+        },
+        {
+          "label": "Persistence",
+          "value": 2,
+          "annotation": ""
+        },
+        {
+          "label": "Privilege Escalation",
+          "value": 3,
+          "annotation": ""
+        },
+        {
+          "label": "Defense Evasion",
+          "value": 6,
+          "annotation": ""
+        },
+        {
+          "label": "Credential Access",
+          "value": 1,
+          "annotation": ""
+        },
+        {
+          "label": "Discovery",
+          "value": 17,
+          "annotation": ""
+        },
+        {
+          "label": "Lateral Movement",
+          "value": 1,
+          "annotation": ""
+        },
+        {
+          "label": "Collection",
+          "value": 0,
+          "annotation": ""
+        }
+      ],
+      "table": {},
+      "note": ""
+    },
+    {
+      "key": "path_count",
+      "title": "Path count is not CVE count",
+      "headline": "Defense Evasion has 19 paths from 8 CVEs, while Lateral Movement has 4 paths from 7 CVEs. Here CVE count tracks path count closely, so it is a fair proxy.",
+      "facts": [
+        {
+          "label": "Widest tactic",
+          "value": "Defense Evasion: 19 paths from 8 CVEs"
+        },
+        {
+          "label": "Narrowest per CVE",
+          "value": "Lateral Movement: 4 paths from 7 CVEs"
+        },
+        {
+          "label": "Rank correlation, CVEs vs paths",
+          "value": "0.81 across 8 tactics"
+        }
+      ],
+      "bars": [
+        {
+          "label": "Reconnaissance",
+          "value": 3,
+          "annotation": "from 5 CVEs"
+        },
+        {
+          "label": "Persistence",
+          "value": 5,
+          "annotation": "from 7 CVEs"
+        },
+        {
+          "label": "Privilege Escalation",
+          "value": 10,
+          "annotation": "from 8 CVEs"
+        },
+        {
+          "label": "Defense Evasion",
+          "value": 19,
+          "annotation": "from 8 CVEs"
+        },
+        {
+          "label": "Credential Access",
+          "value": 10,
+          "annotation": "from 10 CVEs"
+        },
+        {
+          "label": "Discovery",
+          "value": 19,
+          "annotation": "from 8 CVEs"
+        },
+        {
+          "label": "Lateral Movement",
+          "value": 4,
+          "annotation": "from 7 CVEs"
+        },
+        {
+          "label": "Collection",
+          "value": 4,
+          "annotation": "from 4 CVEs"
+        }
+      ],
+      "table": {},
+      "note": ""
+    },
+    {
+      "key": "redundancy",
+      "title": "Redundancy shows where one control helps twice",
+      "headline": "50 CAPEC references collapse to 33 distinct patterns (34.0% repeat one already used in another tactic). The same mechanisms recur across stages, so one control can cut paths in several of them.",
+      "facts": [
+        {
+          "label": "CAPEC references over all tactics",
+          "value": 50
+        },
+        {
+          "label": "Distinct CAPEC patterns",
+          "value": 33
+        },
+        {
+          "label": "ATT&CK techniques over all tactics",
+          "value": 46
+        },
+        {
+          "label": "Distinct ATT&CK techniques",
+          "value": 38
+        }
+      ],
+      "bars": [
+        {
+          "label": "T1574.006  Hijack Execution Flow: Dynamic Linker Hijacking",
+          "value": 3,
+          "annotation": "Persistence, Privilege Escalation, Defense Evasion"
+        },
+        {
+          "label": "T1574.007  Hijack Execution Flow: Path Interception by PATH Environment Variable",
+          "value": 3,
+          "annotation": "Persistence, Privilege Escalation, Defense Evasion"
+        },
+        {
+          "label": "T1040  Network Sniffing",
+          "value": 2,
+          "annotation": "Credential Access, Discovery"
+        }
+      ],
+      "table": {},
+      "note": "A control aimed at Hijack Execution Flow: Dynamic Linker Hijacking (T1574.006) would reach paths under Persistence, Privilege Escalation, Defense Evasion."
+    }
+  ],
+  "additional_insights": [
+    {
+      "key": "leverage",
+      "title": "Where a fix removes the most paths",
+      "headline": "Fixing CVE-2018-7847 alone removes 15 of 74 paths (20.3%), the most of any single CVE. It also has the highest base score.",
+      "facts": [
+        {
+          "label": "Paths resting on one CVE",
+          "value": "37 of 74 (50.0%)"
+        },
+        {
+          "label": "CVSS rank of CVE-2018-7847",
+          "value": "#1 of 11 by base score (9.8)"
+        }
+      ],
+      "bars": [],
+      "table": {
+        "columns": [
+          "Fixes",
+          "CVEs fixed",
+          "Paths removed",
+          "Share"
+        ],
+        "rows": [
+          [
+            1,
+            "CVE-2018-7847",
+            15,
+            "20.3%"
+          ],
+          [
+            2,
+            "CVE-2018-7842, CVE-2018-7847",
+            27,
+            "36.5%"
+          ],
+          [
+            3,
+            "CVE-2018-7842, CVE-2018-7847, CVE-2020-7475",
+            35,
+            "47.3%"
+          ]
+        ]
+      },
+      "note": "A path is removed only when every CVE supporting it is fixed. Sets are the best of all combinations of that size (greedy for very large devices)."
+    },
+    {
+      "key": "exposure",
+      "title": "How easily the paths can be reached",
+      "headline": "74 of 74 paths (100.0%) can be driven remotely: at least one supporting CVE is reachable over the network with no privileges and no user interaction.",
+      "facts": [
+        {
+          "label": "Remote, no privileges, no interaction",
+          "value": "74 of 74 (100.0%)"
+        },
+        {
+          "label": "Physical access is the only route",
+          "value": "0 of 74"
+        }
+      ],
+      "bars": [
+        {
+          "label": "Network",
+          "value": 74,
+          "annotation": "100.0%"
+        }
+      ],
+      "table": {},
+      "note": "Taken from each CVE's CVSS metrics; a path counts at the easiest of its CVEs."
+    },
+    {
+      "key": "concentration",
+      "title": "Which weakness feeds the most paths",
+      "headline": "Exposure of Sensitive Information to an Unauthorized Actor (CWE-200) supports 33 of 74 paths (44.6%) from 5 CVEs.",
+      "facts": [
+        {
+          "label": "Weaknesses in the tree",
+          "value": 6
+        }
+      ],
+      "bars": [
+        {
+          "label": "Exposure of Sensitive Information to an Unauthorized Actor (CWE-200)",
+          "value": 33,
+          "annotation": "44.6%, from 5 CVEs"
+        },
+        {
+          "label": "Improper Authentication (CWE-287)",
+          "value": 15,
+          "annotation": "20.3%, from 1 CVE"
+        },
+        {
+          "label": "Authentication Bypass by Spoofing (CWE-290)",
+          "value": 12,
+          "annotation": "16.2%, from 1 CVE"
+        },
+        {
+          "label": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection') (CWE-74)",
+          "value": 8,
+          "annotation": "10.8%, from 1 CVE"
+        },
+        {
+          "label": "Cleartext Transmission of Sensitive Information (CWE-319)",
+          "value": 4,
+          "annotation": "5.4%, from 2 CVEs"
+        }
+      ],
+      "table": {},
+      "note": ""
+    },
+    {
+      "key": "coverage",
+      "title": "Where public mappings run out",
+      "headline": "The paths reach 8 of 14 ATT&CK tactics. Most dropped chain rows (259 of 290) are lost at one step: CAPEC pattern has no ATT&CK technique.",
+      "facts": [
+        {
+          "label": "Tactics reached",
+          "value": "8 of 14"
+        },
+        {
+          "label": "Not reached",
+          "value": "Resource Development, Initial Access, Execution, Command and Control, Exfiltration, Impact"
+        },
+        {
+          "label": "CVEs with a complete chain",
+          "value": "11 of 40"
+        }
+      ],
+      "bars": [
+        {
+          "label": "CAPEC pattern has no ATT&CK technique",
+          "value": 259,
+          "annotation": ""
+        },
+        {
+          "label": "CWE has no usable CAPEC pattern",
+          "value": 29,
+          "annotation": ""
+        },
+        {
+          "label": "CVE has no CWE",
+          "value": 2,
+          "annotation": ""
+        }
+      ],
+      "table": {},
+      "note": "Tactics not reached show gaps in public cross-references, not evidence that the device is safe from them."
+    }
+  ]
+}

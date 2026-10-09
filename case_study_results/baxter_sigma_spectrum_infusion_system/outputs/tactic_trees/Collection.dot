@@ -1,0 +1,39 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	t7_tactic [label=Collection fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	t7_cwe_0 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t7_0_tech_0 [label="Browser Session Hijacking" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t7_0_cap_0 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_0_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_0_and_0 -> t7_0_tech_0
+	t7_0_and_0 -> t7_0_cap_0
+	t7_0_tech_1 [label="Adversary-in-the-Middle" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t7_0_cap_1 [label="Adversary in the Middle (AiTM)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_0_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_0_and_1 -> t7_0_tech_1
+	t7_0_and_1 -> t7_0_cap_1
+	t7_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_cwe_0 -> t7_cwe0_or
+	t7_cwe0_or -> t7_0_and_0
+	t7_cwe0_or -> t7_0_and_1
+	t7_cwe_1 [label="Cleartext Storage of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t7_1_tech_2 [label="Data from Local System" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t7_1_cap_2 [label="Retrieve Embedded Sensitive Data" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_1_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_1_and_2 -> t7_1_tech_2
+	t7_1_and_2 -> t7_1_cap_2
+	t7_cwe_1 -> t7_1_and_2
+	t7_cwe_2 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t7_2_sub_3 [label="Input Capture: Credential API Hooking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t7_2_cap_3 [label="Harvesting Information via API Event Monitoring" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t7_2_and_3 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_2_and_3 -> t7_2_sub_3
+	t7_2_and_3 -> t7_2_cap_3
+	t7_cwe_2 -> t7_2_and_3
+	t7_tac_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t7_tactic -> t7_tac_or
+	t7_tac_or -> t7_cwe_0
+	t7_tac_or -> t7_cwe_1
+	t7_tac_or -> t7_cwe_2
+}

@@ -1,0 +1,247 @@
+{
+  "name": "Reconnaissance",
+  "leaf_count": 3,
+  "node_count": 12,
+  "edge_count": 11,
+  "nodes": [
+    {
+      "id": "t0_tactic",
+      "label": "Reconnaissance",
+      "type": "tactic",
+      "metadata": {
+        "tactic": "Reconnaissance"
+      }
+    },
+    {
+      "id": "t0_cwe_0",
+      "label": "Exposure of Sensitive Information to an Unauthorized Actor",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "cwe_Name": "Exposure of Sensitive Information to an Unauthorized Actor",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product exposes sensitive information to an actor that is not explicitly authorized to have access to that information.",
+        "cwe_Related_Weaknesses": "CWE-668 (ChildOf, View: 1000, Ordinal: Primary)",
+        "cwe_Weakness_Ordinality": "Primary, Resultant",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: N/A",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data | Note: N/A",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: High | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: Compartmentalize the system to have \"safe\" areas where trust boundaries can be unambiguously drawn. Do not allow sensitive data to go outside of the trust boundary and always be careful when interfacing with a compartment outside of the safe area. Ensure that appropriate compartmentalization is built into the system design, and the compartmentalization allows for and reinforces privilege separation functionality. Architects and designers should rely on the principle of least privilege to decide the appropriate time to use privileges and the time to drop privileges.",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "NONE",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t0_0_tech_0",
+      "label": "Gather Victim Host Information",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may gather information about the victim's hosts that can be used during targeting. Information about hosts may include a variety of details, including administrative data (ex: name, assigned IP, functionality, etc.) as well as specifics regarding its configuration (ex: operating system, language, etc.).\n\nAdversaries may gather this information in various ways, such as direct collection actions via [Active Scanning](https://attack.mitre.org/techniques/T1595) or [Phishing for Information](https://attack.mitre.org/techniques/T1598). Adversaries may also compromise sites then include malicious content designed to collect host information from visitors.(Citation: ATT ScanBox) Information about hosts may also be exposed to adversaries via online or other accessible data sets (ex: [Social Media](https://attack.mitre.org/techniques/T1593/001) or [Search Victim-Owned Websites](https://attack.mitre.org/techniques/T1594)). Gathering this information may reveal opportunities for other forms of reconnaissance (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)), establishing operational resources (ex: [Develop Capabilities](https://attack.mitre.org/techniques/T1587) or [Obtain Capabilities](https://attack.mitre.org/techniques/T1588)), and/or initial access (ex: [Supply Chain Compromise](https://attack.mitre.org/techniques/T1195) or [External Remote Services](https://attack.mitre.org/techniques/T1133)).\n\nAdversaries may also gather victim host information via User-Agent HTTP headers, which are sent to a server to identify the application, operating system, vendor, and/or version of the requesting user agent. This can be used to inform the adversary\u2019s follow-on action. For example, adversaries may check user agents for the requesting operating system, then only serve malware for target operating systems while ignoring others.(Citation: TrellixQakbot)",
+        "technique_name": "Gather Victim Host Information",
+        "tactics": "Reconnaissance",
+        "detection": "Internet scanners may be used to look for patterns associated with malicious content designed to collect host information from visitors.(Citation: ThreatConnect Infrastructure Dec 2020)(Citation: ATT ScanBox)\n\nMuch of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders. Detection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+        "platforms": "PRE",
+        "data sources": "Internet Scan: Response Content",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t0_0_cap_0",
+      "label": "Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Footprinting",
+        "capec_Mitre_Techniques": "1592 - Gather Victim Host Information",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary engages in probing and exploration activities to identify constituents and properties of the target.",
+        "capec_Extended_Description": "Footprinting is a general term to describe a variety of information gathering techniques, often used by attackers in preparation for some attack. It consists of using tools to learn as much as possible about the composition, configuration, and security mechanisms of the targeted application, system or network. Information that might be collected during a footprinting effort could include open ports, applications and their versions, network topology, and similar information. Although similar to fingerprinting, footprinting aims to get a more holistic view of a system or network, whereas fingerprinting is more targeted to a specific application or operating system. While footprinting is not intended to be damaging (although certain activities, such as network scans, can sometimes cause disruptions to vulnerable applications inadvertently) it may often pave the way for more damaging attacks.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very Low",
+        "capec_Execution_Flow": "Step 1: Explore - [Request Footprinting] The attacker examines the website information and source code of the website and uses automated tools to get as much information as possible about the system and organization. (Techniques: Open Source Footprinting: Examine the website about the organization and skim through the webpage's HTML source to look for comments., Network Enumeration: Perform various queries (Registrar Query, Organizational Query, Domain Query, Network Query, POC Query) on the many whois databases found on the internet to identify domain names and associated networks., DNS Interrogation: Once basic information is gathered the attack could begin to query DNS., Other Techniques: Use ping sweep, TCP scan, UDP scan, OS Identification various techniques to gain more information about the system and network.)",
+        "capec_Prerequisites": "An application must publicize identifiable information about the system or application through voluntary or involuntary means. Certain identification details of information systems are visible on communication networks (e.g., if an adversary uses a sniffer to inspect the traffic) due to their inherent structure and protocol standards. Any system or network that can be detected can be footprinted. However, some configuration choices may limit the useful information that can be collected during a footprinting attack.",
+        "capec_Skills_Required": "Low: The adversary knows how to send HTTP request, run the scan tool.",
+        "capec_Resources_Required": "The adversary requires a variety of tools to collect information about the target. These include port/network scanners and tools to analyze responses from applications to determine version and configuration information. Footprinting a system adequately may also take a few days if the attacker wishes the footprinting attempt to go undetected.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data",
+        "capec_Mitigations": "Keep patches up to date by installing weekly or daily if possible. || Shut down unnecessary services/ports. || Change default passwords by choosing strong passwords. || Curtail unexpected input. || Encrypt and password-protect sensitive data. || Avoid including information that has the potential to identify and compromise your organization's security such as access to business plans, formulas, and proprietary documents.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t0_0_and_0",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t0_0_tech_1",
+      "label": "Active Scanning",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may execute active reconnaissance scans to gather information that can be used during targeting. Active scans are those where the adversary probes victim infrastructure via network traffic, as opposed to other forms of reconnaissance that do not involve direct interaction.\n\nAdversaries may perform different forms of active scanning depending on what information they seek to gather. These scans can also be performed in various ways, including using native features of network protocols such as ICMP.(Citation: Botnet Scan)(Citation: OWASP Fingerprinting) Information from these scans may reveal opportunities for other forms of reconnaissance (ex: [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593) or [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)), establishing operational resources (ex: [Develop Capabilities](https://attack.mitre.org/techniques/T1587) or [Obtain Capabilities](https://attack.mitre.org/techniques/T1588)), and/or initial access (ex: [External Remote Services](https://attack.mitre.org/techniques/T1133) or [Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190)).",
+        "technique_name": "Active Scanning",
+        "tactics": "Reconnaissance",
+        "detection": "Monitor for suspicious network traffic that could be indicative of scanning, such as large quantities originating from a single source (especially if the source is known to be associated with an adversary/botnet). Analyzing web metadata may also reveal artifacts that can be attributed to potentially malicious activity, such as referer or user-agent string HTTP/S fields.\n\nMuch of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders.\n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+        "platforms": "PRE",
+        "data sources": "Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t0_0_cap_1",
+      "label": "Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Footprinting",
+        "capec_Mitre_Techniques": "1595 - Active Scanning",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary engages in probing and exploration activities to identify constituents and properties of the target.",
+        "capec_Extended_Description": "Footprinting is a general term to describe a variety of information gathering techniques, often used by attackers in preparation for some attack. It consists of using tools to learn as much as possible about the composition, configuration, and security mechanisms of the targeted application, system or network. Information that might be collected during a footprinting effort could include open ports, applications and their versions, network topology, and similar information. Although similar to fingerprinting, footprinting aims to get a more holistic view of a system or network, whereas fingerprinting is more targeted to a specific application or operating system. While footprinting is not intended to be damaging (although certain activities, such as network scans, can sometimes cause disruptions to vulnerable applications inadvertently) it may often pave the way for more damaging attacks.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very Low",
+        "capec_Execution_Flow": "Step 1: Explore - [Request Footprinting] The attacker examines the website information and source code of the website and uses automated tools to get as much information as possible about the system and organization. (Techniques: Open Source Footprinting: Examine the website about the organization and skim through the webpage's HTML source to look for comments., Network Enumeration: Perform various queries (Registrar Query, Organizational Query, Domain Query, Network Query, POC Query) on the many whois databases found on the internet to identify domain names and associated networks., DNS Interrogation: Once basic information is gathered the attack could begin to query DNS., Other Techniques: Use ping sweep, TCP scan, UDP scan, OS Identification various techniques to gain more information about the system and network.)",
+        "capec_Prerequisites": "An application must publicize identifiable information about the system or application through voluntary or involuntary means. Certain identification details of information systems are visible on communication networks (e.g., if an adversary uses a sniffer to inspect the traffic) due to their inherent structure and protocol standards. Any system or network that can be detected can be footprinted. However, some configuration choices may limit the useful information that can be collected during a footprinting attack.",
+        "capec_Skills_Required": "Low: The adversary knows how to send HTTP request, run the scan tool.",
+        "capec_Resources_Required": "The adversary requires a variety of tools to collect information about the target. These include port/network scanners and tools to analyze responses from applications to determine version and configuration information. Footprinting a system adequately may also take a few days if the attacker wishes the footprinting attempt to go undetected.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data",
+        "capec_Mitigations": "Keep patches up to date by installing weekly or daily if possible. || Shut down unnecessary services/ports. || Change default passwords by choosing strong passwords. || Curtail unexpected input. || Encrypt and password-protect sensitive data. || Avoid including information that has the potential to identify and compromise your organization's security such as access to business plans, formulas, and proprietary documents.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t0_0_and_1",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t0_0_tech_2",
+      "label": "Gather Victim Network Information",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may gather information about the victim's networks that can be used during targeting. Information about networks may include a variety of details, including administrative data (ex: IP ranges, domain names, etc.) as well as specifics regarding its topology and operations.\n\nAdversaries may gather this information in various ways, such as direct collection actions via [Active Scanning](https://attack.mitre.org/techniques/T1595) or [Phishing for Information](https://attack.mitre.org/techniques/T1598). Information about networks may also be exposed to adversaries via online or other accessible data sets (ex: [Search Open Technical Databases](https://attack.mitre.org/techniques/T1596)).(Citation: WHOIS)(Citation: DNS Dumpster)(Citation: Circl Passive DNS) Gathering this information may reveal opportunities for other forms of reconnaissance (ex: [Active Scanning](https://attack.mitre.org/techniques/T1595) or [Search Open Websites/Domains](https://attack.mitre.org/techniques/T1593)), establishing operational resources (ex: [Acquire Infrastructure](https://attack.mitre.org/techniques/T1583) or [Compromise Infrastructure](https://attack.mitre.org/techniques/T1584)), and/or initial access (ex: [Trusted Relationship](https://attack.mitre.org/techniques/T1199)).",
+        "technique_name": "Gather Victim Network Information",
+        "tactics": "Reconnaissance",
+        "detection": "Much of this activity may have a very high occurrence and associated false positive rate, as well as potentially taking place outside the visibility of the target organization, making detection difficult for defenders.\n\nDetection efforts may be focused on related stages of the adversary lifecycle, such as during Initial Access.",
+        "platforms": "PRE",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t0_0_cap_2",
+      "label": "Network Topology Mapping",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Network Topology Mapping",
+        "capec_Mitre_Techniques": "1590 - Gather Victim Network Information",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary engages in scanning activities to map network nodes, hosts, devices, and routes. Adversaries usually perform this type of network reconnaissance during the early stages of attack against an external network. Many types of scanning utilities are typically employed, including ICMP tools, network mappers, port scanners, and route testing utilities such as traceroute.",
+        "capec_Typical_Severity": "Low",
+        "capec_Resources_Required": "Probing requires the ability to interactively send and receive data from a target, whereas passive listening requires a sufficient understanding of the protocol to analyze a preexisting channel of communication.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t0_0_and_2",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t0_cwe0_or",
+      "label": "OR",
+      "type": "gate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "t0_0_and_0",
+      "to": "t0_0_tech_0"
+    },
+    {
+      "from": "t0_0_and_0",
+      "to": "t0_0_cap_0"
+    },
+    {
+      "from": "t0_0_and_1",
+      "to": "t0_0_tech_1"
+    },
+    {
+      "from": "t0_0_and_1",
+      "to": "t0_0_cap_1"
+    },
+    {
+      "from": "t0_0_and_2",
+      "to": "t0_0_tech_2"
+    },
+    {
+      "from": "t0_0_and_2",
+      "to": "t0_0_cap_2"
+    },
+    {
+      "from": "t0_cwe_0",
+      "to": "t0_cwe0_or"
+    },
+    {
+      "from": "t0_cwe0_or",
+      "to": "t0_0_and_0"
+    },
+    {
+      "from": "t0_cwe0_or",
+      "to": "t0_0_and_1"
+    },
+    {
+      "from": "t0_cwe0_or",
+      "to": "t0_0_and_2"
+    },
+    {
+      "from": "t0_tactic",
+      "to": "t0_cwe_0"
+    }
+  ]
+}

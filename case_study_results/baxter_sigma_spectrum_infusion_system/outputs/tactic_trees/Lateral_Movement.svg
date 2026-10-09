@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1455pt" height="514pt" viewBox="0.00 0.00 1454.50 514.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 510)" data-node-id="%3">
+<title>Lateral Movement</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-510 1450.5,-510 1450.5,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="t6_tactic">
+<title>Lateral Movement</title>
+<polygon fill="#98fb98" stroke="black" points="894,-506 768,-506 768,-470 894,-470 894,-506" />
+<text text-anchor="middle" x="831" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">Lateral Movement</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t6_tac_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="831" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="831" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge11" class="edge" data-node-id="t6_tactic-&gt;t6_tac_or">
+<title>t6_tactic-&gt;t6_tac_or</title>
+<path fill="none" stroke="black" d="M831,-469.88C831,-469.88 831,-422.07 831,-422.07" />
+<polygon fill="black" stroke="black" points="834.5,-422.07 831,-412.07 827.5,-422.07 834.5,-422.07" />
+</g>
+
+<g id="node2" class="node" data-node-id="t6_cwe_0">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="764.5,-318 607.5,-318 607.5,-282 770.5,-282 770.5,-312 764.5,-318" />
+<polyline fill="none" stroke="black" points="764.5,-318 764.5,-312 " />
+<polyline fill="none" stroke="black" points="770.5,-312 764.5,-312 " />
+<text text-anchor="middle" x="689" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t6_cwe0_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="689" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="689" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge5" class="edge" data-node-id="t6_cwe_0-&gt;t6_cwe0_or">
+<title>t6_cwe_0-&gt;t6_cwe0_or</title>
+<path fill="none" stroke="black" d="M689,-281.88C689,-281.88 689,-234.07 689,-234.07" />
+<polygon fill="black" stroke="black" points="692.5,-234.07 689,-224.07 685.5,-234.07 692.5,-234.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t6_0_sub_0">
+<title>Use Alternate Authentication Material: Application Access Token</title>
+<polygon fill="#fffacd" stroke="black" points="398,-36 0,-36 0,0 398,0 398,-36" />
+<text text-anchor="middle" x="199" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use Alternate Authentication Material: Application Access Token</text>
+</g>
+
+<g id="node4" class="node" data-node-id="t6_0_cap_0">
+<title>Session Hijacking</title>
+<polygon fill="#ffb6c1" stroke="black" points="553.5,-36 434.5,-36 434.5,0 553.5,0 553.5,-36" />
+<text text-anchor="middle" x="494" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Session Hijacking</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t6_0_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="494" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="494" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="t6_0_and_0-&gt;t6_0_sub_0">
+<title>t6_0_and_0-&gt;t6_0_sub_0</title>
+<path fill="none" stroke="black" d="M466.78,-112C393.75,-112 199,-112 199,-112 199,-112 199,-46.12 199,-46.12" />
+<polygon fill="black" stroke="black" points="202.5,-46.12 199,-36.12 195.5,-46.12 202.5,-46.12" />
+</g>
+
+<g id="edge2" class="edge" data-node-id="t6_0_and_0-&gt;t6_0_cap_0">
+<title>t6_0_and_0-&gt;t6_0_cap_0</title>
+<path fill="none" stroke="black" d="M494,-93.88C494,-93.88 494,-46.07 494,-46.07" />
+<polygon fill="black" stroke="black" points="497.5,-46.07 494,-36.07 490.5,-46.07 497.5,-46.07" />
+</g>
+
+<g id="node6" class="node" data-node-id="t6_0_tech_1">
+<title>Remote Service Session Hijacking</title>
+<polygon fill="#90ee90" stroke="black" points="808,-36 590,-36 590,0 808,0 808,-36" />
+<text text-anchor="middle" x="699" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Remote Service Session Hijacking</text>
+</g>
+
+<g id="node7" class="node" data-node-id="t6_0_cap_1">
+<title>Session Hijacking</title>
+<polygon fill="#ffb6c1" stroke="black" points="963.5,-36 844.5,-36 844.5,0 963.5,0 963.5,-36" />
+<text text-anchor="middle" x="904" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Session Hijacking</text>
+</g>
+
+<g id="node8" class="node" data-node-id="t6_0_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="699" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="699" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge3" class="edge" data-node-id="t6_0_and_1-&gt;t6_0_tech_1">
+<title>t6_0_and_1-&gt;t6_0_tech_1</title>
+<path fill="none" stroke="black" d="M690,-94.76C690,-94.76 690,-46.09 690,-46.09" />
+<polygon fill="black" stroke="black" points="693.5,-46.09 690,-36.09 686.5,-46.09 693.5,-46.09" />
+</g>
+
+<g id="edge4" class="edge" data-node-id="t6_0_and_1-&gt;t6_0_cap_1">
+<title>t6_0_and_1-&gt;t6_0_cap_1</title>
+<path fill="none" stroke="black" d="M708,-94.77C708,-81.35 708,-65 708,-65 708,-65 904,-65 904,-65 904,-65 904,-46.04 904,-46.04" />
+<polygon fill="black" stroke="black" points="907.5,-46.04 904,-36.04 900.5,-46.04 907.5,-46.04" />
+</g>
+
+<g id="edge6" class="edge" data-node-id="t6_cwe0_or-&gt;t6_0_and_0">
+<title>t6_cwe0_or-&gt;t6_0_and_0</title>
+<path fill="none" stroke="black" d="M667,-195.22C667,-170.53 667,-112 667,-112 667,-112 531.03,-112 531.03,-112" />
+<polygon fill="black" stroke="black" points="531.03,-108.5 521.03,-112 531.03,-115.5 531.03,-108.5" />
+</g>
+
+<g id="edge7" class="edge" data-node-id="t6_cwe0_or-&gt;t6_0_and_1">
+<title>t6_cwe0_or-&gt;t6_0_and_1</title>
+<path fill="none" stroke="black" d="M694,-187.88C694,-187.88 694,-139.75 694,-139.75" />
+<polygon fill="black" stroke="black" points="697.5,-139.75 694,-129.75 690.5,-139.75 697.5,-139.75" />
+</g>
+
+<g id="node10" class="node" data-node-id="t6_cwe_1">
+<title>Incorrect Permission Assignment for Critical Resource</title>
+<polygon fill="#add8e6" stroke="black" points="1135.5,-318 806.5,-318 806.5,-282 1141.5,-282 1141.5,-312 1135.5,-318" />
+<polyline fill="none" stroke="black" points="1135.5,-318 1135.5,-312 " />
+<polyline fill="none" stroke="black" points="1141.5,-312 1135.5,-312 " />
+<text text-anchor="middle" x="974" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Incorrect Permission Assignment for Critical Resource</text>
+</g>
+
+<g id="node13" class="node" data-node-id="t6_1_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="974" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="974" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge10" class="edge" data-node-id="t6_cwe_1-&gt;t6_1_and_2">
+<title>t6_cwe_1-&gt;t6_1_and_2</title>
+<path fill="none" stroke="black" d="M974,-281.88C974,-281.88 974,-234.07 974,-234.07" />
+<polygon fill="black" stroke="black" points="977.5,-234.07 974,-224.07 970.5,-234.07 977.5,-234.07" />
+</g>
+
+<g id="node11" class="node" data-node-id="t6_1_sub_2">
+<title>Use Alternate Authentication Material: Web Session Cookie</title>
+<polygon fill="#fffacd" stroke="black" points="1149,-130 781,-130 781,-94 1149,-94 1149,-130" />
+<text text-anchor="middle" x="965" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Use Alternate Authentication Material: Web Session Cookie</text>
+</g>
+
+<g id="node12" class="node" data-node-id="t6_1_cap_2">
+<title>Reusing Session IDs (aka Session Replay)</title>
+<polygon fill="#ffb6c1" stroke="black" points="1446.5,-130 1185.5,-130 1185.5,-94 1446.5,-94 1446.5,-130" />
+<text text-anchor="middle" x="1316" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Reusing Session IDs (aka Session Replay)</text>
+</g>
+
+<g id="edge8" class="edge" data-node-id="t6_1_and_2-&gt;t6_1_sub_2">
+<title>t6_1_and_2-&gt;t6_1_sub_2</title>
+<path fill="none" stroke="black" d="M974,-187.88C974,-187.88 974,-140.07 974,-140.07" />
+<polygon fill="black" stroke="black" points="977.5,-140.07 974,-130.07 970.5,-140.07 977.5,-140.07" />
+</g>
+
+<g id="edge9" class="edge" data-node-id="t6_1_and_2-&gt;t6_1_cap_2">
+<title>t6_1_and_2-&gt;t6_1_cap_2</title>
+<path fill="none" stroke="black" d="M1001.12,-206C1082.01,-206 1316,-206 1316,-206 1316,-206 1316,-140.12 1316,-140.12" />
+<polygon fill="black" stroke="black" points="1319.5,-140.12 1316,-130.12 1312.5,-140.12 1319.5,-140.12" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t6_tac_or-&gt;t6_cwe_0">
+<title>t6_tac_or-&gt;t6_cwe_0</title>
+<path fill="none" stroke="black" d="M803.72,-394C762.16,-394 687.75,-394 687.75,-394 687.75,-394 687.75,-328.12 687.75,-328.12" />
+<polygon fill="black" stroke="black" points="691.25,-328.12 687.75,-318.12 684.25,-328.12 691.25,-328.12" />
+</g>
+
+<g id="edge13" class="edge" data-node-id="t6_tac_or-&gt;t6_cwe_1">
+<title>t6_tac_or-&gt;t6_cwe_1</title>
+<path fill="none" stroke="black" d="M832.25,-375.88C832.25,-375.88 832.25,-328.07 832.25,-328.07" />
+<polygon fill="black" stroke="black" points="835.75,-328.07 832.25,-318.07 828.75,-328.07 835.75,-328.07" />
+</g>
+</g>
+</svg>

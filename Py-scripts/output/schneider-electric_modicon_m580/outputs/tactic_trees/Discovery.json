@@ -1,0 +1,1284 @@
+{
+  "name": "Discovery",
+  "leaf_count": 19,
+  "node_count": 63,
+  "edge_count": 62,
+  "nodes": [
+    {
+      "id": "t5_tactic",
+      "label": "Discovery",
+      "type": "tactic",
+      "metadata": {
+        "tactic": "Discovery"
+      }
+    },
+    {
+      "id": "t5_cwe_0",
+      "label": "Exposure of Sensitive Information to an Unauthorized Actor",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "cwe_Name": "Exposure of Sensitive Information to an Unauthorized Actor",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product exposes sensitive information to an actor that is not explicitly authorized to have access to that information.",
+        "cwe_Related_Weaknesses": "CWE-668 (ChildOf, View: 1000, Ordinal: Primary)",
+        "cwe_Weakness_Ordinality": "Primary, Resultant",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: N/A",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data | Note: N/A",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: High | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: Compartmentalize the system to have \"safe\" areas where trust boundaries can be unambiguously drawn. Do not allow sensitive data to go outside of the trust boundary and always be careful when interfacing with a compartment outside of the safe area. Ensure that appropriate compartmentalization is built into the system design, and the compartmentalization allows for and reinforces privilege separation functionality. Architects and designers should rely on the principle of least privilege to decide the appropriate time to use privileges and the time to drop privileges.",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "NONE",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_tech_0",
+      "label": "Browser Information Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may enumerate information about browsers to learn more about compromised environments. Data saved by browsers (such as bookmarks, accounts, and browsing history) may reveal a variety of personal information about users (e.g., banking sites, relationships/interests, social media, etc.) as well as details about internal network resources such as servers, tools/dashboards, or other related infrastructure.(Citation: Kaspersky Autofill)\n\nBrowser information may also highlight additional targets after an adversary has access to valid credentials, especially [Credentials In Files](https://attack.mitre.org/techniques/T1552/001) associated with logins cached by a browser.\n\nSpecific storage locations vary based on platform and/or application, but browser information is typically stored in local files and databases (e.g., `%APPDATA%/Google/Chrome`).(Citation: Chrome Roaming Profiles)",
+        "technique_name": "Browser Information Discovery",
+        "tactics": "Discovery",
+        "detection": "Monitor processes and command-line arguments for actions that could be taken to gather browser bookmark information. Remote access tools with built-in features may interact directly using APIs to gather information. Information may also be acquired through system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nSystem and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.",
+        "platforms": "Linux, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Access, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_0",
+      "label": "Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Footprinting",
+        "capec_Mitre_Techniques": "1217 - Browser Bookmark Discovery",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary engages in probing and exploration activities to identify constituents and properties of the target.",
+        "capec_Extended_Description": "Footprinting is a general term to describe a variety of information gathering techniques, often used by attackers in preparation for some attack. It consists of using tools to learn as much as possible about the composition, configuration, and security mechanisms of the targeted application, system or network. Information that might be collected during a footprinting effort could include open ports, applications and their versions, network topology, and similar information. Although similar to fingerprinting, footprinting aims to get a more holistic view of a system or network, whereas fingerprinting is more targeted to a specific application or operating system. While footprinting is not intended to be damaging (although certain activities, such as network scans, can sometimes cause disruptions to vulnerable applications inadvertently) it may often pave the way for more damaging attacks.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very Low",
+        "capec_Execution_Flow": "Step 1: Explore - [Request Footprinting] The attacker examines the website information and source code of the website and uses automated tools to get as much information as possible about the system and organization. (Techniques: Open Source Footprinting: Examine the website about the organization and skim through the webpage's HTML source to look for comments., Network Enumeration: Perform various queries (Registrar Query, Organizational Query, Domain Query, Network Query, POC Query) on the many whois databases found on the internet to identify domain names and associated networks., DNS Interrogation: Once basic information is gathered the attack could begin to query DNS., Other Techniques: Use ping sweep, TCP scan, UDP scan, OS Identification various techniques to gain more information about the system and network.)",
+        "capec_Prerequisites": "An application must publicize identifiable information about the system or application through voluntary or involuntary means. Certain identification details of information systems are visible on communication networks (e.g., if an adversary uses a sniffer to inspect the traffic) due to their inherent structure and protocol standards. Any system or network that can be detected can be footprinted. However, some configuration choices may limit the useful information that can be collected during a footprinting attack.",
+        "capec_Skills_Required": "Low: The adversary knows how to send HTTP request, run the scan tool.",
+        "capec_Resources_Required": "The adversary requires a variety of tools to collect information about the target. These include port/network scanners and tools to analyze responses from applications to determine version and configuration information. Footprinting a system adequately may also take a few days if the attacker wishes the footprinting attempt to go undetected.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data",
+        "capec_Mitigations": "Keep patches up to date by installing weekly or daily if possible. || Shut down unnecessary services/ports. || Change default passwords by choosing strong passwords. || Curtail unexpected input. || Encrypt and password-protect sensitive data. || Avoid including information that has the potential to identify and compromise your organization's security such as access to business plans, formulas, and proprietary documents.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_0",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_1",
+      "label": "Remote System Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system. Functionality could exist within remote access tools to enable this, but utilities available on the operating system could also be used such as  [Ping](https://attack.mitre.org/software/S0097) or <code>net view</code> using [Net](https://attack.mitre.org/software/S0039).\n\nAdversaries may also analyze data from local host files (ex: <code>C:\\Windows\\System32\\Drivers\\etc\\hosts</code> or <code>/etc/hosts</code>) or other passive means (such as local [Arp](https://attack.mitre.org/software/S0099) cache entries) in order to discover the presence of remote systems in an environment.\n\nAdversaries may also target discovery of network infrastructure as well as leverage [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands on network devices to gather detailed information about systems within a network (e.g. <code>show cdp neighbors</code>, <code>show arp</code>).(Citation: US-CERT-TA18-106A)(Citation: CISA AR21-126A FIVEHANDS May 2021)",
+        "technique_name": "Remote System Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events related to legitimate remote system discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nMonitor for processes that can be used to discover remote systems, such as <code>ping.exe</code> and <code>tracert.exe</code>, especially when executed in quick succession.(Citation: Elastic - Koadiac Detection with EQL)",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Access, Network Traffic: Network Connection Creation, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_1",
+      "label": "Host Discovery",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Host Discovery",
+        "capec_Mitre_Techniques": "1018 - Remote System Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary sends a probe to an IP address to determine if the host is alive. Host discovery is one of the earliest phases of network reconnaissance. The adversary usually starts with a range of IP addresses belonging to a target network and uses various methods to determine if a host is present at that IP address. Host discovery is usually referred to as 'Ping' scanning using a sonar analogy. The goal is to send a packet through to the IP address and solicit a response from the host. As such, a 'ping' can be virtually any crafted packet whatsoever, provided the adversary can identify a functional host based on its response. An attack of this nature is usually carried out with a 'ping sweep,' where a particular kind of ping is sent to a range of IP addresses.",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary requires logical access to the target network in order to carry out host discovery.",
+        "capec_Resources_Required": "The resources required will differ based upon the type of host discovery being performed. Usually a network scanning tool or scanning script is required due to the volume of requests that must be generated.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_1",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_2",
+      "label": "System Time Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "An adversary may gather the system time and/or time zone settings from a local or remote system. The system time is set and stored by services, such as the Windows Time Service on Windows or <code>systemsetup</code> on macOS.(Citation: MSDN System Time)(Citation: Technet Windows Time Service)(Citation: systemsetup mac time) These time settings may also be synchronized between systems and services in an enterprise network, typically accomplished with a network time server within a domain.(Citation: Mac Time Sync)(Citation: linux system time)\n\nSystem time information may be gathered in a number of ways, such as with [Net](https://attack.mitre.org/software/S0039) on Windows by performing <code>net time \\\\hostname</code> to gather the system time on a remote system. The victim's time zone may also be inferred from the current system time or gathered by using <code>w32tm /tz</code>.(Citation: Technet Windows Time Service) In addition, adversaries can discover device uptime through functions such as <code>GetTickCount()</code> to determine how long it has been since the system booted up.(Citation: Virtualization/Sandbox Evasion)\n\nOn network devices, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `show clock detail` can be used to see the current time configuration.(Citation: show_clock_detail_cisco_cmd)\n\nIn addition, system calls \u2013 such as <code>time()</code> \u2013 have been used to collect the current time on Linux devices.(Citation: MAGNET GOBLIN) On macOS systems, adversaries may use commands such as <code>systemsetup -gettimezone</code> or <code>timeIntervalSinceNow</code> to gather current time zone information or current date and time.(Citation: System Information Discovery Technique)(Citation: ESET DazzleSpy Jan 2022)\n\nThis information could be useful for performing other techniques, such as executing a file with a [Scheduled Task/Job](https://attack.mitre.org/techniques/T1053)(Citation: RSA EU12 They're Inside), or to discover locality information based on time zone to assist in victim targeting (i.e. [System Location Discovery](https://attack.mitre.org/techniques/T1614)). Adversaries may also use knowledge of system time as part of a time bomb, or delaying execution until a specified date/time.(Citation: AnyRun TimeBomb)",
+        "technique_name": "System Time Discovery",
+        "tactics": "Discovery",
+        "detection": "Command-line interface monitoring may be useful to detect instances of net.exe or other command-line utilities being used to gather system time or time zone. Methods of detecting API use for gathering this information are likely less useful due to how often they may be used by legitimate software.\n\nFor network infrastructure devices, collect AAA logging to monitor `show` commands being run by non-standard users from non-standard locations.",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_2",
+      "label": "Timestamp Request",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Timestamp Request",
+        "capec_Mitre_Techniques": "1124 - System Time Discovery",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "This pattern of attack leverages standard requests to learn the exact time associated with a target system. An adversary may be able to use the timestamp returned from the target to attack time-based security algorithms, such as random number generators, or time-based authentication mechanisms.",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The ability to send a timestamp request to a remote target and receive a response.",
+        "capec_Resources_Required": "Scanners or utilities that provide the ability to send custom ICMP queries.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_2",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_3",
+      "label": "Network Service Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port and/or vulnerability scans using tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021)   \n\nWithin cloud environments, adversaries may attempt to discover services running on other cloud hosts. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to identify services running on non-cloud systems as well.\n\nWithin macOS environments, adversaries may use the native Bonjour application to discover services running on other macOS hosts within a network. The Bonjour mDNSResponder daemon automatically registers and advertises a host\u2019s registered services on the network. For example, adversaries can use a mDNS query (such as <code>dns-sd -B _ssh._tcp .</code>) to find other systems broadcasting the ssh service.(Citation: apple doco bonjour description)(Citation: macOS APT Activity Bradley)",
+        "technique_name": "Network Service Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events from legitimate remote service scanning may be uncommon, depending on the environment and how they are used. Legitimate open port and vulnerability scanning may be conducted within the environment and will need to be deconflicted with any detection capabilities developed. Network intrusion detection systems can also be used to identify scanning activity. Monitor for process use of the networks and inspect intra-network flows to detect port scans.",
+        "platforms": "Containers, IaaS, Linux, Network, Windows, macOS",
+        "data sources": "Cloud Service: Cloud Service Enumeration, Command: Command Execution, Network Traffic: Network Traffic Flow",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_3",
+      "label": "Port Scanning",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Port Scanning",
+        "capec_Mitre_Techniques": "1046 - Network Service Scanning",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary uses a combination of techniques to determine the state of the ports on a remote target. Any service or application available for TCP or UDP networking will have a port open for communications over the network.",
+        "capec_Extended_Description": "Although common services have assigned port numbers, services and applications can run on arbitrary ports. Additionally, port scanning is complicated by the potential for any machine to have up to 65535 possible UDP or TCP services. The goal of port scanning is often broader than identifying open ports, but also give the adversary information concerning the firewall configuration. \n             Depending upon the method of scanning that is used, the process can be stealthy or more obtrusive, the latter being more easily detectable due to the volume of packets involved, anomalous packet traits, or system logging. Typical port scanning activity involves sending probes to a range of ports and observing the responses. There are four port statuses that this type of attack aims to identify: open, closed, filtered, and unfiltered. For strategic purposes it is useful for an adversary to distinguish between an open port that is protected by a filter vs. a closed port that is not protected by a filter. Making these fine grained distinctions is requires certain scan types. Collecting this type of information tells the adversary which ports can be attacked directly, which must be attacked with filter evasion techniques like fragmentation, source port scans, and which ports are unprotected (i.e. not firewalled) but aren't hosting a network service. An adversary often combines various techniques in order to gain a more complete picture of the firewall filtering mechanisms in place for a host.",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary requires logical access to the target's network in order to carry out this type of attack.",
+        "capec_Resources_Required": "The adversary requires a network mapping/scanning tool, or must conduct socket programming on the command line. Packet injection tools are also useful for this purpose. Depending upon the method used it may be necessary to sniff the network in order to see the response.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_3",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_4",
+      "label": "System Network Configuration Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may look for details about the network configuration and settings, such as IP and/or MAC addresses, of systems they access or through information discovery of remote systems. Several operating system administration utilities exist that can be used to gather this information. Examples include [Arp](https://attack.mitre.org/software/S0099), [ipconfig](https://attack.mitre.org/software/S0100)/[ifconfig](https://attack.mitre.org/software/S0101), [nbtstat](https://attack.mitre.org/software/S0102), and [route](https://attack.mitre.org/software/S0103).\n\nAdversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to gather information about configurations and settings, such as IP addresses of configured interfaces and static/dynamic routes (e.g. <code>show ip route</code>, <code>show ip interface</code>).(Citation: US-CERT-TA18-106A)(Citation: Mandiant APT41 Global Intrusion )\n\nAdversaries may use the information from [System Network Configuration Discovery](https://attack.mitre.org/techniques/T1016) during automated discovery to shape follow-on behaviors, including determining certain access within the target network and what actions to do next.",
+        "technique_name": "System Network Configuration Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Further, {{LinkById|T1059.008} commands may also be used to gather system and network information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use  commands being run by non-standard users from non-standard locations.  Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation, Script: Script Execution",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_4",
+      "label": "Network Topology Mapping",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Network Topology Mapping",
+        "capec_Mitre_Techniques": "1016 - System Network Configuration Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary engages in scanning activities to map network nodes, hosts, devices, and routes. Adversaries usually perform this type of network reconnaissance during the early stages of attack against an external network. Many types of scanning utilities are typically employed, including ICMP tools, network mappers, port scanners, and route testing utilities such as traceroute.",
+        "capec_Typical_Severity": "Low",
+        "capec_Resources_Required": "Probing requires the ability to interactively send and receive data from a target, whereas passive listening requires a sufficient understanding of the protocol to analyze a preexisting channel of communication.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_4",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_5",
+      "label": "System Network Connections Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network. \n\nAn adversary who gains access to a system that is part of a cloud-based environment may map out Virtual Private Clouds or Virtual Networks in order to determine what systems and services are connected. The actions performed are likely the same types of discovery techniques depending on the operating system, but the resulting information may include details about the networked cloud environment relevant to the adversary's goals. Cloud providers may have different ways in which their virtual networks operate.(Citation: Amazon AWS VPC Guide)(Citation: Microsoft Azure Virtual Network Overview)(Citation: Google VPC Overview) Similarly, adversaries who gain access to network devices may also perform similar discovery activities to gather information about connected systems and services.\n\nUtilities and commands that acquire this information include [netstat](https://attack.mitre.org/software/S0104), \"net use,\" and \"net session\" with [Net](https://attack.mitre.org/software/S0039). In Mac and Linux, [netstat](https://attack.mitre.org/software/S0104) and <code>lsof</code> can be used to list current connections. <code>who -a</code> and <code>w</code> can be used to show which users are currently logged in, similar to \"net session\". Additionally, built-in features native to network devices and [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) may be used (e.g. <code>show ip sockets</code>, <code>show tcp brief</code>).(Citation: US-CERT-TA18-106A)",
+        "technique_name": "System Network Connections Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to gather system and network information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use commands being run by non-standard users from non-standard locations. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+        "platforms": "IaaS, Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_5",
+      "label": "Network Topology Mapping",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Network Topology Mapping",
+        "capec_Mitre_Techniques": "1049 - System Network Connections Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary engages in scanning activities to map network nodes, hosts, devices, and routes. Adversaries usually perform this type of network reconnaissance during the early stages of attack against an external network. Many types of scanning utilities are typically employed, including ICMP tools, network mappers, port scanners, and route testing utilities such as traceroute.",
+        "capec_Typical_Severity": "Low",
+        "capec_Resources_Required": "Probing requires the ability to interactively send and receive data from a target, whereas passive listening requires a sufficient understanding of the protocol to analyze a preexisting channel of communication.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_5",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_6",
+      "label": "System Information Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from [System Information Discovery](https://attack.mitre.org/techniques/T1082) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nTools such as [Systeminfo](https://attack.mitre.org/software/S0096) can be used to gather detailed system information. If running with privileged access, a breakdown of system data can be gathered through the <code>systemsetup</code> configuration tool on macOS. As an example, adversaries with user-level access can execute the <code>df -aH</code> command to obtain currently mounted disks and associated freely available space. Adversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to gather detailed system information (e.g. <code>show version</code>).(Citation: US-CERT-TA18-106A) [System Information Discovery](https://attack.mitre.org/techniques/T1082) combined with information gathered from other forms of discovery and reconnaissance can drive payload development and concealment.(Citation: OSX.FairyTale)(Citation: 20 macOS Common Tools and Techniques)\n\nInfrastructure as a Service (IaaS) cloud providers such as AWS, GCP, and Azure allow access to instance and virtual machine information via APIs. Successful authenticated API calls can return data such as the operating system platform and status of a particular instance or the model view of a virtual machine.(Citation: Amazon Describe Instance)(Citation: Google Instances Resource)(Citation: Microsoft Virutal Machine API)",
+        "technique_name": "System Information Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to gather  detailed system information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use  commands being run by non-standard users from non-standard locations. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations.",
+        "platforms": "IaaS, Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_6",
+      "label": "Active OS Fingerprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Active OS Fingerprinting",
+        "capec_Mitre_Techniques": "1082 - System Information Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary engages in activity to detect the operating system or firmware version of a remote target by interrogating a device, server, or platform with a probe designed to solicit behavior that will reveal information about the operating systems or firmware in the environment. Operating System detection is possible because implementations of common protocols (Such as IP or TCP) differ in distinct ways. While the implementation differences are not sufficient to 'break' compatibility with the protocol the differences are detectable because the target will respond in unique ways to specific probing activity that breaks the semantic or logical rules of packet construction for a protocol. Different operating systems will have a unique response to the anomalous input, providing the basis to fingerprint the OS behavior. This type of OS fingerprinting can distinguish between operating system types and versions.",
+        "capec_Likelihood_Of_Attack": "Medium",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The ability to monitor and interact with network communications.Access to at least one host, and the privileges to interface with the network interface card.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Hide Activities",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_6",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_7",
+      "label": "System Information Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from [System Information Discovery](https://attack.mitre.org/techniques/T1082) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nTools such as [Systeminfo](https://attack.mitre.org/software/S0096) can be used to gather detailed system information. If running with privileged access, a breakdown of system data can be gathered through the <code>systemsetup</code> configuration tool on macOS. As an example, adversaries with user-level access can execute the <code>df -aH</code> command to obtain currently mounted disks and associated freely available space. Adversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to gather detailed system information (e.g. <code>show version</code>).(Citation: US-CERT-TA18-106A) [System Information Discovery](https://attack.mitre.org/techniques/T1082) combined with information gathered from other forms of discovery and reconnaissance can drive payload development and concealment.(Citation: OSX.FairyTale)(Citation: 20 macOS Common Tools and Techniques)\n\nInfrastructure as a Service (IaaS) cloud providers such as AWS, GCP, and Azure allow access to instance and virtual machine information via APIs. Successful authenticated API calls can return data such as the operating system platform and status of a particular instance or the model view of a virtual machine.(Citation: Amazon Describe Instance)(Citation: Google Instances Resource)(Citation: Microsoft Virutal Machine API)",
+        "technique_name": "System Information Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to gather  detailed system information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use  commands being run by non-standard users from non-standard locations. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nIn cloud-based systems, native logging can be used to identify access to certain APIs and dashboards that may contain system information. Depending on how the environment is used, that data alone may not be useful due to benign use during normal operations.",
+        "platforms": "IaaS, Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_7",
+      "label": "Passive OS Fingerprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Passive OS Fingerprinting",
+        "capec_Mitre_Techniques": "1082 - System Information Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary engages in activity to detect the version or type of OS software in a an environment by passively monitoring communication between devices, nodes, or applications. Passive techniques for operating system detection send no actual probes to a target, but monitor network or client-server communication between nodes in order to identify operating systems based on observed behavior as compared to a database of known signatures or values. While passive OS fingerprinting is not usually as reliable as active methods, it is generally better able to evade detection.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The ability to monitor network communications.Access to at least one host, and the privileges to interface with the network interface card.",
+        "capec_Resources_Required": "Any tool capable of monitoring network communications, like a packet sniffer (e.g., Wireshark)",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Hide Activities",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_7",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_8",
+      "label": "File and Directory Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nMany command shell utilities can be used to obtain this information. Examples include <code>dir</code>, <code>tree</code>, <code>ls</code>, <code>find</code>, and <code>locate</code>.(Citation: Windows Commands JPCERT) Custom tools may also be used to gather file and directory information and interact with the [Native API](https://attack.mitre.org/techniques/T1106). Adversaries may also leverage a [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) on network devices to gather file and directory information (e.g. <code>dir</code>, <code>show flash</code>, and/or <code>nvram</code>).(Citation: US-CERT-TA18-106A)\n\nSome files and directories may require elevated or specific user permissions to access.",
+        "technique_name": "File and Directory Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Collection and Exfiltration, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001). Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to gather file and directory information with built-in features native to the network device platform.  Monitor CLI activity for unexpected or unauthorized use of commands being run by non-standard users from non-standard locations.",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_8",
+      "label": "File Discovery",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "File Discovery",
+        "capec_Mitre_Techniques": "1083 - File and Directory Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary engages in probing and exploration activities to determine if common key files exists. Such files often contain configuration and security parameters of the targeted application, system or network. Using this knowledge may often pave the way for more damaging attacks.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very Low",
+        "capec_Prerequisites": "The adversary must know the location of these common key files.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data",
+        "capec_Mitigations": "Leverage file protection mechanisms to render these files accessible only to authorized parties.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_8",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_9",
+      "label": "Process Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network. Administrator or otherwise elevated access may provide better process details. Adversaries may use the information from [Process Discovery](https://attack.mitre.org/techniques/T1057) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nIn Windows environments, adversaries could obtain details on running processes using the [Tasklist](https://attack.mitre.org/software/S0057) utility via [cmd](https://attack.mitre.org/software/S0106) or <code>Get-Process</code> via [PowerShell](https://attack.mitre.org/techniques/T1059/001). Information about processes can also be extracted from the output of [Native API](https://attack.mitre.org/techniques/T1106) calls such as <code>CreateToolhelp32Snapshot</code>. In Mac and Linux, this is accomplished with the <code>ps</code> command. Adversaries may also opt to enumerate processes via `/proc`. \n\nOn network devices, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `show processes` can be used to display current running processes.(Citation: US-CERT-TA18-106A)(Citation: show_processes_cisco_cmd)",
+        "technique_name": "Process Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events that look like process discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nFor network infrastructure devices, collect AAA logging to monitor for `show` commands being run by non-standard users from non-standard locations.",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_9",
+      "label": "Process Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Process Footprinting",
+        "capec_Mitre_Techniques": "1057 - Process Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary exploits functionality meant to identify information about the currently running processes on the target system to an authorized user. By knowing what processes are running on the target system, the adversary can learn about the target environment as a means towards further malicious behavior.",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary must have gained access to the target system via physical or logical means in order to carry out this attack.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Mitigations": "Identify programs that may be used to acquire process information and block them by using a software restriction policy or tools that restrict program execution by using a process allowlist.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_9",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_10",
+      "label": "System Service Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may try to gather information about registered local system services. Adversaries may obtain information about services using tools as well as OS utility commands such as <code>sc query</code>, <code>tasklist /svc</code>, <code>systemctl --type=service</code>, and <code>net start</code>.\n\nAdversaries may use the information from [System Service Discovery](https://attack.mitre.org/techniques/T1007) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.",
+        "technique_name": "System Service Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system information related to services. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+        "platforms": "Linux, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_10",
+      "label": "Services Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Services Footprinting",
+        "capec_Mitre_Techniques": "1007 - System Service Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary exploits functionality meant to identify information about the services on the target system to an authorized user. By knowing what services are registered on the target system, the adversary can learn about the target environment as a means towards further malicious behavior. Depending on the operating system, commands that can obtain services information include \"sc\" and \"tasklist/svc\" using Tasklist, and \"net start\" using Net.",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary must have gained access to the target system via physical or logical means in order to carry out this attack.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Mitigations": "Identify programs that may be used to acquire service information and block them by using a software restriction policy or tools that restrict program execution by uaing a process allowlist.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_10",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_11",
+      "label": "Account Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to get a listing of valid accounts, usernames, or email addresses on a system or within a compromised environment. This information can help adversaries determine which accounts exist, which can aid in follow-on behavior such as brute-forcing, spear-phishing attacks, or account takeovers (e.g., [Valid Accounts](https://attack.mitre.org/techniques/T1078)).\n\nAdversaries may use several methods to enumerate accounts, including abuse of existing tools, built-in commands, and potential misconfigurations that leak account names and roles or permissions in the targeted environment.\n\nFor examples, cloud environments typically provide easily accessible interfaces to obtain user lists.(Citation: AWS List Users)(Citation: Google Cloud - IAM Servie Accounts List API) On hosts, adversaries can use default [PowerShell](https://attack.mitre.org/techniques/T1059/001) and other command line functionality to identify accounts. Information about email addresses and accounts may also be extracted by searching an infected system\u2019s files.",
+        "technique_name": "Account Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nMonitor for processes that can be used to enumerate user accounts, such as <code>net.exe</code> and <code>net1.exe</code>, especially when executed in quick succession.(Citation: Elastic - Koadiac Detection with EQL)",
+        "platforms": "IaaS, Identity Provider, Linux, Office Suite, SaaS, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Access, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_11",
+      "label": "Account Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Account Footprinting",
+        "capec_Mitre_Techniques": "1087 - Account Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary exploits functionality meant to identify information about the domain accounts and their permissions on the target system to an authorized user. By knowing what accounts are registered on the target system, the adversary can inform further and more targeted malicious behavior. Example Windows commands which can acquire this information are: \"net user\" and \"dsquery\".",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary must have gained access to the target system via physical or logical means in order to carry out this attack.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Mitigations": "Identify programs that may be used to acquire account information and block them by using a software restriction policy or tools that restrict program execution by uysing a process allowlist.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_11",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_12",
+      "label": "Permission Groups Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to discover group and permission settings. This information can help adversaries determine which user accounts and groups are available, the membership of users in particular groups, and which users and groups have elevated permissions.\n\nAdversaries may attempt to discover group permission settings in many different ways. This data may provide the adversary with information about the compromised environment that can be used in follow-on activity and targeting.(Citation: CrowdStrike BloodHound April 2018)",
+        "technique_name": "Permission Groups Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001). Monitor container logs for commands and/or API calls related to listing permissions for pods and nodes, such as <code>kubectl auth can-i</code>.(Citation: K8s Authorization Overview)",
+        "platforms": "Containers, IaaS, Identity Provider, Linux, Office Suite, SaaS, Windows, macOS",
+        "data sources": "Application Log: Application Log Content, Command: Command Execution, Group: Group Enumeration, Group: Group Metadata, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_12",
+      "label": "Group Permission Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Group Permission Footprinting",
+        "capec_Mitre_Techniques": "1069 - Permission Groups Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary exploits functionality meant to identify information about user groups and their permissions on the target system to an authorized user. By knowing what users/permissions are registered on the target system, the adversary can inform further and more targeted malicious behavior. An example Windows command which can list local groups is \"net localgroup\".",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary must have gained access to the target system via physical or logical means in order to carry out this attack.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Mitigations": "Identify programs (such as \"net\") that may be used to enumerate local group permissions and block them by using a software restriction Policy or tools that restrict program execution by using a process allowlist.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_12",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_13",
+      "label": "Group Policy Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may gather information on Group Policy settings to identify paths for privilege escalation, security measures applied within a domain, and to discover patterns in domain objects that can be manipulated or used to blend in the environment. Group Policy allows for centralized management of user and computer settings in Active Directory (AD). Group policy objects (GPOs) are containers for group policy settings made up of files stored within a predictable network path `\\<DOMAIN>\\SYSVOL\\<DOMAIN>\\Policies\\`.(Citation: TechNet Group Policy Basics)(Citation: ADSecurity GPO Persistence 2016)\n\nAdversaries may use commands such as <code>gpresult</code> or various publicly available PowerShell functions, such as <code>Get-DomainGPO</code> and <code>Get-DomainGPOLocalGroup</code>, to gather information on Group Policy settings.(Citation: Microsoft gpresult)(Citation: Github PowerShell Empire) Adversaries may use this information to shape follow-on behaviors, including determining potential attack paths within the target network as well as opportunities to manipulate Group Policy settings (i.e. [Domain or Tenant Policy Modification](https://attack.mitre.org/techniques/T1484)) for their benefit.",
+        "technique_name": "Group Policy Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor for suspicious use of <code>gpresult</code>. Monitor for the use of PowerShell functions such as <code>Get-DomainGPO</code> and <code>Get-DomainGPOLocalGroup</code> and processes spawning with command-line arguments containing <code>GPOLocalGroup</code>.\n\nMonitor for abnormal LDAP queries with filters for <code>groupPolicyContainer</code> and high volumes of LDAP traffic to domain controllers. Windows Event ID 4661 can also be used to detect when a directory service has been accessed.",
+        "platforms": "Windows",
+        "data sources": "Active Directory: Active Directory Object Access, Command: Command Execution, Network Traffic: Network Traffic Content, Process: Process Creation, Script: Script Execution",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_13",
+      "label": "Group Permission Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Group Permission Footprinting",
+        "capec_Mitre_Techniques": "1615 - Group Policy Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary exploits functionality meant to identify information about user groups and their permissions on the target system to an authorized user. By knowing what users/permissions are registered on the target system, the adversary can inform further and more targeted malicious behavior. An example Windows command which can list local groups is \"net localgroup\".",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary must have gained access to the target system via physical or logical means in order to carry out this attack.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Mitigations": "Identify programs (such as \"net\") that may be used to enumerate local group permissions and block them by using a software restriction Policy or tools that restrict program execution by using a process allowlist.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_13",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_14",
+      "label": "System Owner/User Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system. They may do this, for example, by retrieving account usernames or by using [OS Credential Dumping](https://attack.mitre.org/techniques/T1003). The information may be collected in a number of different ways using other Discovery techniques, because user and username details are prevalent throughout a system and include running process ownership, file/directory ownership, session information, and system logs. Adversaries may use the information from [System Owner/User Discovery](https://attack.mitre.org/techniques/T1033) during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.\n\nVarious utilities and commands may acquire this information, including <code>whoami</code>. In macOS and Linux, the currently logged in user can be identified with <code>w</code> and <code>who</code>. On macOS the <code>dscl . list /Users | grep -v '_'</code> command can also be used to enumerate user accounts. Environment variables, such as <code>%USERNAME%</code> and <code>$USER</code>, may also be used to access this information.\n\nOn network devices, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `show users` and `show ssh` can be used to display users currently logged into the device.(Citation: show_ssh_users_cmd_cisco)(Citation: US-CERT TA18-106A Network Infrastructure Devices 2018)",
+        "technique_name": "System Owner/User Discovery",
+        "tactics": "Discovery",
+        "detection": "`System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).\n\nFor network infrastructure devices, collect AAA logging to monitor `show` commands being run by non-standard users from non-standard locations.",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Active Directory: Active Directory Object Access, Command: Command Execution, File: File Access, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Process: OS API Execution, Process: Process Access, Process: Process Creation, Windows Registry: Windows Registry Key Access",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_14",
+      "label": "Owner Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Owner Footprinting",
+        "capec_Mitre_Techniques": "1033 - System Owner/User Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary exploits functionality meant to identify information about the primary users on the target system to an authorized user. They may do this, for example, by reviewing logins or file modification times. By knowing what owners use the target system, the adversary can inform further and more targeted malicious behavior. An example Windows command that may accomplish this is \"dir /A ntuser.dat\". Which will display the last modified time of a user's ntuser.dat file when run within the root folder of a user. This time is synonymous with the last time that user was logged in.",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "Low",
+        "capec_Prerequisites": "The adversary must have gained access to the target system via physical or logical means in order to carry out this attack. || Administrator permissions are required to view the home folder of other users.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Other || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism, Hide Activities",
+        "capec_Mitigations": "Ensure that proper permissions on files and folders are enacted to limit accessibility.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_14",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_15",
+      "label": "Network Share Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may look for folders and drives shared on remote systems as a means of identifying sources of information to gather as a precursor for Collection and to identify potential systems of interest for Lateral Movement. Networks often contain shared network drives and folders that enable users to access file directories on various systems across a network. \n\nFile sharing over a Windows network occurs over the SMB protocol. (Citation: Wikipedia Shared Resource) (Citation: TechNet Shared Folder) [Net](https://attack.mitre.org/software/S0039) can be used to query a remote system for available shared drives using the <code>net view \\\\\\\\remotesystem</code> command. It can also be used to query shared drives on the local system using <code>net share</code>. For macOS, the <code>sharing -l</code> command lists all shared points used for smb services.",
+        "technique_name": "Network Share Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as Lateral Movement, based on the information obtained.\n\nNormal, benign system and network events related to legitimate remote system discovery may be uncommon, depending on the environment and how they are used. Monitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+        "platforms": "Linux, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_15",
+      "label": "Identify Shared Files/Directories on System",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Identify Shared Files/Directories on System",
+        "capec_Mitre_Techniques": "1135 - Network Share Discovery",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary discovers connections between systems by exploiting the target system's standard practice of revealing them in searchable, common areas. Through the identification of shared folders/drives between systems, the adversary may further their goals of locating and collecting sensitive information/files, or map potential routes for lateral movement within the network.",
+        "capec_Likelihood_Of_Attack": "Medium",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "The adversary must have obtained logical access to the system by some means (e.g., via obtained credentials or planting malware on the system).",
+        "capec_Skills_Required": "Low: Once the adversary has logical access (which can potentially require high knowledge and skill level), the adversary needs only the capability and facility to navigate the system through the OS graphical user interface or the command line. The adversary, or their malware, can simply employ a set of commands that search for shared drives on the system (e.g., net view \\\\remote system or net share).",
+        "capec_Resources_Required": "None: No specialized resources are required to execute this type of attack.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data",
+        "capec_Mitigations": "Identify unnecessary system utilities or potentially malicious software that may contain functionality to identify network share information, and audit and/or block them by using allowlist tools.",
+        "capec_Related_Weaknesses": "CWE-267, CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_15",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_0_tech_16",
+      "label": "Peripheral Device Discovery",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "tech_description": "Adversaries may attempt to gather information about attached peripheral devices and components connected to a computer system.(Citation: Peripheral Discovery Linux)(Citation: Peripheral Discovery macOS) Peripheral devices could include auxiliary resources that support a variety of functionalities such as keyboards, printers, cameras, smart card readers, or removable storage. The information may be used to enhance their awareness of the system and network environment or may be used for further actions.",
+        "technique_name": "Peripheral Device Discovery",
+        "tactics": "Discovery",
+        "detection": "System and network discovery techniques normally occur throughout an operation as an adversary learns the environment. Data and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities based on the information obtained.\n\nMonitor processes and command-line arguments for actions that could be taken to gather system and network information. Remote access tools with built-in features may interact directly with the Windows API to gather information. Information may also be acquired through Windows system management tools such as [Windows Management Instrumentation](https://attack.mitre.org/techniques/T1047) and [PowerShell](https://attack.mitre.org/techniques/T1059/001).",
+        "platforms": "Linux, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: OS API Execution, Process: Process Creation",
+        "permissions required": "Administrator, SYSTEM, User",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_cap_16",
+      "label": "Peripheral Footprinting",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Peripheral Footprinting",
+        "capec_Mitre_Techniques": "1120 - Peripheral Device Discovery",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "Adversaries may attempt to obtain information about attached peripheral devices and components connected to a computer system. Examples may include discovering the presence of iOS devices by searching for backups, analyzing the Windows registry to determine what USB devices have been connected, or infecting a victim system with malware to report when a USB device has been connected. This may allow the adversary to gain additional insight about the system or network environment, which may be useful in constructing further attacks.",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "The adversary needs either physical or remote access to the victim system.",
+        "capec_Skills_Required": "Medium: The adversary needs to be able to infect the victim system in a manner that gives them remote access. || Medium: If analyzing the Windows registry, the adversary must understand the registry structure to know where to look for devices.",
+        "capec_Mitigations": "Identify programs that may be used to acquire peripheral information and block them by using a software restriction policy or tools that restrict program execution by using a process allowlist.",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t5_0_and_16",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_cwe0_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t5_cwe_1",
+      "label": "Improper Authentication",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "cwe_Name": "Improper Authentication",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "When an actor claims to have a given identity, the product does not prove or insufficiently proves that the claim is correct.",
+        "cwe_Related_Weaknesses": "CWE-284 (ChildOf, View: 1000, Ordinal: Primary); CWE-284 (ChildOf, View: 1340, Ordinal: Primary)",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis | Effectiveness: Limited | Description:  || Method: Manual Static Analysis | Effectiveness: High | Description:  || Method: Manual Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis | Effectiveness: SOAR Partial | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t5_1_tech_17",
+      "label": "Network Sniffing",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "tech_description": "Adversaries may passively sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.\n\nData captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol. Techniques for name service resolution poisoning, such as [LLMNR/NBT-NS Poisoning and SMB Relay](https://attack.mitre.org/techniques/T1557/001), can also be used to capture credentials to websites, proxies, and internal systems by redirecting traffic to an adversary.\n\nNetwork sniffing may reveal configuration details, such as running services, version numbers, and other network characteristics (e.g. IP addresses, hostnames, VLAN IDs) necessary for subsequent [Lateral Movement](https://attack.mitre.org/tactics/TA0008) and/or [Defense Evasion](https://attack.mitre.org/tactics/TA0005) activities. Adversaries may likely also utilize network sniffing during [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) (AiTM) to passively gain additional knowledge about the environment.\n\nIn cloud-based environments, adversaries may still be able to use traffic mirroring services to sniff network traffic from virtual machines. For example, AWS Traffic Mirroring, GCP Packet Mirroring, and Azure vTap allow users to define specified instances to collect traffic from and specified targets to send collected traffic to.(Citation: AWS Traffic Mirroring)(Citation: GCP Packet Mirroring)(Citation: Azure Virtual Network TAP) Often, much of this traffic will be in cleartext due to the use of TLS termination at the load balancer level to reduce the strain of encrypting and decrypting traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)(Citation: SpecterOps AWS Traffic Mirroring) The adversary can then use exfiltration techniques such as Transfer Data to Cloud Account in order to access the sniffed traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)\n\nOn network devices, adversaries may perform network captures using [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `monitor capture`.(Citation: US-CERT-TA18-106A)(Citation: capture_embedded_packet_on_software)",
+        "technique_name": "Network Sniffing",
+        "tactics": "Discovery",
+        "detection": "Detecting the events leading up to sniffing network traffic may be the best method of detection. From the host level, an adversary would likely need to perform a [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) attack against other devices on a wired network in order to capture traffic that was not to or from the current compromised system. This change in the flow of information is detectable at the enclave network level. Monitor for ARP spoofing and gratuitous ARP broadcasts. Detecting compromised network devices is a bit more challenging. Auditing administrator logins, configuration changes, and device images is required to detect malicious changes.\n\nIn cloud-based environments, monitor for the creation of new traffic mirrors or modification of existing traffic mirrors. For network infrastructure devices, collect AAA logging to monitor for the capture of network traffic.",
+        "platforms": "IaaS, Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t5_1_cap_17",
+      "label": "Utilizing REST's Trust in the System Resource to Obtain Sensitive Data",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "capec_Name": "Utilizing REST's Trust in the System Resource to Obtain Sensitive Data",
+        "capec_Mitre_Techniques": "1040 - Network Sniffing",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack utilizes a REST(REpresentational State Transfer)-style applications' trust in the system resources and environment to obtain sensitive data once SSL is terminated.",
+        "capec_Extended_Description": "Rest applications premise is that they leverage existing infrastructure to deliver web services functionality. An example of this is a Rest application that uses HTTP Get methods and receives a HTTP response with an XML document. These Rest style web services are deployed on existing infrastructure such as Apache and IIS web servers with no SOAP stack required. \n             Unfortunately from a security standpoint, there frequently is no interoperable identity security mechanism deployed, so Rest developers often fall back to SSL to deliver security. In large data centers, SSL is typically terminated at the edge of the network - at the firewall, load balancer, or router. Once the SSL is terminated the HTTP request is in the clear (unless developers have hashed or encrypted the values, but this is rare). The adversary can utilize a sniffer such as Wireshark to snapshot the credentials, such as username and password that are passed in the clear once SSL is terminated. Once the adversary gathers these credentials, they can submit requests to the web service provider just as authorized user do. There is not typically an authentication on the client side, beyond what is passed in the request itself so once this is compromised, then this is generally sufficient to compromise the service's authentication scheme.",
+        "capec_Likelihood_Of_Attack": "Medium",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Find a REST-style application that uses SSL] The adversary must first find a REST-style application that uses SSL to target. Because this attack is easier to carry out from inside of a server network, it is likely that an adversary could have inside knowledge of how services operate. (Techniques: N/A) || Step 2: Experiment - [Insert a listener to sniff client-server communication] The adversary inserts a listener that must exist beyond the point where SSL is terminated. This can be placed on the client side if it is believed that sensitive information is being sent to the client as a response, although most often the listener will be placed on the server side to listen for client authentication information. (Techniques: Run wireshark or tcpdump on a device that is on the inside of a firewall, load balancer, or router of a network and capture traffic after SSL has been terminated) || Step 3: Exploit - [Gather information passed in the clear] If developers have not hashed or encrypted data sent in the sniffed request, the adversary will be able to read this data in the clear. Most commonly, they will now have a username or password that they can use to submit requests to the web service just as an authorized user (Techniques: N/A)",
+        "capec_Prerequisites": "Opportunity to intercept must exist beyond the point where SSL is terminated. || The adversary must be able to insert a listener actively (proxying the communication) or passively (sniffing the communication) in the client-server communication path.",
+        "capec_Skills_Required": "Low: To insert a network sniffer or other listener into the communication stream",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Implementation: Implement message level security such as HMAC in the HTTP communication || Design: Utilize defense in depth, do not rely on a single security mechanism like SSL || Design: Enforce principle of least privilege",
+        "capec_Related_Weaknesses": "CWE-300, CWE-287, CWE-693",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t5_1_and_17",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_cwe_2",
+      "label": "Cleartext Transmission of Sensitive Information",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2019-6845 | CVE-2019-6846",
+        "Description": "A CWE-319: Cleartext Transmission of Sensitive Information vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information when transferring applications to the controller using Modbus TCP protocol. | A CWE-319: Cleartext Transmission of Sensitive Information vulnerability exists in Modicon M580, Modicon M340, Modicon BMxCRA and 140CRA modules (all firmware versions), which could cause information disclosure when using the FTP protocol.",
+        "cwe_Name": "Cleartext Transmission of Sensitive Information",
+        "cwe_Abstraction": "Base",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product transmits sensitive or security-critical data in cleartext in a communication channel that can be sniffed by unauthorized actors.",
+        "cwe_Related_Weaknesses": "CWE-311 (ChildOf, View: 1000, Ordinal: Primary); CWE-311 (ChildOf, View: 1003, Ordinal: Primary)",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase. | Architecture and Design: For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device. | Operation: N/A | System Configuration: N/A",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Integrity, Confidentiality | Impact: Read Application Data, Modify Files or Directories | Note: Anyone can read the information by gaining access to the channel being used for communication.",
+        "cwe_Detection_Methods": "Method: Black Box | Effectiveness: N/A | Description:  || Method: Automated Static Analysis | Effectiveness: High | Description: Automated static analysis, commonly referred to as Static Application Security Testing (SAST), can find some instances of this weakness by analyzing source code (or binary/compiled code) without having to execute it. Typically, this is done by building a model of data flow and control flow, then searching for potentially-vulnerable patterns that connect \"sources\" (origins of input) with \"sinks\" (destinations where the data interacts with external components, a lower layer such as the OS, etc.)",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A || Phase: Implementation | Description: N/A || Phase: Implementation | Description: N/A || Phase: Testing | Description: N/A || Phase: Operation | Description: N/A",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5 | 6.5",
+        "baseSeverity": "HIGH | MEDIUM",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE | REQUIRED",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "NONE",
+        "exploitabilityScore": "3.9 | 2.8",
+        "exposure_tags": "Cleartext, Modbus | Cleartext, FTP"
+      }
+    },
+    {
+      "id": "t5_2_tech_18",
+      "label": "Network Sniffing",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2019-6845 | CVE-2019-6846",
+        "Description": "A CWE-319: Cleartext Transmission of Sensitive Information vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information when transferring applications to the controller using Modbus TCP protocol. | A CWE-319: Cleartext Transmission of Sensitive Information vulnerability exists in Modicon M580, Modicon M340, Modicon BMxCRA and 140CRA modules (all firmware versions), which could cause information disclosure when using the FTP protocol.",
+        "tech_description": "Adversaries may passively sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.\n\nData captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol. Techniques for name service resolution poisoning, such as [LLMNR/NBT-NS Poisoning and SMB Relay](https://attack.mitre.org/techniques/T1557/001), can also be used to capture credentials to websites, proxies, and internal systems by redirecting traffic to an adversary.\n\nNetwork sniffing may reveal configuration details, such as running services, version numbers, and other network characteristics (e.g. IP addresses, hostnames, VLAN IDs) necessary for subsequent [Lateral Movement](https://attack.mitre.org/tactics/TA0008) and/or [Defense Evasion](https://attack.mitre.org/tactics/TA0005) activities. Adversaries may likely also utilize network sniffing during [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) (AiTM) to passively gain additional knowledge about the environment.\n\nIn cloud-based environments, adversaries may still be able to use traffic mirroring services to sniff network traffic from virtual machines. For example, AWS Traffic Mirroring, GCP Packet Mirroring, and Azure vTap allow users to define specified instances to collect traffic from and specified targets to send collected traffic to.(Citation: AWS Traffic Mirroring)(Citation: GCP Packet Mirroring)(Citation: Azure Virtual Network TAP) Often, much of this traffic will be in cleartext due to the use of TLS termination at the load balancer level to reduce the strain of encrypting and decrypting traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)(Citation: SpecterOps AWS Traffic Mirroring) The adversary can then use exfiltration techniques such as Transfer Data to Cloud Account in order to access the sniffed traffic.(Citation: Rhino Security Labs AWS VPC Traffic Mirroring)\n\nOn network devices, adversaries may perform network captures using [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands such as `monitor capture`.(Citation: US-CERT-TA18-106A)(Citation: capture_embedded_packet_on_software)",
+        "technique_name": "Network Sniffing",
+        "tactics": "Discovery",
+        "detection": "Detecting the events leading up to sniffing network traffic may be the best method of detection. From the host level, an adversary would likely need to perform a [Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557) attack against other devices on a wired network in order to capture traffic that was not to or from the current compromised system. This change in the flow of information is detectable at the enclave network level. Monitor for ARP spoofing and gratuitous ARP broadcasts. Detecting compromised network devices is a bit more challenging. Auditing administrator logins, configuration changes, and device images is required to detect malicious changes.\n\nIn cloud-based environments, monitor for the creation of new traffic mirrors or modification of existing traffic mirrors. For network infrastructure devices, collect AAA logging to monitor for the capture of network traffic.",
+        "platforms": "IaaS, Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5 | 6.5",
+        "baseSeverity": "HIGH | MEDIUM",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE | REQUIRED",
+        "exposure_tags": "Cleartext, Modbus | Cleartext, FTP"
+      }
+    },
+    {
+      "id": "t5_2_cap_18",
+      "label": "Sniff Application Code",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2019-6845 | CVE-2019-6846",
+        "capec_Name": "Sniff Application Code",
+        "capec_Mitre_Techniques": "1040 - Network Sniffing",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary passively sniffs network communications and captures application code bound for an authorized client. Once obtained, they can use it as-is, or through reverse-engineering glean sensitive information or exploit the trust relationship between the client and server. Such code may belong to a dynamic update to the client, a patch being applied to a client component or any such interaction where the client is authorized to communicate with the server.",
+        "capec_Likelihood_Of_Attack": "Low",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - [Set up a sniffer] The adversary sets up a sniffer in the path between the server and the client and watches the traffic. (Techniques: The adversary sets up a sniffer in the path between the server and the client.) || Step 2: Exploit - [Capturing Application Code Bound During Patching]adversary knows that the computer/OS/application can request new applications to install, or it periodically checks for an available update. The adversary loads the sniffer set up during Explore phase, and extracts the application code from subsequent communication. The adversary then proceeds to reverse engineer the captured code. (Techniques: adversary loads the sniffer to capture the application code bound during a dynamic update., The adversary proceeds to reverse engineer the captured code.)",
+        "capec_Prerequisites": "The attacker must have the ability to place themself in the communication path between the client and server. || The targeted application must receive some application code from the server; for example, dynamic updates, patches, applets or scripts. || The attacker must be able to employ a sniffer on the network without being detected.",
+        "capec_Skills_Required": "Medium: The attacker needs to setup a sniffer for a sufficient period of time so as to capture meaningful quantities of code. The presence of the sniffer should not be detected on the network. Also if the attacker plans to employ an adversary-in-the-middle attack (CAPEC-94), the client or server must not realize this. Finally, the attacker needs to regenerate source code from binary code if the need be.",
+        "capec_Consequences": "Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Design: Encrypt all communication between the client and server. || Implementation: Use SSL, SSH, SCP. || Operation: Use \"ifconfig/ipconfig\" or other tools to detect the sniffer installed in the network.",
+        "capec_Related_Weaknesses": "CWE-319, CWE-311, CWE-318, CWE-693",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Cleartext, Modbus | Cleartext, FTP"
+      }
+    },
+    {
+      "id": "t5_2_and_18",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t5_tac_or",
+      "label": "OR",
+      "type": "gate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "t5_0_and_0",
+      "to": "t5_0_tech_0"
+    },
+    {
+      "from": "t5_0_and_0",
+      "to": "t5_0_cap_0"
+    },
+    {
+      "from": "t5_0_and_1",
+      "to": "t5_0_tech_1"
+    },
+    {
+      "from": "t5_0_and_1",
+      "to": "t5_0_cap_1"
+    },
+    {
+      "from": "t5_0_and_2",
+      "to": "t5_0_tech_2"
+    },
+    {
+      "from": "t5_0_and_2",
+      "to": "t5_0_cap_2"
+    },
+    {
+      "from": "t5_0_and_3",
+      "to": "t5_0_tech_3"
+    },
+    {
+      "from": "t5_0_and_3",
+      "to": "t5_0_cap_3"
+    },
+    {
+      "from": "t5_0_and_4",
+      "to": "t5_0_tech_4"
+    },
+    {
+      "from": "t5_0_and_4",
+      "to": "t5_0_cap_4"
+    },
+    {
+      "from": "t5_0_and_5",
+      "to": "t5_0_tech_5"
+    },
+    {
+      "from": "t5_0_and_5",
+      "to": "t5_0_cap_5"
+    },
+    {
+      "from": "t5_0_and_6",
+      "to": "t5_0_tech_6"
+    },
+    {
+      "from": "t5_0_and_6",
+      "to": "t5_0_cap_6"
+    },
+    {
+      "from": "t5_0_and_7",
+      "to": "t5_0_tech_7"
+    },
+    {
+      "from": "t5_0_and_7",
+      "to": "t5_0_cap_7"
+    },
+    {
+      "from": "t5_0_and_8",
+      "to": "t5_0_tech_8"
+    },
+    {
+      "from": "t5_0_and_8",
+      "to": "t5_0_cap_8"
+    },
+    {
+      "from": "t5_0_and_9",
+      "to": "t5_0_tech_9"
+    },
+    {
+      "from": "t5_0_and_9",
+      "to": "t5_0_cap_9"
+    },
+    {
+      "from": "t5_0_and_10",
+      "to": "t5_0_tech_10"
+    },
+    {
+      "from": "t5_0_and_10",
+      "to": "t5_0_cap_10"
+    },
+    {
+      "from": "t5_0_and_11",
+      "to": "t5_0_tech_11"
+    },
+    {
+      "from": "t5_0_and_11",
+      "to": "t5_0_cap_11"
+    },
+    {
+      "from": "t5_0_and_12",
+      "to": "t5_0_tech_12"
+    },
+    {
+      "from": "t5_0_and_12",
+      "to": "t5_0_cap_12"
+    },
+    {
+      "from": "t5_0_and_13",
+      "to": "t5_0_tech_13"
+    },
+    {
+      "from": "t5_0_and_13",
+      "to": "t5_0_cap_13"
+    },
+    {
+      "from": "t5_0_and_14",
+      "to": "t5_0_tech_14"
+    },
+    {
+      "from": "t5_0_and_14",
+      "to": "t5_0_cap_14"
+    },
+    {
+      "from": "t5_0_and_15",
+      "to": "t5_0_tech_15"
+    },
+    {
+      "from": "t5_0_and_15",
+      "to": "t5_0_cap_15"
+    },
+    {
+      "from": "t5_0_and_16",
+      "to": "t5_0_tech_16"
+    },
+    {
+      "from": "t5_0_and_16",
+      "to": "t5_0_cap_16"
+    },
+    {
+      "from": "t5_cwe_0",
+      "to": "t5_cwe0_or"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_0"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_1"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_2"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_3"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_4"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_5"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_6"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_7"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_8"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_9"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_10"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_11"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_12"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_13"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_14"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_15"
+    },
+    {
+      "from": "t5_cwe0_or",
+      "to": "t5_0_and_16"
+    },
+    {
+      "from": "t5_1_and_17",
+      "to": "t5_1_tech_17"
+    },
+    {
+      "from": "t5_1_and_17",
+      "to": "t5_1_cap_17"
+    },
+    {
+      "from": "t5_cwe_1",
+      "to": "t5_1_and_17"
+    },
+    {
+      "from": "t5_2_and_18",
+      "to": "t5_2_tech_18"
+    },
+    {
+      "from": "t5_2_and_18",
+      "to": "t5_2_cap_18"
+    },
+    {
+      "from": "t5_cwe_2",
+      "to": "t5_2_and_18"
+    },
+    {
+      "from": "t5_tactic",
+      "to": "t5_tac_or"
+    },
+    {
+      "from": "t5_tac_or",
+      "to": "t5_cwe_0"
+    },
+    {
+      "from": "t5_tac_or",
+      "to": "t5_cwe_1"
+    },
+    {
+      "from": "t5_tac_or",
+      "to": "t5_cwe_2"
+    }
+  ]
+}

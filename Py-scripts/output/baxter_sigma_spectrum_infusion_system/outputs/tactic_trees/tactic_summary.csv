@@ -1,0 +1,10 @@
+tactic,paths,unique_cwes,unique_techniques,unique_capecs
+Initial Access,1,1,1,1
+Persistence,9,3,4,6
+Privilege Escalation,11,3,4,10
+Defense Evasion,14,3,6,12
+Credential Access,6,4,4,6
+Discovery,3,3,2,3
+Lateral Movement,3,2,2,2
+Collection,4,3,4,4
+TOTAL,51,5,16,20

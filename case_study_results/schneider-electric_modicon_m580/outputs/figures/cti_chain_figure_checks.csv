@@ -1,0 +1,26 @@
+check,ok,detail
+every displayed CVE exists in the source data,True,[]
+every displayed CWE exists in the source data,True,[]
+every displayed CAPEC exists in the source data,True,[]
+every displayed technique exists in the curated relation,True,[]
+every displayed sub-technique exists in the curated relation,True,
+every displayed tactic exists in the curated relation,True,
+displayed CVE count <= max_cves,True,15 <= 15
+every solid edge is a row-supported relation of P,True,[]
+no supported relation of the drawn chain CVEs is missing,True,[]
+technique->tactic shortcuts exist only for chains without a sub-technique,True,[]
+every terminated edge is supported by a source row,True,[]
+no terminated edge hides a complete chain,True,[]
+incomplete chains are not artificially continued,True,
+figure chains == chains the tree pipeline builds (build_leaf_index),True,figure 74 vs library 74
+subtechnique nodes are leaf ids distinct from their parent,True,
+row totals are at least the counts carried forward,True,"{'cve': (40, 11), 'cwe': (13, 6), 'capec': (123, 33), 'tech': (38, 38), 'sub': (12, 12), 'tactic': (14, 8)}"
+chain-carrying CVEs == CVEs of P,True,11
+drawn chain CVEs + omitted chain CVEs == all chain-carrying CVEs,True,
+omitted-CVE marker carries no edges,True,
+cves_reaching_curated_relation == run_summary.tactic_trees.cves_in_P,True,figure 11 vs pipeline 11
+unique_cwes == run_summary.tactic_trees.unique_cwes,True,figure 6 vs pipeline 6
+unique_capecs == run_summary.tactic_trees.unique_capecs,True,figure 33 vs pipeline 33
+unique_techniques == run_summary.tactic_trees.unique_techniques,True,figure 38 vs pipeline 38
+leaf_paths_per_tactic == run_summary.tactic_trees.total_paths,True,figure 74 vs pipeline 74
+unique_tactics == run_summary.tactic_trees.tactics,True,figure 8 vs pipeline 8

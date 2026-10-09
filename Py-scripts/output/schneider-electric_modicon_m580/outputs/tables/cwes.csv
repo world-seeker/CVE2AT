@@ -1,0 +1,14 @@
+CWE,Name,Abstraction,Status,Likelihood,#CVE,Related CAPEC,Retained
+CWE-74,Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection'),Class,Incomplete,High,1,"3, 6, 7, 8, 9, 10, 13, 14, 24, 28, 34, 42, 43, 45, 46, 47, 51, 52, 53, 64, 67, 71, 72, 76, 78, 79, 80, 83, 84, 101, 105, 108, 120, 135, 250, 267, 273",True
+CWE-125,Out-of-bounds Read,Base,Draft,,2,540,True
+CWE-200,Exposure of Sensitive Information to an Unauthorized Actor,Class,Draft,High,5,"13, 22, 59, 60, 79, 116, 169, 224, 285, 287, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 312, 313, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 472, 497, 508, 573, 574, 575, 576, 577, 616, 643, 646, 651",True
+CWE-248,Uncaught Exception,Base,Draft,,5,—,False
+CWE-287,Improper Authentication,Class,Draft,High,1,"22, 57, 94, 114, 115, 151, 194, 593, 633, 650",True
+CWE-290,Authentication Bypass by Spoofing,Base,Incomplete,,1,"21, 22, 59, 60, 94, 459, 461, 473, 476, 667",True
+CWE-306,Missing Authentication for Critical Function,Base,Draft,High,1,"12, 36, 62, 166, 216",True
+CWE-319,Cleartext Transmission of Sensitive Information,Base,Draft,High,2,"65, 102, 117, 383, 477",True
+CWE-330,Use of Insufficiently Random Values,Class,Stable,High,1,"59, 112, 485",True
+CWE-538,Insertion of Sensitive Information into Externally-Accessible File or Directory,Base,Draft,,1,95,True
+CWE-668,Exposure of Resource to Wrong Sphere,Class,Draft,,1,—,False
+CWE-754,Improper Check for Unusual or Exceptional Conditions,Class,Incomplete,Medium,10,—,False
+CWE-755,Improper Handling of Exceptional Conditions,Class,Incomplete,Medium,13,—,False

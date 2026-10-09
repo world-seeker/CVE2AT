@@ -1,0 +1,762 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="7377pt" height="514pt" viewBox="0.00 0.00 7377.00 514.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 510)" data-node-id="%3">
+<title>Discovery</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-510 7373,-510 7373,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="t5_tactic">
+<title>Discovery</title>
+<polygon fill="#98fb98" stroke="black" points="6702,-506 6627,-506 6627,-470 6702,-470 6702,-506" />
+<text text-anchor="middle" x="6664.5" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">Discovery</text>
+</g>
+
+<g id="node63" class="node" data-node-id="t5_tac_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="6664.5" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="6664.5" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge59" class="edge" data-node-id="t5_tactic-&gt;t5_tac_or">
+<title>t5_tactic-&gt;t5_tac_or</title>
+<path fill="none" stroke="black" d="M6664.5,-469.88C6664.5,-469.88 6664.5,-422.07 6664.5,-422.07" />
+<polygon fill="black" stroke="black" points="6668,-422.07 6664.5,-412.07 6661,-422.07 6668,-422.07" />
+</g>
+
+<g id="node2" class="node" data-node-id="t5_cwe_0">
+<title>Exposure of Sensitive Information to an Unauthorized Actor</title>
+<polygon fill="#add8e6" stroke="black" points="5332.5,-318 4966.5,-318 4966.5,-282 5338.5,-282 5338.5,-312 5332.5,-318" />
+<polyline fill="none" stroke="black" points="5332.5,-318 5332.5,-312 " />
+<polyline fill="none" stroke="black" points="5338.5,-312 5332.5,-312 " />
+<text text-anchor="middle" x="5152.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Exposure of Sensitive Information to an Unauthorized Actor</text>
+</g>
+
+<g id="node54" class="node" data-node-id="t5_cwe0_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3649.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="3649.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge35" class="edge" data-node-id="t5_cwe_0-&gt;t5_cwe0_or">
+<title>t5_cwe_0-&gt;t5_cwe0_or</title>
+<path fill="none" stroke="black" d="M4966.32,-300C4563.99,-300 3649.5,-300 3649.5,-300 3649.5,-300 3649.5,-234.12 3649.5,-234.12" />
+<polygon fill="black" stroke="black" points="3653,-234.12 3649.5,-224.12 3646,-234.12 3653,-234.12" />
+</g>
+
+<g id="node3" class="node" data-node-id="t5_0_tech_0">
+<title>Browser Information Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="201,-36 0,-36 0,0 201,0 201,-36" />
+<text text-anchor="middle" x="100.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Browser Information Discovery</text>
+</g>
+
+<g id="node4" class="node" data-node-id="t5_0_cap_0">
+<title>Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="326,-36 237,-36 237,0 326,0 326,-36" />
+<text text-anchor="middle" x="281.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Footprinting</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t5_0_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="281.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="281.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="t5_0_and_0-&gt;t5_0_tech_0">
+<title>t5_0_and_0-&gt;t5_0_tech_0</title>
+<path fill="none" stroke="black" d="M254.4,-112C203.91,-112 100.5,-112 100.5,-112 100.5,-112 100.5,-46.12 100.5,-46.12" />
+<polygon fill="black" stroke="black" points="104,-46.12 100.5,-36.12 97,-46.12 104,-46.12" />
+</g>
+
+<g id="edge2" class="edge" data-node-id="t5_0_and_0-&gt;t5_0_cap_0">
+<title>t5_0_and_0-&gt;t5_0_cap_0</title>
+<path fill="none" stroke="black" d="M281.5,-93.88C281.5,-93.88 281.5,-46.07 281.5,-46.07" />
+<polygon fill="black" stroke="black" points="285,-46.07 281.5,-36.07 278,-46.07 285,-46.07" />
+</g>
+
+<g id="node6" class="node" data-node-id="t5_0_tech_1">
+<title>Remote System Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="535,-36 362,-36 362,0 535,0 535,-36" />
+<text text-anchor="middle" x="448.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Remote System Discovery</text>
+</g>
+
+<g id="node7" class="node" data-node-id="t5_0_cap_1">
+<title>Host Discovery</title>
+<polygon fill="#ffb6c1" stroke="black" points="677.5,-36 571.5,-36 571.5,0 677.5,0 677.5,-36" />
+<text text-anchor="middle" x="624.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Host Discovery</text>
+</g>
+
+<g id="node8" class="node" data-node-id="t5_0_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="624.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="624.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge3" class="edge" data-node-id="t5_0_and_1-&gt;t5_0_tech_1">
+<title>t5_0_and_1-&gt;t5_0_tech_1</title>
+<path fill="none" stroke="black" d="M597.39,-112C548.02,-112 448.5,-112 448.5,-112 448.5,-112 448.5,-46.12 448.5,-46.12" />
+<polygon fill="black" stroke="black" points="452,-46.12 448.5,-36.12 445,-46.12 452,-46.12" />
+</g>
+
+<g id="edge4" class="edge" data-node-id="t5_0_and_1-&gt;t5_0_cap_1">
+<title>t5_0_and_1-&gt;t5_0_cap_1</title>
+<path fill="none" stroke="black" d="M624.5,-93.88C624.5,-93.88 624.5,-46.07 624.5,-46.07" />
+<polygon fill="black" stroke="black" points="628,-46.07 624.5,-36.07 621,-46.07 628,-46.07" />
+</g>
+
+<g id="node9" class="node" data-node-id="t5_0_tech_2">
+<title>System Time Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="869.5,-36 713.5,-36 713.5,0 869.5,0 869.5,-36" />
+<text text-anchor="middle" x="791.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">System Time Discovery</text>
+</g>
+
+<g id="node10" class="node" data-node-id="t5_0_cap_2">
+<title>Timestamp Request</title>
+<polygon fill="#ffb6c1" stroke="black" points="1041,-36 906,-36 906,0 1041,0 1041,-36" />
+<text text-anchor="middle" x="973.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Timestamp Request</text>
+</g>
+
+<g id="node11" class="node" data-node-id="t5_0_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="973.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="973.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge5" class="edge" data-node-id="t5_0_and_2-&gt;t5_0_tech_2">
+<title>t5_0_and_2-&gt;t5_0_tech_2</title>
+<path fill="none" stroke="black" d="M946.25,-112C895.48,-112 791.5,-112 791.5,-112 791.5,-112 791.5,-46.12 791.5,-46.12" />
+<polygon fill="black" stroke="black" points="795,-46.12 791.5,-36.12 788,-46.12 795,-46.12" />
+</g>
+
+<g id="edge6" class="edge" data-node-id="t5_0_and_2-&gt;t5_0_cap_2">
+<title>t5_0_and_2-&gt;t5_0_cap_2</title>
+<path fill="none" stroke="black" d="M973.5,-93.88C973.5,-93.88 973.5,-46.07 973.5,-46.07" />
+<polygon fill="black" stroke="black" points="977,-46.07 973.5,-36.07 970,-46.07 977,-46.07" />
+</g>
+
+<g id="node12" class="node" data-node-id="t5_0_tech_3">
+<title>Network Service Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="1254,-36 1077,-36 1077,0 1254,0 1254,-36" />
+<text text-anchor="middle" x="1165.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Service Discovery</text>
+</g>
+
+<g id="node13" class="node" data-node-id="t5_0_cap_3">
+<title>Port Scanning</title>
+<polygon fill="#ffb6c1" stroke="black" points="1389,-36 1290,-36 1290,0 1389,0 1389,-36" />
+<text text-anchor="middle" x="1339.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Port Scanning</text>
+</g>
+
+<g id="node14" class="node" data-node-id="t5_0_and_3">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1339.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="1339.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge7" class="edge" data-node-id="t5_0_and_3-&gt;t5_0_tech_3">
+<title>t5_0_and_3-&gt;t5_0_tech_3</title>
+<path fill="none" stroke="black" d="M1312.31,-112C1263.38,-112 1165.5,-112 1165.5,-112 1165.5,-112 1165.5,-46.12 1165.5,-46.12" />
+<polygon fill="black" stroke="black" points="1169,-46.12 1165.5,-36.12 1162,-46.12 1169,-46.12" />
+</g>
+
+<g id="edge8" class="edge" data-node-id="t5_0_and_3-&gt;t5_0_cap_3">
+<title>t5_0_and_3-&gt;t5_0_cap_3</title>
+<path fill="none" stroke="black" d="M1339.5,-93.88C1339.5,-93.88 1339.5,-46.07 1339.5,-46.07" />
+<polygon fill="black" stroke="black" points="1343,-46.07 1339.5,-36.07 1336,-46.07 1343,-46.07" />
+</g>
+
+<g id="node15" class="node" data-node-id="t5_0_tech_4">
+<title>System Network Configuration Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="1687.5,-36 1425.5,-36 1425.5,0 1687.5,0 1687.5,-36" />
+<text text-anchor="middle" x="1556.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">System Network Configuration Discovery</text>
+</g>
+
+<g id="node16" class="node" data-node-id="t5_0_cap_4">
+<title>Network Topology Mapping</title>
+<polygon fill="#ffb6c1" stroke="black" points="1901.5,-36 1723.5,-36 1723.5,0 1901.5,0 1901.5,-36" />
+<text text-anchor="middle" x="1812.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Topology Mapping</text>
+</g>
+
+<g id="node17" class="node" data-node-id="t5_0_and_4">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="1812.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="1812.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge9" class="edge" data-node-id="t5_0_and_4-&gt;t5_0_tech_4">
+<title>t5_0_and_4-&gt;t5_0_tech_4</title>
+<path fill="none" stroke="black" d="M1785.1,-112C1719.06,-112 1556.5,-112 1556.5,-112 1556.5,-112 1556.5,-46.12 1556.5,-46.12" />
+<polygon fill="black" stroke="black" points="1560,-46.12 1556.5,-36.12 1553,-46.12 1560,-46.12" />
+</g>
+
+<g id="edge10" class="edge" data-node-id="t5_0_and_4-&gt;t5_0_cap_4">
+<title>t5_0_and_4-&gt;t5_0_cap_4</title>
+<path fill="none" stroke="black" d="M1812.5,-93.88C1812.5,-93.88 1812.5,-46.07 1812.5,-46.07" />
+<polygon fill="black" stroke="black" points="1816,-46.07 1812.5,-36.07 1809,-46.07 1816,-46.07" />
+</g>
+
+<g id="node18" class="node" data-node-id="t5_0_tech_5">
+<title>System Network Connections Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="2191.5,-36 1937.5,-36 1937.5,0 2191.5,0 2191.5,-36" />
+<text text-anchor="middle" x="2064.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">System Network Connections Discovery</text>
+</g>
+
+<g id="node19" class="node" data-node-id="t5_0_cap_5">
+<title>Network Topology Mapping</title>
+<polygon fill="#ffb6c1" stroke="black" points="2405.5,-36 2227.5,-36 2227.5,0 2405.5,0 2405.5,-36" />
+<text text-anchor="middle" x="2316.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Topology Mapping</text>
+</g>
+
+<g id="node20" class="node" data-node-id="t5_0_and_5">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2316.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="2316.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge11" class="edge" data-node-id="t5_0_and_5-&gt;t5_0_tech_5">
+<title>t5_0_and_5-&gt;t5_0_tech_5</title>
+<path fill="none" stroke="black" d="M2289.05,-112C2223.74,-112 2064.5,-112 2064.5,-112 2064.5,-112 2064.5,-46.12 2064.5,-46.12" />
+<polygon fill="black" stroke="black" points="2068,-46.12 2064.5,-36.12 2061,-46.12 2068,-46.12" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t5_0_and_5-&gt;t5_0_cap_5">
+<title>t5_0_and_5-&gt;t5_0_cap_5</title>
+<path fill="none" stroke="black" d="M2316.5,-93.88C2316.5,-93.88 2316.5,-46.07 2316.5,-46.07" />
+<polygon fill="black" stroke="black" points="2320,-46.07 2316.5,-36.07 2313,-46.07 2320,-46.07" />
+</g>
+
+<g id="node21" class="node" data-node-id="t5_0_tech_6">
+<title>System Information Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="2639,-36 2442,-36 2442,0 2639,0 2639,-36" />
+<text text-anchor="middle" x="2540.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">System Information Discovery</text>
+</g>
+
+<g id="node22" class="node" data-node-id="t5_0_cap_6">
+<title>Active OS Fingerprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="2836,-36 2675,-36 2675,0 2836,0 2836,-36" />
+<text text-anchor="middle" x="2755.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Active OS Fingerprinting</text>
+</g>
+
+<g id="node23" class="node" data-node-id="t5_0_and_6">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="2755.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="2755.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge13" class="edge" data-node-id="t5_0_and_6-&gt;t5_0_tech_6">
+<title>t5_0_and_6-&gt;t5_0_tech_6</title>
+<path fill="none" stroke="black" d="M2728.27,-112C2670.42,-112 2540.5,-112 2540.5,-112 2540.5,-112 2540.5,-46.12 2540.5,-46.12" />
+<polygon fill="black" stroke="black" points="2544,-46.12 2540.5,-36.12 2537,-46.12 2544,-46.12" />
+</g>
+
+<g id="edge14" class="edge" data-node-id="t5_0_and_6-&gt;t5_0_cap_6">
+<title>t5_0_and_6-&gt;t5_0_cap_6</title>
+<path fill="none" stroke="black" d="M2755.5,-93.88C2755.5,-93.88 2755.5,-46.07 2755.5,-46.07" />
+<polygon fill="black" stroke="black" points="2759,-46.07 2755.5,-36.07 2752,-46.07 2759,-46.07" />
+</g>
+
+<g id="node24" class="node" data-node-id="t5_0_tech_7">
+<title>System Information Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="3069,-36 2872,-36 2872,0 3069,0 3069,-36" />
+<text text-anchor="middle" x="2970.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">System Information Discovery</text>
+</g>
+
+<g id="node25" class="node" data-node-id="t5_0_cap_7">
+<title>Passive OS Fingerprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="3272,-36 3105,-36 3105,0 3272,0 3272,-36" />
+<text text-anchor="middle" x="3188.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Passive OS Fingerprinting</text>
+</g>
+
+<g id="node26" class="node" data-node-id="t5_0_and_7">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3188.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="3188.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge15" class="edge" data-node-id="t5_0_and_7-&gt;t5_0_tech_7">
+<title>t5_0_and_7-&gt;t5_0_tech_7</title>
+<path fill="none" stroke="black" d="M3161.33,-112C3102.89,-112 2970.5,-112 2970.5,-112 2970.5,-112 2970.5,-46.12 2970.5,-46.12" />
+<polygon fill="black" stroke="black" points="2974,-46.12 2970.5,-36.12 2967,-46.12 2974,-46.12" />
+</g>
+
+<g id="edge16" class="edge" data-node-id="t5_0_and_7-&gt;t5_0_cap_7">
+<title>t5_0_and_7-&gt;t5_0_cap_7</title>
+<path fill="none" stroke="black" d="M3188.5,-93.88C3188.5,-93.88 3188.5,-46.07 3188.5,-46.07" />
+<polygon fill="black" stroke="black" points="3192,-46.07 3188.5,-36.07 3185,-46.07 3192,-46.07" />
+</g>
+
+<g id="node27" class="node" data-node-id="t5_0_tech_8">
+<title>File and Directory Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="3491,-36 3308,-36 3308,0 3491,0 3491,-36" />
+<text text-anchor="middle" x="3399.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">File and Directory Discovery</text>
+</g>
+
+<g id="node28" class="node" data-node-id="t5_0_cap_8">
+<title>File Discovery</title>
+<polygon fill="#ffb6c1" stroke="black" points="3625.5,-36 3527.5,-36 3527.5,0 3625.5,0 3625.5,-36" />
+<text text-anchor="middle" x="3576.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">File Discovery</text>
+</g>
+
+<g id="node29" class="node" data-node-id="t5_0_and_8">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3576.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="3576.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge17" class="edge" data-node-id="t5_0_and_8-&gt;t5_0_tech_8">
+<title>t5_0_and_8-&gt;t5_0_tech_8</title>
+<path fill="none" stroke="black" d="M3549.23,-112C3499.58,-112 3399.5,-112 3399.5,-112 3399.5,-112 3399.5,-46.12 3399.5,-46.12" />
+<polygon fill="black" stroke="black" points="3403,-46.12 3399.5,-36.12 3396,-46.12 3403,-46.12" />
+</g>
+
+<g id="edge18" class="edge" data-node-id="t5_0_and_8-&gt;t5_0_cap_8">
+<title>t5_0_and_8-&gt;t5_0_cap_8</title>
+<path fill="none" stroke="black" d="M3576.5,-93.88C3576.5,-93.88 3576.5,-46.07 3576.5,-46.07" />
+<polygon fill="black" stroke="black" points="3580,-46.07 3576.5,-36.07 3573,-46.07 3580,-46.07" />
+</g>
+
+<g id="node30" class="node" data-node-id="t5_0_tech_9">
+<title>Process Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="3785.5,-36 3661.5,-36 3661.5,0 3785.5,0 3785.5,-36" />
+<text text-anchor="middle" x="3723.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Process Discovery</text>
+</g>
+
+<g id="node31" class="node" data-node-id="t5_0_cap_9">
+<title>Process Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="3959,-36 3822,-36 3822,0 3959,0 3959,-36" />
+<text text-anchor="middle" x="3890.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Process Footprinting</text>
+</g>
+
+<g id="node32" class="node" data-node-id="t5_0_and_9">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="3723.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="3723.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge19" class="edge" data-node-id="t5_0_and_9-&gt;t5_0_tech_9">
+<title>t5_0_and_9-&gt;t5_0_tech_9</title>
+<path fill="none" stroke="black" d="M3723.5,-93.88C3723.5,-93.88 3723.5,-46.07 3723.5,-46.07" />
+<polygon fill="black" stroke="black" points="3727,-46.07 3723.5,-36.07 3720,-46.07 3727,-46.07" />
+</g>
+
+<g id="edge20" class="edge" data-node-id="t5_0_and_9-&gt;t5_0_cap_9">
+<title>t5_0_and_9-&gt;t5_0_cap_9</title>
+<path fill="none" stroke="black" d="M3750.7,-112C3798.02,-112 3890.5,-112 3890.5,-112 3890.5,-112 3890.5,-46.12 3890.5,-46.12" />
+<polygon fill="black" stroke="black" points="3894,-46.12 3890.5,-36.12 3887,-46.12 3894,-46.12" />
+</g>
+
+<g id="node33" class="node" data-node-id="t5_0_tech_10">
+<title>System Service Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="4166,-36 3995,-36 3995,0 4166,0 4166,-36" />
+<text text-anchor="middle" x="4080.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">System Service Discovery</text>
+</g>
+
+<g id="node34" class="node" data-node-id="t5_0_cap_10">
+<title>Services Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="4345,-36 4202,-36 4202,0 4345,0 4345,-36" />
+<text text-anchor="middle" x="4273.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Services Footprinting</text>
+</g>
+
+<g id="node35" class="node" data-node-id="t5_0_and_10">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="4080.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="4080.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge21" class="edge" data-node-id="t5_0_and_10-&gt;t5_0_tech_10">
+<title>t5_0_and_10-&gt;t5_0_tech_10</title>
+<path fill="none" stroke="black" d="M4080.5,-93.88C4080.5,-93.88 4080.5,-46.07 4080.5,-46.07" />
+<polygon fill="black" stroke="black" points="4084,-46.07 4080.5,-36.07 4077,-46.07 4084,-46.07" />
+</g>
+
+<g id="edge22" class="edge" data-node-id="t5_0_and_10-&gt;t5_0_cap_10">
+<title>t5_0_and_10-&gt;t5_0_cap_10</title>
+<path fill="none" stroke="black" d="M4107.74,-112C4160.94,-112 4273.5,-112 4273.5,-112 4273.5,-112 4273.5,-46.12 4273.5,-46.12" />
+<polygon fill="black" stroke="black" points="4277,-46.12 4273.5,-36.12 4270,-46.12 4277,-46.12" />
+</g>
+
+<g id="node36" class="node" data-node-id="t5_0_tech_11">
+<title>Account Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="4509.5,-36 4381.5,-36 4381.5,0 4509.5,0 4509.5,-36" />
+<text text-anchor="middle" x="4445.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Account Discovery</text>
+</g>
+
+<g id="node37" class="node" data-node-id="t5_0_cap_11">
+<title>Account Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="4687,-36 4546,-36 4546,0 4687,0 4687,-36" />
+<text text-anchor="middle" x="4616.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Account Footprinting</text>
+</g>
+
+<g id="node38" class="node" data-node-id="t5_0_and_11">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="4445.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="4445.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge23" class="edge" data-node-id="t5_0_and_11-&gt;t5_0_tech_11">
+<title>t5_0_and_11-&gt;t5_0_tech_11</title>
+<path fill="none" stroke="black" d="M4445.5,-93.88C4445.5,-93.88 4445.5,-46.07 4445.5,-46.07" />
+<polygon fill="black" stroke="black" points="4449,-46.07 4445.5,-36.07 4442,-46.07 4449,-46.07" />
+</g>
+
+<g id="edge24" class="edge" data-node-id="t5_0_and_11-&gt;t5_0_cap_11">
+<title>t5_0_and_11-&gt;t5_0_cap_11</title>
+<path fill="none" stroke="black" d="M4472.6,-112C4520.81,-112 4616.5,-112 4616.5,-112 4616.5,-112 4616.5,-46.12 4616.5,-46.12" />
+<polygon fill="black" stroke="black" points="4620,-46.12 4616.5,-36.12 4613,-46.12 4620,-46.12" />
+</g>
+
+<g id="node39" class="node" data-node-id="t5_0_tech_12">
+<title>Permission Groups Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="4911.5,-36 4723.5,-36 4723.5,0 4911.5,0 4911.5,-36" />
+<text text-anchor="middle" x="4817.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Permission Groups Discovery</text>
+</g>
+
+<g id="node40" class="node" data-node-id="t5_0_cap_12">
+<title>Group Permission Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="5143.5,-36 4947.5,-36 4947.5,0 5143.5,0 5143.5,-36" />
+<text text-anchor="middle" x="5045.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Group Permission Footprinting</text>
+</g>
+
+<g id="node41" class="node" data-node-id="t5_0_and_12">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="4817.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="4817.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge25" class="edge" data-node-id="t5_0_and_12-&gt;t5_0_tech_12">
+<title>t5_0_and_12-&gt;t5_0_tech_12</title>
+<path fill="none" stroke="black" d="M4817.5,-93.88C4817.5,-93.88 4817.5,-46.07 4817.5,-46.07" />
+<polygon fill="black" stroke="black" points="4821,-46.07 4817.5,-36.07 4814,-46.07 4821,-46.07" />
+</g>
+
+<g id="edge26" class="edge" data-node-id="t5_0_and_12-&gt;t5_0_cap_12">
+<title>t5_0_and_12-&gt;t5_0_cap_12</title>
+<path fill="none" stroke="black" d="M4844.73,-112C4885.33,-112 4957,-112 4957,-112 4957,-112 4957,-46.12 4957,-46.12" />
+<polygon fill="black" stroke="black" points="4960.5,-46.12 4957,-36.12 4953.5,-46.12 4960.5,-46.12" />
+</g>
+
+<g id="node42" class="node" data-node-id="t5_0_tech_13">
+<title>Group Policy Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="5331.5,-36 5179.5,-36 5179.5,0 5331.5,0 5331.5,-36" />
+<text text-anchor="middle" x="5255.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Group Policy Discovery</text>
+</g>
+
+<g id="node43" class="node" data-node-id="t5_0_cap_13">
+<title>Group Permission Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="5563.5,-36 5367.5,-36 5367.5,0 5563.5,0 5563.5,-36" />
+<text text-anchor="middle" x="5465.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Group Permission Footprinting</text>
+</g>
+
+<g id="node44" class="node" data-node-id="t5_0_and_13">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="5255.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="5255.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge27" class="edge" data-node-id="t5_0_and_13-&gt;t5_0_tech_13">
+<title>t5_0_and_13-&gt;t5_0_tech_13</title>
+<path fill="none" stroke="black" d="M5255.5,-93.88C5255.5,-93.88 5255.5,-46.07 5255.5,-46.07" />
+<polygon fill="black" stroke="black" points="5259,-46.07 5255.5,-36.07 5252,-46.07 5259,-46.07" />
+</g>
+
+<g id="edge28" class="edge" data-node-id="t5_0_and_13-&gt;t5_0_cap_13">
+<title>t5_0_and_13-&gt;t5_0_cap_13</title>
+<path fill="none" stroke="black" d="M5282.52,-112C5339.24,-112 5465.5,-112 5465.5,-112 5465.5,-112 5465.5,-46.12 5465.5,-46.12" />
+<polygon fill="black" stroke="black" points="5469,-46.12 5465.5,-36.12 5462,-46.12 5469,-46.12" />
+</g>
+
+<g id="node45" class="node" data-node-id="t5_0_tech_14">
+<title>System Owner/User Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="5797.5,-36 5599.5,-36 5599.5,0 5797.5,0 5797.5,-36" />
+<text text-anchor="middle" x="5698.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">System Owner/User Discovery</text>
+</g>
+
+<g id="node46" class="node" data-node-id="t5_0_cap_14">
+<title>Owner Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="5965.5,-36 5833.5,-36 5833.5,0 5965.5,0 5965.5,-36" />
+<text text-anchor="middle" x="5899.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Owner Footprinting</text>
+</g>
+
+<g id="node47" class="node" data-node-id="t5_0_and_14">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="5698.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="5698.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge29" class="edge" data-node-id="t5_0_and_14-&gt;t5_0_tech_14">
+<title>t5_0_and_14-&gt;t5_0_tech_14</title>
+<path fill="none" stroke="black" d="M5698.5,-93.88C5698.5,-93.88 5698.5,-46.07 5698.5,-46.07" />
+<polygon fill="black" stroke="black" points="5702,-46.07 5698.5,-36.07 5695,-46.07 5702,-46.07" />
+</g>
+
+<g id="edge30" class="edge" data-node-id="t5_0_and_14-&gt;t5_0_cap_14">
+<title>t5_0_and_14-&gt;t5_0_cap_14</title>
+<path fill="none" stroke="black" d="M5725.61,-112C5780.47,-112 5899.5,-112 5899.5,-112 5899.5,-112 5899.5,-46.12 5899.5,-46.12" />
+<polygon fill="black" stroke="black" points="5903,-46.12 5899.5,-36.12 5896,-46.12 5903,-46.12" />
+</g>
+
+<g id="node48" class="node" data-node-id="t5_0_tech_15">
+<title>Network Share Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="6169,-36 6002,-36 6002,0 6169,0 6169,-36" />
+<text text-anchor="middle" x="6085.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Share Discovery</text>
+</g>
+
+<g id="node49" class="node" data-node-id="t5_0_cap_15">
+<title>Identify Shared Files/Directories on System</title>
+<polygon fill="#ffb6c1" stroke="black" points="6476,-36 6205,-36 6205,0 6476,0 6476,-36" />
+<text text-anchor="middle" x="6340.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Identify Shared Files/Directories on System</text>
+</g>
+
+<g id="node50" class="node" data-node-id="t5_0_and_15">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="6085.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="6085.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge31" class="edge" data-node-id="t5_0_and_15-&gt;t5_0_tech_15">
+<title>t5_0_and_15-&gt;t5_0_tech_15</title>
+<path fill="none" stroke="black" d="M6085.5,-93.88C6085.5,-93.88 6085.5,-46.07 6085.5,-46.07" />
+<polygon fill="black" stroke="black" points="6089,-46.07 6085.5,-36.07 6082,-46.07 6089,-46.07" />
+</g>
+
+<g id="edge32" class="edge" data-node-id="t5_0_and_15-&gt;t5_0_cap_15">
+<title>t5_0_and_15-&gt;t5_0_cap_15</title>
+<path fill="none" stroke="black" d="M6112.65,-112C6166.95,-112 6283.75,-112 6283.75,-112 6283.75,-112 6283.75,-46.12 6283.75,-46.12" />
+<polygon fill="black" stroke="black" points="6287.25,-46.12 6283.75,-36.12 6280.25,-46.12 6287.25,-46.12" />
+</g>
+
+<g id="node51" class="node" data-node-id="t5_0_tech_16">
+<title>Peripheral Device Discovery</title>
+<polygon fill="#90ee90" stroke="black" points="6696.5,-36 6512.5,-36 6512.5,0 6696.5,0 6696.5,-36" />
+<text text-anchor="middle" x="6604.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Peripheral Device Discovery</text>
+</g>
+
+<g id="node52" class="node" data-node-id="t5_0_cap_16">
+<title>Peripheral Footprinting</title>
+<polygon fill="#ffb6c1" stroke="black" points="6886,-36 6733,-36 6733,0 6886,0 6886,-36" />
+<text text-anchor="middle" x="6809.5" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Peripheral Footprinting</text>
+</g>
+
+<g id="node53" class="node" data-node-id="t5_0_and_16">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="6389.5" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="6389.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge33" class="edge" data-node-id="t5_0_and_16-&gt;t5_0_tech_16">
+<title>t5_0_and_16-&gt;t5_0_tech_16</title>
+<path fill="none" stroke="black" d="M6380.5,-94.9C6380.5,-78.11 6380.5,-55 6380.5,-55 6380.5,-55 6540.25,-55 6540.25,-55 6540.25,-55 6540.25,-46.07 6540.25,-46.07" />
+<polygon fill="black" stroke="black" points="6543.75,-46.07 6540.25,-36.07 6536.75,-46.07 6543.75,-46.07" />
+</g>
+
+<g id="edge34" class="edge" data-node-id="t5_0_and_16-&gt;t5_0_cap_16">
+<title>t5_0_and_16-&gt;t5_0_cap_16</title>
+<path fill="none" stroke="black" d="M6398.5,-94.78C6398.5,-84.72 6398.5,-74 6398.5,-74 6398.5,-74 6809.5,-74 6809.5,-74 6809.5,-74 6809.5,-46.03 6809.5,-46.03" />
+<polygon fill="black" stroke="black" points="6813,-46.03 6809.5,-36.03 6806,-46.03 6813,-46.03" />
+</g>
+
+<g id="edge36" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_0">
+<title>t5_cwe0_or-&gt;t5_0_and_0</title>
+<path fill="none" stroke="black" d="M3632.18,-220C3372.58,-220 281.5,-220 281.5,-220 281.5,-220 281.5,-140.32 281.5,-140.32" />
+<polygon fill="black" stroke="black" points="285,-140.32 281.5,-130.32 278,-140.32 285,-140.32" />
+</g>
+
+<g id="edge37" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_1">
+<title>t5_cwe0_or-&gt;t5_0_and_1</title>
+<path fill="none" stroke="black" d="M3626.89,-216C3350.07,-216 624.5,-216 624.5,-216 624.5,-216 624.5,-140.12 624.5,-140.12" />
+<polygon fill="black" stroke="black" points="628,-140.12 624.5,-130.12 621,-140.12 628,-140.12" />
+</g>
+
+<g id="edge38" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_2">
+<title>t5_cwe0_or-&gt;t5_0_and_2</title>
+<path fill="none" stroke="black" d="M3623.87,-212C3350.02,-212 973.5,-212 973.5,-212 973.5,-212 973.5,-140.34 973.5,-140.34" />
+<polygon fill="black" stroke="black" points="977,-140.34 973.5,-130.34 970,-140.34 977,-140.34" />
+</g>
+
+<g id="edge39" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_3">
+<title>t5_cwe0_or-&gt;t5_0_and_3</title>
+<path fill="none" stroke="black" d="M3622.36,-208C3363.43,-208 1339.5,-208 1339.5,-208 1339.5,-208 1339.5,-140.06 1339.5,-140.06" />
+<polygon fill="black" stroke="black" points="1343,-140.06 1339.5,-130.06 1336,-140.06 1343,-140.06" />
+</g>
+
+<g id="edge40" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_4">
+<title>t5_cwe0_or-&gt;t5_0_and_4</title>
+<path fill="none" stroke="black" d="M3622.47,-204C3395.25,-204 1812.5,-204 1812.5,-204 1812.5,-204 1812.5,-140.18 1812.5,-140.18" />
+<polygon fill="black" stroke="black" points="1816,-140.18 1812.5,-130.18 1809,-140.18 1816,-140.18" />
+</g>
+
+<g id="edge41" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_5">
+<title>t5_cwe0_or-&gt;t5_0_and_5</title>
+<path fill="none" stroke="black" d="M3623.77,-200C3438.58,-200 2316.5,-200 2316.5,-200 2316.5,-200 2316.5,-140.23 2316.5,-140.23" />
+<polygon fill="black" stroke="black" points="2320,-140.23 2316.5,-130.23 2313,-140.23 2320,-140.23" />
+</g>
+
+<g id="edge42" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_6">
+<title>t5_cwe0_or-&gt;t5_0_and_6</title>
+<path fill="none" stroke="black" d="M3626.95,-196C3488.15,-196 2755.5,-196 2755.5,-196 2755.5,-196 2755.5,-140.23 2755.5,-140.23" />
+<polygon fill="black" stroke="black" points="2759,-140.23 2755.5,-130.23 2752,-140.23 2759,-140.23" />
+</g>
+
+<g id="edge43" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_7">
+<title>t5_cwe0_or-&gt;t5_0_and_7</title>
+<path fill="none" stroke="black" d="M3632.27,-192C3548.58,-192 3188.5,-192 3188.5,-192 3188.5,-192 3188.5,-140.15 3188.5,-140.15" />
+<polygon fill="black" stroke="black" points="3192,-140.15 3188.5,-130.15 3185,-140.15 3192,-140.15" />
+</g>
+
+<g id="edge44" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_8">
+<title>t5_cwe0_or-&gt;t5_0_and_8</title>
+<path fill="none" stroke="black" d="M3643.5,-188.12C3643.5,-159.36 3643.5,-106 3643.5,-106 3643.5,-106 3612.21,-106 3612.21,-106" />
+<polygon fill="black" stroke="black" points="3612.21,-102.5 3602.21,-106 3612.21,-109.5 3612.21,-102.5" />
+</g>
+
+<g id="edge45" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_9">
+<title>t5_cwe0_or-&gt;t5_0_and_9</title>
+<path fill="none" stroke="black" d="M3669,-193.39C3669,-169.06 3669,-118 3669,-118 3669,-118 3687.85,-118 3687.85,-118" />
+<polygon fill="black" stroke="black" points="3687.85,-121.5 3697.85,-118 3687.85,-114.5 3687.85,-121.5" />
+</g>
+
+<g id="edge46" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_10">
+<title>t5_cwe0_or-&gt;t5_0_and_10</title>
+<path fill="none" stroke="black" d="M3672.07,-196C3760.75,-196 4080.5,-196 4080.5,-196 4080.5,-196 4080.5,-140.23 4080.5,-140.23" />
+<polygon fill="black" stroke="black" points="4084,-140.23 4080.5,-130.23 4077,-140.23 4084,-140.23" />
+</g>
+
+<g id="edge47" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_11">
+<title>t5_cwe0_or-&gt;t5_0_and_11</title>
+<path fill="none" stroke="black" d="M3675.08,-200C3811.33,-200 4445.5,-200 4445.5,-200 4445.5,-200 4445.5,-140.23 4445.5,-140.23" />
+<polygon fill="black" stroke="black" points="4449,-140.23 4445.5,-130.23 4442,-140.23 4449,-140.23" />
+</g>
+
+<g id="edge48" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_12">
+<title>t5_cwe0_or-&gt;t5_0_and_12</title>
+<path fill="none" stroke="black" d="M3676.37,-204C3850.98,-204 4817.5,-204 4817.5,-204 4817.5,-204 4817.5,-140.18 4817.5,-140.18" />
+<polygon fill="black" stroke="black" points="4821,-140.18 4817.5,-130.18 4814,-140.18 4821,-140.18" />
+</g>
+
+<g id="edge49" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_13">
+<title>t5_cwe0_or-&gt;t5_0_and_13</title>
+<path fill="none" stroke="black" d="M3676.37,-208C3886.29,-208 5255.5,-208 5255.5,-208 5255.5,-208 5255.5,-140.06 5255.5,-140.06" />
+<polygon fill="black" stroke="black" points="5259,-140.06 5255.5,-130.06 5252,-140.06 5259,-140.06" />
+</g>
+
+<g id="edge50" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_14">
+<title>t5_cwe0_or-&gt;t5_0_and_14</title>
+<path fill="none" stroke="black" d="M3675.04,-212C3910.73,-212 5698.5,-212 5698.5,-212 5698.5,-212 5698.5,-140.34 5698.5,-140.34" />
+<polygon fill="black" stroke="black" points="5702,-140.34 5698.5,-130.34 5695,-140.34 5702,-140.34" />
+</g>
+
+<g id="edge51" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_15">
+<title>t5_cwe0_or-&gt;t5_0_and_15</title>
+<path fill="none" stroke="black" d="M3672.06,-216C3917.64,-216 6085.5,-216 6085.5,-216 6085.5,-216 6085.5,-140.12 6085.5,-140.12" />
+<polygon fill="black" stroke="black" points="6089,-140.12 6085.5,-130.12 6082,-140.12 6089,-140.12" />
+</g>
+
+<g id="edge52" class="edge" data-node-id="t5_cwe0_or-&gt;t5_0_and_16">
+<title>t5_cwe0_or-&gt;t5_0_and_16</title>
+<path fill="none" stroke="black" d="M3666.64,-220C3897.8,-220 6389.5,-220 6389.5,-220 6389.5,-220 6389.5,-140.32 6389.5,-140.32" />
+<polygon fill="black" stroke="black" points="6393,-140.32 6389.5,-130.32 6386,-140.32 6393,-140.32" />
+</g>
+
+<g id="node55" class="node" data-node-id="t5_cwe_1">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="6740,-318 6583,-318 6583,-282 6746,-282 6746,-312 6740,-318" />
+<polyline fill="none" stroke="black" points="6740,-318 6740,-312 " />
+<polyline fill="none" stroke="black" points="6746,-312 6740,-312 " />
+<text text-anchor="middle" x="6664.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node58" class="node" data-node-id="t5_1_and_17">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="6664.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="6664.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge55" class="edge" data-node-id="t5_cwe_1-&gt;t5_1_and_17">
+<title>t5_cwe_1-&gt;t5_1_and_17</title>
+<path fill="none" stroke="black" d="M6664.5,-281.88C6664.5,-281.88 6664.5,-234.07 6664.5,-234.07" />
+<polygon fill="black" stroke="black" points="6668,-234.07 6664.5,-224.07 6661,-234.07 6668,-234.07" />
+</g>
+
+<g id="node56" class="node" data-node-id="t5_1_tech_17">
+<title>Network Sniffing</title>
+<polygon fill="#90ee90" stroke="black" points="6568,-130 6453,-130 6453,-94 6568,-94 6568,-130" />
+<text text-anchor="middle" x="6510.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Sniffing</text>
+</g>
+
+<g id="node57" class="node" data-node-id="t5_1_cap_17">
+<title>Utilizing REST's Trust in the System Resource to Obtain Sensitive Data</title>
+<polygon fill="#ffb6c1" stroke="black" points="7035,-130 6604,-130 6604,-94 7035,-94 7035,-130" />
+<text text-anchor="middle" x="6819.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Utilizing REST's Trust in the System Resource to Obtain Sensitive Data</text>
+</g>
+
+<g id="edge53" class="edge" data-node-id="t5_1_and_17-&gt;t5_1_tech_17">
+<title>t5_1_and_17-&gt;t5_1_tech_17</title>
+<path fill="none" stroke="black" d="M6647.43,-192C6607.34,-192 6510.5,-192 6510.5,-192 6510.5,-192 6510.5,-140.15 6510.5,-140.15" />
+<polygon fill="black" stroke="black" points="6514,-140.15 6510.5,-130.15 6507,-140.15 6514,-140.15" />
+</g>
+
+<g id="edge54" class="edge" data-node-id="t5_1_and_17-&gt;t5_1_cap_17">
+<title>t5_1_and_17-&gt;t5_1_cap_17</title>
+<path fill="none" stroke="black" d="M6664.5,-187.88C6664.5,-187.88 6664.5,-140.07 6664.5,-140.07" />
+<polygon fill="black" stroke="black" points="6668,-140.07 6664.5,-130.07 6661,-140.07 6668,-140.07" />
+</g>
+
+<g id="node59" class="node" data-node-id="t5_cwe_2">
+<title>Cleartext Transmission of Sensitive Information</title>
+<polygon fill="#add8e6" stroke="black" points="7173.5,-318 6881.5,-318 6881.5,-282 7179.5,-282 7179.5,-312 7173.5,-318" />
+<polyline fill="none" stroke="black" points="7173.5,-318 7173.5,-312 " />
+<polyline fill="none" stroke="black" points="7179.5,-312 7173.5,-312 " />
+<text text-anchor="middle" x="7030.5" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Cleartext Transmission of Sensitive Information</text>
+</g>
+
+<g id="node62" class="node" data-node-id="t5_2_and_18">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="7128.5" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="7128.5" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge58" class="edge" data-node-id="t5_cwe_2-&gt;t5_2_and_18">
+<title>t5_cwe_2-&gt;t5_2_and_18</title>
+<path fill="none" stroke="black" d="M7128.5,-281.88C7128.5,-281.88 7128.5,-234.07 7128.5,-234.07" />
+<polygon fill="black" stroke="black" points="7132,-234.07 7128.5,-224.07 7125,-234.07 7132,-234.07" />
+</g>
+
+<g id="node60" class="node" data-node-id="t5_2_tech_18">
+<title>Network Sniffing</title>
+<polygon fill="#90ee90" stroke="black" points="7186,-130 7071,-130 7071,-94 7186,-94 7186,-130" />
+<text text-anchor="middle" x="7128.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Network Sniffing</text>
+</g>
+
+<g id="node61" class="node" data-node-id="t5_2_cap_18">
+<title>Sniff Application Code</title>
+<polygon fill="#ffb6c1" stroke="black" points="7369,-130 7222,-130 7222,-94 7369,-94 7369,-130" />
+<text text-anchor="middle" x="7295.5" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Sniff Application Code</text>
+</g>
+
+<g id="edge56" class="edge" data-node-id="t5_2_and_18-&gt;t5_2_tech_18">
+<title>t5_2_and_18-&gt;t5_2_tech_18</title>
+<path fill="none" stroke="black" d="M7128.5,-187.88C7128.5,-187.88 7128.5,-140.07 7128.5,-140.07" />
+<polygon fill="black" stroke="black" points="7132,-140.07 7128.5,-130.07 7125,-140.07 7132,-140.07" />
+</g>
+
+<g id="edge57" class="edge" data-node-id="t5_2_and_18-&gt;t5_2_cap_18">
+<title>t5_2_and_18-&gt;t5_2_cap_18</title>
+<path fill="none" stroke="black" d="M7155.7,-206C7203.02,-206 7295.5,-206 7295.5,-206 7295.5,-206 7295.5,-140.12 7295.5,-140.12" />
+<polygon fill="black" stroke="black" points="7299,-140.12 7295.5,-130.12 7292,-140.12 7299,-140.12" />
+</g>
+
+<g id="edge60" class="edge" data-node-id="t5_tac_or-&gt;t5_cwe_0">
+<title>t5_tac_or-&gt;t5_cwe_0</title>
+<path fill="none" stroke="black" d="M6637.29,-394C6433.4,-394 5152.5,-394 5152.5,-394 5152.5,-394 5152.5,-328.12 5152.5,-328.12" />
+<polygon fill="black" stroke="black" points="5156,-328.12 5152.5,-318.12 5149,-328.12 5156,-328.12" />
+</g>
+
+<g id="edge61" class="edge" data-node-id="t5_tac_or-&gt;t5_cwe_1">
+<title>t5_tac_or-&gt;t5_cwe_1</title>
+<path fill="none" stroke="black" d="M6664.5,-375.88C6664.5,-375.88 6664.5,-328.07 6664.5,-328.07" />
+<polygon fill="black" stroke="black" points="6668,-328.07 6664.5,-318.07 6661,-328.07 6668,-328.07" />
+</g>
+
+<g id="edge62" class="edge" data-node-id="t5_tac_or-&gt;t5_cwe_2">
+<title>t5_tac_or-&gt;t5_cwe_2</title>
+<path fill="none" stroke="black" d="M6691.71,-394C6776.53,-394 7030.5,-394 7030.5,-394 7030.5,-394 7030.5,-328.12 7030.5,-328.12" />
+<polygon fill="black" stroke="black" points="7034,-328.12 7030.5,-318.12 7027,-328.12 7034,-328.12" />
+</g>
+</g>
+</svg>

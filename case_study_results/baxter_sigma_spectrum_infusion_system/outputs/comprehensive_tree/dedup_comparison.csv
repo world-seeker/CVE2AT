@@ -1,0 +1,10 @@
+tactic,per_tactic_count,earliest_tactic_count,difference
+Initial Access,1,1,0
+Persistence,9,8,1
+Privilege Escalation,11,5,6
+Defense Evasion,14,3,11
+Credential Access,6,6,0
+Discovery,3,1,2
+Lateral Movement,3,1,2
+Collection,4,2,2
+TOTAL,51,27,24

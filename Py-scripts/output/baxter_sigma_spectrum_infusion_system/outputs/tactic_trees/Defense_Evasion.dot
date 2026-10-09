@@ -1,0 +1,101 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	t3_tactic [label="Defense Evasion" fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	t3_cwe_0 [label="Use of Hard-coded Credentials" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t3_0_sub_0 [label="Valid Accounts: Default Accounts" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_0_cap_0 [label="Try Common or Default Usernames and Passwords" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_0_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_0_and_0 -> t3_0_sub_0
+	t3_0_and_0 -> t3_0_cap_0
+	t3_cwe_0 -> t3_0_and_0
+	t3_cwe_1 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t3_1_tech_1 [label="Abuse Elevation Control Mechanism" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t3_1_cap_1 [label="Authentication Abuse" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_1_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_1_and_1 -> t3_1_tech_1
+	t3_1_and_1 -> t3_1_cap_1
+	t3_1_tech_2 [label="Abuse Elevation Control Mechanism" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t3_1_cap_2 [label="Authentication Bypass" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_1_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_1_and_2 -> t3_1_tech_2
+	t3_1_and_2 -> t3_1_cap_2
+	t3_1_sub_3 [label="Use Alternate Authentication Material: Application Access Token" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_1_cap_3 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_1_and_3 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_1_and_3 -> t3_1_sub_3
+	t3_1_and_3 -> t3_1_cap_3
+	t3_1_tech_4 [label="Access Token Manipulation" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t3_1_cap_4 [label="Token Impersonation" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_1_and_4 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_1_and_4 -> t3_1_tech_4
+	t3_1_and_4 -> t3_1_cap_4
+	t3_cwe1_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_cwe_1 -> t3_cwe1_or
+	t3_cwe1_or -> t3_1_and_1
+	t3_cwe1_or -> t3_1_and_2
+	t3_cwe1_or -> t3_1_and_3
+	t3_cwe1_or -> t3_1_and_4
+	t3_cwe_2 [label="Incorrect Permission Assignment for Critical Resource" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t3_2_sub_5 [label="Hijack Execution Flow: Services File Permissions Weakness" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_5 [label="Accessing Functionality Not Properly Constrained by ACLs" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_5 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_5 -> t3_2_sub_5
+	t3_2_and_5 -> t3_2_cap_5
+	t3_2_tech_6 [label="Abuse Elevation Control Mechanism" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_6 [label="Privilege Abuse" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_6 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_6 -> t3_2_tech_6
+	t3_2_and_6 -> t3_2_cap_6
+	t3_2_sub_7 [label="Hijack Execution Flow: Executable Installer File Permissions Weakness" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_7 [label="Using Malicious Files" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_7 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_7 -> t3_2_sub_7
+	t3_2_and_7 -> t3_2_cap_7
+	t3_2_sub_8 [label="Hijack Execution Flow: Services File Permissions Weakness" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_8 [label="Using Malicious Files" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_8 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_8 -> t3_2_sub_8
+	t3_2_and_8 -> t3_2_cap_8
+	t3_2_sub_9 [label="Hijack Execution Flow: Services File Permissions Weakness" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_9 [label="Exploiting Incorrectly Configured Access Control Security Levels" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_9 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_9 -> t3_2_sub_9
+	t3_2_and_9 -> t3_2_cap_9
+	t3_2_sub_10 [label="Subvert Trust Controls: Code Signing" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_10 [label="Signing Malicious Code" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_10 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_10 -> t3_2_sub_10
+	t3_2_and_10 -> t3_2_cap_10
+	t3_2_sub_11 [label="Access Token Manipulation: Token Impersonation/Theft" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_11 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_11 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_11 -> t3_2_sub_11
+	t3_2_and_11 -> t3_2_cap_11
+	t3_2_sub_12 [label="Use Alternate Authentication Material: Web Session Cookie" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_12 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_12 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_12 -> t3_2_sub_12
+	t3_2_and_12 -> t3_2_cap_12
+	t3_2_sub_13 [label="Hijack Execution Flow: Executable Installer File Permissions Weakness" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	t3_2_cap_13 [label="Replace Binaries" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t3_2_and_13 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_2_and_13 -> t3_2_sub_13
+	t3_2_and_13 -> t3_2_cap_13
+	t3_cwe2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_cwe_2 -> t3_cwe2_or
+	t3_cwe2_or -> t3_2_and_5
+	t3_cwe2_or -> t3_2_and_6
+	t3_cwe2_or -> t3_2_and_7
+	t3_cwe2_or -> t3_2_and_8
+	t3_cwe2_or -> t3_2_and_9
+	t3_cwe2_or -> t3_2_and_10
+	t3_cwe2_or -> t3_2_and_11
+	t3_cwe2_or -> t3_2_and_12
+	t3_cwe2_or -> t3_2_and_13
+	t3_tac_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t3_tactic -> t3_tac_or
+	t3_tac_or -> t3_cwe_0
+	t3_tac_or -> t3_cwe_1
+	t3_tac_or -> t3_cwe_2
+}

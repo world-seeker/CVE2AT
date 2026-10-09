@@ -1,0 +1,129 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	t5_tactic [label=Discovery fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	t5_cwe_0 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t5_0_tech_0 [label="Browser Information Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_0 [label=Footprinting fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_0 -> t5_0_tech_0
+	t5_0_and_0 -> t5_0_cap_0
+	t5_0_tech_1 [label="Remote System Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_1 [label="Host Discovery" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_1 -> t5_0_tech_1
+	t5_0_and_1 -> t5_0_cap_1
+	t5_0_tech_2 [label="System Time Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_2 [label="Timestamp Request" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_2 -> t5_0_tech_2
+	t5_0_and_2 -> t5_0_cap_2
+	t5_0_tech_3 [label="Network Service Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_3 [label="Port Scanning" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_3 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_3 -> t5_0_tech_3
+	t5_0_and_3 -> t5_0_cap_3
+	t5_0_tech_4 [label="System Network Configuration Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_4 [label="Network Topology Mapping" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_4 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_4 -> t5_0_tech_4
+	t5_0_and_4 -> t5_0_cap_4
+	t5_0_tech_5 [label="System Network Connections Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_5 [label="Network Topology Mapping" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_5 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_5 -> t5_0_tech_5
+	t5_0_and_5 -> t5_0_cap_5
+	t5_0_tech_6 [label="System Information Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_6 [label="Active OS Fingerprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_6 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_6 -> t5_0_tech_6
+	t5_0_and_6 -> t5_0_cap_6
+	t5_0_tech_7 [label="System Information Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_7 [label="Passive OS Fingerprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_7 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_7 -> t5_0_tech_7
+	t5_0_and_7 -> t5_0_cap_7
+	t5_0_tech_8 [label="File and Directory Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_8 [label="File Discovery" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_8 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_8 -> t5_0_tech_8
+	t5_0_and_8 -> t5_0_cap_8
+	t5_0_tech_9 [label="Process Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_9 [label="Process Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_9 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_9 -> t5_0_tech_9
+	t5_0_and_9 -> t5_0_cap_9
+	t5_0_tech_10 [label="System Service Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_10 [label="Services Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_10 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_10 -> t5_0_tech_10
+	t5_0_and_10 -> t5_0_cap_10
+	t5_0_tech_11 [label="Account Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_11 [label="Account Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_11 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_11 -> t5_0_tech_11
+	t5_0_and_11 -> t5_0_cap_11
+	t5_0_tech_12 [label="Permission Groups Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_12 [label="Group Permission Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_12 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_12 -> t5_0_tech_12
+	t5_0_and_12 -> t5_0_cap_12
+	t5_0_tech_13 [label="Group Policy Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_13 [label="Group Permission Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_13 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_13 -> t5_0_tech_13
+	t5_0_and_13 -> t5_0_cap_13
+	t5_0_tech_14 [label="System Owner/User Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_14 [label="Owner Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_14 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_14 -> t5_0_tech_14
+	t5_0_and_14 -> t5_0_cap_14
+	t5_0_tech_15 [label="Network Share Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_15 [label="Identify Shared Files/Directories on System" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_15 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_15 -> t5_0_tech_15
+	t5_0_and_15 -> t5_0_cap_15
+	t5_0_tech_16 [label="Peripheral Device Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_0_cap_16 [label="Peripheral Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_0_and_16 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_0_and_16 -> t5_0_tech_16
+	t5_0_and_16 -> t5_0_cap_16
+	t5_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_cwe_0 -> t5_cwe0_or
+	t5_cwe0_or -> t5_0_and_0
+	t5_cwe0_or -> t5_0_and_1
+	t5_cwe0_or -> t5_0_and_2
+	t5_cwe0_or -> t5_0_and_3
+	t5_cwe0_or -> t5_0_and_4
+	t5_cwe0_or -> t5_0_and_5
+	t5_cwe0_or -> t5_0_and_6
+	t5_cwe0_or -> t5_0_and_7
+	t5_cwe0_or -> t5_0_and_8
+	t5_cwe0_or -> t5_0_and_9
+	t5_cwe0_or -> t5_0_and_10
+	t5_cwe0_or -> t5_0_and_11
+	t5_cwe0_or -> t5_0_and_12
+	t5_cwe0_or -> t5_0_and_13
+	t5_cwe0_or -> t5_0_and_14
+	t5_cwe0_or -> t5_0_and_15
+	t5_cwe0_or -> t5_0_and_16
+	t5_cwe_1 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t5_1_tech_17 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_1_cap_17 [label="Utilizing REST's Trust in the System Resource to Obtain Sensitive Data" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_1_and_17 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_1_and_17 -> t5_1_tech_17
+	t5_1_and_17 -> t5_1_cap_17
+	t5_cwe_1 -> t5_1_and_17
+	t5_cwe_2 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t5_2_tech_18 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t5_2_cap_18 [label="Sniff Application Code" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t5_2_and_18 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_2_and_18 -> t5_2_tech_18
+	t5_2_and_18 -> t5_2_cap_18
+	t5_cwe_2 -> t5_2_and_18
+	t5_tac_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t5_tactic -> t5_tac_or
+	t5_tac_or -> t5_cwe_0
+	t5_tac_or -> t5_cwe_1
+	t5_tac_or -> t5_cwe_2
+}

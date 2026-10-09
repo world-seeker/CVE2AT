@@ -1,0 +1,97 @@
+{
+  "cpe": "cpe:2.3:h:schneider-electric:modicon_m580:-:*:*:*:*:*:*:*",
+  "started": "2026-10-03T21:37:37+00:00",
+  "workspace": "output/schneider-electric_modicon_m580",
+  "dedup_mode": "per_tactic",
+  "stages": {
+    "tabulate": {
+      "cves": 40,
+      "swept_rejected": 0,
+      "workbook": {
+        "cves": 40,
+        "components": 604,
+        "references": 64
+      }
+    },
+    "merge": {
+      "cves_in_scope": 38,
+      "cve_cwe_rows": 44,
+      "unmatched_cwe": [],
+      "missing_capec": [],
+      "final_rows": 469,
+      "coverage_funnel": {
+        "cves_fetched_or_selected": 40,
+        "cves_with_usable_cwe": 38,
+        "cwe_rows": 44,
+        "cwe_ids_known": 965,
+        "capec_rows_after_capec_merge": 421,
+        "distinct_cwe_ids_in_final": 9,
+        "distinct_capec_ids_in_final": 123,
+        "distinct_technique_ids_in_final": 42,
+        "chain_break_reasons": {
+          "NO_TECHNIQUE": 259,
+          "NO_CAPEC": 29,
+          "NO_CWE": 2
+        }
+      },
+      "attack_matrix": {
+        "tactics": 14,
+        "techniques": 203,
+        "sub_techniques": 453
+      }
+    },
+    "tactic_trees": {
+      "dedup_mode": "per_tactic",
+      "rows_loaded": 469,
+      "rows_kept": 210,
+      "rows_dropped": 259,
+      "cves_in_final_dataset": 14,
+      "cves_in_P": 11,
+      "cwes_in_P": 6,
+      "tactics": 8,
+      "total_paths": 74,
+      "unique_cwes": 6,
+      "unique_techniques": 38,
+      "unique_capecs": 33,
+      "validation_ok": true,
+      "output_dir": "output/schneider-electric_modicon_m580/outputs/tactic_trees"
+    },
+    "comprehensive_tree": {
+      "dedup_mode": "per_tactic",
+      "total_paths": 74,
+      "total_nodes": 283,
+      "total_edges": 282,
+      "per_tactic_total": 74,
+      "earliest_tactic_total": 52,
+      "cross_tactic_duplicates_removed": 0,
+      "pruned_rows_cross_tactic": 48,
+      "pruned_rows_within_tactic": 110,
+      "tactics_represented": 8,
+      "subtree_sum_matches": true,
+      "validation_ok": true,
+      "output_dir": "output/schneider-electric_modicon_m580/outputs/comprehensive_tree"
+    }
+  },
+  "finished": "2026-10-03T21:37:45+00:00",
+  "elapsed_seconds": 8.7,
+  "timing_seconds": {
+    "fetch": null,
+    "tabulate": 0.55,
+    "merge": 1.67,
+    "tactic_trees": 3.18,
+    "comprehensive_tree": 3.3,
+    "total": 8.7
+  },
+  "scale": {
+    "attack_matrix": {
+      "tactics": 14,
+      "techniques": 203,
+      "sub_techniques": 453
+    },
+    "chains_in_P": 210,
+    "paths": 74,
+    "tree_nodes": 283,
+    "tree_edges": 282
+  },
+  "validation_ok": true
+}

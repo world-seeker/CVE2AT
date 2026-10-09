@@ -1,0 +1,1237 @@
+{
+  "name": "Defense Evasion",
+  "leaf_count": 19,
+  "node_count": 67,
+  "edge_count": 66,
+  "nodes": [
+    {
+      "id": "t3_tactic",
+      "label": "Defense Evasion",
+      "type": "tactic",
+      "metadata": {
+        "tactic": "Defense Evasion"
+      }
+    },
+    {
+      "id": "t3_cwe_0",
+      "label": "Authentication Bypass by Spoofing",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "Description": "A CWE-290: Authentication Bypass by Spoofing vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause an elevation of privilege by conducting a brute force attack on Modbus parameters sent to the controller.",
+        "cwe_Name": "Authentication Bypass by Spoofing",
+        "cwe_Abstraction": "Base",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Incomplete",
+        "cwe_Description": "This attack-focused weakness is caused by incorrectly implemented authentication schemes that are subject to spoofing attacks.",
+        "cwe_Related_Weaknesses": "CWE-1390 (ChildOf, View: 1000, Ordinal: Primary); CWE-287 (ChildOf, View: 1003, Ordinal: Primary)",
+        "cwe_Modes_Of_Introduction": "Implementation: N/A",
+        "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism, Gain Privileges or Assume Identity | Note: This weakness can allow an attacker to access resources which are not otherwise accessible without proper authentication.",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_0_tech_0",
+      "label": "Access Token Manipulation",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "Description": "A CWE-290: Authentication Bypass by Spoofing vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause an elevation of privilege by conducting a brute force attack on Modbus parameters sent to the controller.",
+        "tech_description": "Adversaries may modify access tokens to operate under a different user or system security context to perform actions and bypass access controls. Windows uses access tokens to determine the ownership of a running process. A user can manipulate access tokens to make a running process appear as though it is the child of a different process or belongs to someone other than the user that started the process. When this occurs, the process also takes on the security context associated with the new token.\n\nAn adversary can use built-in Windows API functions to copy access tokens from existing processes; this is known as token stealing. These token can then be applied to an existing process (i.e. [Token Impersonation/Theft](https://attack.mitre.org/techniques/T1134/001)) or used to spawn a new process (i.e. [Create Process with Token](https://attack.mitre.org/techniques/T1134/002)). An adversary must already be in a privileged user context (i.e. administrator) to steal a token. However, adversaries commonly use token stealing to elevate their security context from the administrator level to the SYSTEM level. An adversary can then use a token to authenticate to a remote system as the account for that token if the account has appropriate permissions on the remote system.(Citation: Pentestlab Token Manipulation)\n\nAny standard user can use the <code>runas</code> command, and the Windows API functions, to create impersonation tokens; it does not require access to an administrator account. There are also other mechanisms, such as Active Directory fields, that can be used to modify access tokens.",
+        "technique_name": "Access Token Manipulation",
+        "tactics": "Defense Evasion",
+        "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts can detect token manipulation only through careful analysis of user network activity, examination of running processes, and correlation with other endpoint and network behavior. \n\nThere are many Windows API calls a payload can take advantage of to manipulate access tokens (e.g., <code>LogonUser</code> (Citation: Microsoft LogonUser), <code>DuplicateTokenEx</code>(Citation: Microsoft DuplicateTokenEx), and <code>ImpersonateLoggedOnUser</code>(Citation: Microsoft ImpersonateLoggedOnUser)). Please see the referenced Windows API pages for more information.\n\nQuery systems for process and thread token information and look for inconsistencies such as user owns processes impersonating the local SYSTEM account.(Citation: BlackHat Atkinson Winchester Token Manipulation)\n\nLook for inconsistencies between the various fields that store PPID information, such as the EventHeader ProcessId from data collected via Event Tracing for Windows (ETW), Creator Process ID/Name from Windows event logs, and the ProcessID and ParentProcessID (which are also produced from ETW and other utilities such as Task Manager and Process Explorer). The ETW provided EventHeader ProcessId identifies the actual parent process.",
+        "platforms": "Windows",
+        "data sources": "Active Directory: Active Directory Object Modification, Command: Command Execution, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Metadata",
+        "defenses bypassed": "Heuristic Detection, Host Forensic Analysis, System Access Controls, Windows User Account Control",
+        "permissions required": "Administrator, User",
+        "effective permissions": "SYSTEM",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_0_cap_0",
+      "label": "Exploitation of Trusted Identifiers",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "capec_Name": "Exploitation of Trusted Identifiers",
+        "capec_Mitre_Techniques": "1134 - Access Token Manipulation",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary guesses, obtains, or \"rides\" a trusted identifier (e.g. session ID, resource ID, cookie, etc.) to perform authorized actions under the guise of an authenticated user or service.",
+        "capec_Extended_Description": "Attacks leveraging trusted identifiers typically result in the adversary laterally moving within the local network, since users are often allowed to authenticate to systems/applications within the network using the same identifier. This allows the adversary to obtain sensitive data, download/install malware on the system, pose as a legitimate user for social engineering purposes, and more. \n             Attacks on trusted identifiers take advantage of the fact that some software accepts user input without verifying its authenticity. Many server side processes are vulnerable to these attacks because the server to server communications have not been analyzed from a security perspective or the processes \"trust\" other systems because they are behind a firewall. Similarly, servers that use easy to guess or spoofable schemes for representing digital identity can also be vulnerable. Such systems frequently use schemes without cryptography and digital signatures (or with broken cryptography). Identifiers may be guessed or obtained due to insufficient randomness, poor protection (passed/stored in the clear), lack of integrity (unsigned), or improper correlation with access control policy enforcement points. Exposed configuration and properties files that contain sensitive data may additionally provide an adversary with the information needed to obtain these identifiers. An adversary may also \"ride\" an identifier via a malicious link, as is the case in Cross Site Request Forgery (CSRF) attacks. \n             Regardless of the attack vector, successful spoofing and impersonation of trusted credentials can lead to an adversary breaking authentication, authorization, and audit controls with the target system or application.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - [Survey the application for Indicators of Susceptibility] Using a variety of methods, until one is found that applies to the target, the adversary probes for cookies, session tokens, or entry points that bypass identifiers altogether. (Techniques: Spider all available pages, Attack known bad interfaces, Search outward-facing configuration and properties files for identifiers.) || Step 2: Experiment - [Fetch samples] The adversary fetches many samples of identifiers. This may be through legitimate access (logging in, legitimate connections, etc.) or via systematic probing. (Techniques: An adversary makes many anonymous connections and records the session IDs assigned., An adversary makes authorized connections and records the session tokens or credentials issued., An adversary gains access to (legitimately or illegitimately) a nearby system (e.g., in the same operations network, DMZ, or local network) and makes a connection from it, attempting to gain the same privileges as a trusted system.) || Step 3: Exploit - [Impersonate] An adversary can use successful experiments or authentications to impersonate an authorized user or system or to laterally move within a system or application (Techniques: N/A) || Step 4: Exploit - [Spoofing] Malicious data can be injected into the target system or into a victim user's system by an adversary. The adversary can also pose as a legitimate user to perform social engineering attacks. (Techniques: N/A) || Step 5: Exploit - [Data Exfiltration] The adversary can obtain sensitive data contained within the system or application. (Techniques: N/A)",
+        "capec_Prerequisites": "Server software must rely on weak identifier proof and/or verification schemes. || Identifiers must have long lifetimes and potential for reusability. || Server software must allow concurrent sessions to exist.",
+        "capec_Skills_Required": "Low: To achieve a direct connection with the weak or non-existent server session access control, and pose as an authorized user",
+        "capec_Resources_Required": "Ability to deploy software on network. || Ability to communicate synchronously or asynchronously with server.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authentication | Impact: Gain Privileges || Scope: Confidentiality | Impact: Read Data || Scope: Integrity | Impact: Modify Data",
+        "capec_Mitigations": "Design: utilize strong federated identity such as SAML to encrypt and sign identity tokens in transit. || Implementation: Use industry standards session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. || Implementation: If the identifier is used for authentication, such as in the so-called single sign on use cases, then ensure that it is protected at the same level of assurance as authentication tokens. || Implementation: If the web or application server supports it, then encrypting and/or signing the identifier (such as cookie) can protect the ID if intercepted. || Design: Use strong session identifiers that are protected in transit and at rest. || Implementation: Utilize a session timeout for all sessions, for example 20 minutes. If the user does not explicitly logout, the server terminates their session after this period of inactivity. If the user logs back in then a new session key is generated. || Implementation: Verify authenticity of all identifiers at runtime.",
+        "capec_Related_Weaknesses": "CWE-290, CWE-302, CWE-346, CWE-539, CWE-6, CWE-384, CWE-664, CWE-602, CWE-642",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_0_and_0",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_0_sub_1",
+      "label": "Masquerading: Invalid Code Signature",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Masquerading: Invalid Code Signature",
+        "technique_name": "Masquerading",
+        "tactics": "Defense Evasion",
+        "detection": "Collect and analyze signing certificate metadata and check signature validity on software that executes within the environment, look for invalid signatures as well as unusual certificate characteristics and outliers.",
+        "platforms": "Windows, macOS",
+        "data sources": "File: File Metadata"
+      }
+    },
+    {
+      "id": "t3_0_cap_1",
+      "label": "Signature Spoof",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "capec_Name": "Signature Spoof",
+        "capec_Mitre_Techniques": "1036.001 - Masquerading",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An attacker generates a message or datablock that causes the recipient to believe that the message or datablock was generated and cryptographically signed by an authoritative or reputable source, misleading a victim or victim operating system into performing malicious actions.",
+        "capec_Prerequisites": "The victim or victim system is dependent upon a cryptographic signature-based verification system for validation of one or more security events or actions. || The validation can be bypassed via an attacker-provided signature that makes it appear that the legitimate authoritative or reputable source provided the signature.",
+        "capec_Skills_Required": "High: Technical understanding of how signature verification algorithms work with data and applications",
+        "capec_Consequences": "Scope: Access Control, Authentication | Impact: Gain Privileges",
+        "capec_Related_Weaknesses": "CWE-20, CWE-327, CWE-290",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_0_and_1",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_0_sub_2",
+      "label": "Subvert Trust Controls: Code Signing",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Subvert Trust Controls: Code Signing",
+        "technique_name": "Subvert Trust Controls",
+        "tactics": "Defense Evasion",
+        "detection": "Collect and analyze signing certificate metadata on software that executes within the environment to look for unusual certificate characteristics and outliers.",
+        "platforms": "Windows, macOS",
+        "data sources": "File: File Metadata"
+      }
+    },
+    {
+      "id": "t3_0_cap_2",
+      "label": "Signature Spoof",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "capec_Name": "Signature Spoof",
+        "capec_Mitre_Techniques": "1553.002 - Subvert Trust Controls",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An attacker generates a message or datablock that causes the recipient to believe that the message or datablock was generated and cryptographically signed by an authoritative or reputable source, misleading a victim or victim operating system into performing malicious actions.",
+        "capec_Prerequisites": "The victim or victim system is dependent upon a cryptographic signature-based verification system for validation of one or more security events or actions. || The validation can be bypassed via an attacker-provided signature that makes it appear that the legitimate authoritative or reputable source provided the signature.",
+        "capec_Skills_Required": "High: Technical understanding of how signature verification algorithms work with data and applications",
+        "capec_Consequences": "Scope: Access Control, Authentication | Impact: Gain Privileges",
+        "capec_Related_Weaknesses": "CWE-20, CWE-327, CWE-290",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_0_and_2",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_0_sub_3",
+      "label": "Access Token Manipulation: Token Impersonation/Theft",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Access Token Manipulation: Token Impersonation/Theft",
+        "technique_name": "Access Token Manipulation",
+        "tactics": "Defense Evasion",
+        "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nAnalysts can also monitor for use of Windows APIs such as <code>DuplicateToken(Ex)</code>, <code> ImpersonateLoggedOnUser </code>, and <code> SetThreadToken </code> and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.",
+        "platforms": "Windows",
+        "data sources": "Command: Command Execution, Process: OS API Execution"
+      }
+    },
+    {
+      "id": "t3_0_cap_3",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1134.001 - Access Token Manipulation:Token Impersonation/Theft",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_0_and_3",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_0_sub_4",
+      "label": "Use Alternate Authentication Material: Web Session Cookie",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Web Session Cookie",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.",
+        "platforms": "IaaS, Office Suite, SaaS",
+        "data sources": "Application Log: Application Log Content, Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t3_0_cap_4",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1550.004 - Use Alternate Authentication Material:Web Session Cookie",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_0_and_4",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe0_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe_1",
+      "label": "Exposure of Sensitive Information to an Unauthorized Actor",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "cwe_Name": "Exposure of Sensitive Information to an Unauthorized Actor",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product exposes sensitive information to an actor that is not explicitly authorized to have access to that information.",
+        "cwe_Related_Weaknesses": "CWE-668 (ChildOf, View: 1000, Ordinal: Primary)",
+        "cwe_Weakness_Ordinality": "Primary, Resultant",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: N/A",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data | Note: N/A",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: High | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: Compartmentalize the system to have \"safe\" areas where trust boundaries can be unambiguously drawn. Do not allow sensitive data to go outside of the trust boundary and always be careful when interfacing with a compartment outside of the safe area. Ensure that appropriate compartmentalization is built into the system design, and the compartmentalization allows for and reinforces privilege separation functionality. Architects and designers should rely on the principle of least privilege to decide the appropriate time to use privileges and the time to drop privileges.",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "NONE",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t3_1_sub_5",
+      "label": "Impair Defenses: Impair Command History Logging",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Impair Defenses: Impair Command History Logging",
+        "technique_name": "Impair Defenses",
+        "tactics": "Defense Evasion",
+        "detection": "Correlating a user session with a distinct lack of new commands in their <code>.bash_history</code> can be a clue to suspicious behavior. Additionally, users checking or changing their <code>HISTCONTROL</code>, <code>HISTFILE</code>, or <code>HISTFILESIZE</code> environment variables may be suspicious.\n\nMonitor for modification of PowerShell command history settings through processes being created with <code>-HistorySaveStyle SaveNothing</code> command-line arguments and use of the PowerShell commands <code>Set-PSReadlineOption -HistorySaveStyle SaveNothing</code> and <code>Set-PSReadLineOption -HistorySavePath {File Path}</code>. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to clear or disable historical log data with built-in features native to the network device platform.  Monitor such command activity for unexpected or unauthorized use of commands being run by non-standard users from non-standard locations.",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Sensor Health: Host Status"
+      }
+    },
+    {
+      "id": "t3_1_cap_5",
+      "label": "Subverting Environment Variable Values",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Subverting Environment Variable Values",
+        "capec_Mitre_Techniques": "1562.003 - Impair Defenses:Impair Command History Logging",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "The adversary directly or indirectly modifies environment variables used by or controlling the target software. The adversary's goal is to cause the target software to deviate from its expected operation in a manner that benefits the adversary.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Probe target application] The adversary first probes the target application to determine important information about the target. This information could include types software used, software versions, what user input the application consumes, and so on. Most importantly, the adversary tries to determine what environment variables might be used by the underlying software, or even the application itself. (Techniques: N/A) || Step 2: Experiment - [Find user-controlled environment variables] Using the information found by probing the application, the adversary attempts to manipulate any user-controlled environment variables they have found are being used by the application, or suspect are being used by the application, and observe the effects of these changes. If the adversary notices any significant changes to the application, they will know that a certain environment variable is important to the application behavior and indicates a possible attack vector. (Techniques: Alter known environment variables such as \"$PATH\", \"$HOSTNAME\", or \"LD_LIBRARY_PATH\" and see if application behavior changes.) || Step 3: Exploit - [Manipulate user-controlled environment variables] The adversary manipulates the found environment variable(s) to abuse the normal flow of processes or to gain access to privileged resources. (Techniques: N/A)",
+        "capec_Prerequisites": "An environment variable is accessible to the user. || An environment variable used by the application can be tainted with user supplied data. || Input data used in an environment variable is not validated properly. || The variables encapsulation is not done properly. For instance setting a variable as public in a class makes it visible and an adversary may attempt to manipulate that variable.",
+        "capec_Skills_Required": "Low: In a web based scenario, the client controls the data that it submitted to the server. So anybody can try to send malicious data and try to bypass the authentication mechanism. || High: Some more advanced attacks may require knowledge about protocols and probing technique which help controlling a variable. The malicious user may try to understand the authentication mechanism in order to defeat it.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution || Scope: Confidentiality | Impact: Read Data || Scope: Accountability | Impact: Hide Activities",
+        "capec_Mitigations": "Protect environment variables against unauthorized read and write access. || Protect the configuration files which contain environment variables against illegitimate read and write access. || Assume all input is malicious. Create an allowlist that defines all valid input to the software system based on the requirements specifications. Input that does not match against the allowlist should not be permitted to enter into the system. || Apply the least privilege principles. If a process has no legitimate reason to read an environment variable do not give that privilege.",
+        "capec_Related_Weaknesses": "CWE-353, CWE-285, CWE-302, CWE-74, CWE-15, CWE-73, CWE-20, CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t3_1_and_5",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_sub_6",
+      "label": "Hijack Execution Flow: Dynamic Linker Hijacking",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Dynamic Linker Hijacking",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor for changes to environment variables and files associated with loading shared libraries such as <code>LD_PRELOAD</code> and <code>DYLD_INSERT_LIBRARIES</code>, as well as the commands to implement these changes.\n\nMonitor processes for unusual activity (e.g., a process that does not use the network begins to do so). Track library metadata, such as a hash, and compare libraries that are loaded at process execution time against previous executions to detect differences that do not correlate with patching or updates.",
+        "platforms": "Linux, macOS",
+        "data sources": "Command: Command Execution, File: File Creation, File: File Modification, Module: Module Load, Process: Process Creation"
+      }
+    },
+    {
+      "id": "t3_1_cap_6",
+      "label": "Subverting Environment Variable Values",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Subverting Environment Variable Values",
+        "capec_Mitre_Techniques": "1574.006 - Hijack Execution Flow:Dynamic Linker Hijacking",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "The adversary directly or indirectly modifies environment variables used by or controlling the target software. The adversary's goal is to cause the target software to deviate from its expected operation in a manner that benefits the adversary.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Probe target application] The adversary first probes the target application to determine important information about the target. This information could include types software used, software versions, what user input the application consumes, and so on. Most importantly, the adversary tries to determine what environment variables might be used by the underlying software, or even the application itself. (Techniques: N/A) || Step 2: Experiment - [Find user-controlled environment variables] Using the information found by probing the application, the adversary attempts to manipulate any user-controlled environment variables they have found are being used by the application, or suspect are being used by the application, and observe the effects of these changes. If the adversary notices any significant changes to the application, they will know that a certain environment variable is important to the application behavior and indicates a possible attack vector. (Techniques: Alter known environment variables such as \"$PATH\", \"$HOSTNAME\", or \"LD_LIBRARY_PATH\" and see if application behavior changes.) || Step 3: Exploit - [Manipulate user-controlled environment variables] The adversary manipulates the found environment variable(s) to abuse the normal flow of processes or to gain access to privileged resources. (Techniques: N/A)",
+        "capec_Prerequisites": "An environment variable is accessible to the user. || An environment variable used by the application can be tainted with user supplied data. || Input data used in an environment variable is not validated properly. || The variables encapsulation is not done properly. For instance setting a variable as public in a class makes it visible and an adversary may attempt to manipulate that variable.",
+        "capec_Skills_Required": "Low: In a web based scenario, the client controls the data that it submitted to the server. So anybody can try to send malicious data and try to bypass the authentication mechanism. || High: Some more advanced attacks may require knowledge about protocols and probing technique which help controlling a variable. The malicious user may try to understand the authentication mechanism in order to defeat it.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution || Scope: Confidentiality | Impact: Read Data || Scope: Accountability | Impact: Hide Activities",
+        "capec_Mitigations": "Protect environment variables against unauthorized read and write access. || Protect the configuration files which contain environment variables against illegitimate read and write access. || Assume all input is malicious. Create an allowlist that defines all valid input to the software system based on the requirements specifications. Input that does not match against the allowlist should not be permitted to enter into the system. || Apply the least privilege principles. If a process has no legitimate reason to read an environment variable do not give that privilege.",
+        "capec_Related_Weaknesses": "CWE-353, CWE-285, CWE-302, CWE-74, CWE-15, CWE-73, CWE-20, CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t3_1_and_6",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_sub_7",
+      "label": "Hijack Execution Flow: Path Interception by PATH Environment Variable",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Path Interception by PATH Environment Variable",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor file creation for files named after partial directories and in locations that may be searched for common processes through the environment variable, or otherwise should not be user writable. Monitor the executing process for process executable paths that are named for partial directories. Monitor file creation for programs that are named after Windows system programs or programs commonly executed without a path (such as \"findstr,\" \"net,\" and \"python\"). If this activity occurs outside of known administration activity, upgrades, installations, or patches, then it may be suspicious.\n\nData and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+        "platforms": "Linux, Windows, macOS",
+        "data sources": "File: File Creation, Process: Process Creation, Windows Registry: Windows Registry Key Modification"
+      }
+    },
+    {
+      "id": "t3_1_cap_7",
+      "label": "Subverting Environment Variable Values",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Subverting Environment Variable Values",
+        "capec_Mitre_Techniques": "1574.007 - Hijack Execution Flow:Path Interception by PATH Environment Variable",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "The adversary directly or indirectly modifies environment variables used by or controlling the target software. The adversary's goal is to cause the target software to deviate from its expected operation in a manner that benefits the adversary.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Probe target application] The adversary first probes the target application to determine important information about the target. This information could include types software used, software versions, what user input the application consumes, and so on. Most importantly, the adversary tries to determine what environment variables might be used by the underlying software, or even the application itself. (Techniques: N/A) || Step 2: Experiment - [Find user-controlled environment variables] Using the information found by probing the application, the adversary attempts to manipulate any user-controlled environment variables they have found are being used by the application, or suspect are being used by the application, and observe the effects of these changes. If the adversary notices any significant changes to the application, they will know that a certain environment variable is important to the application behavior and indicates a possible attack vector. (Techniques: Alter known environment variables such as \"$PATH\", \"$HOSTNAME\", or \"LD_LIBRARY_PATH\" and see if application behavior changes.) || Step 3: Exploit - [Manipulate user-controlled environment variables] The adversary manipulates the found environment variable(s) to abuse the normal flow of processes or to gain access to privileged resources. (Techniques: N/A)",
+        "capec_Prerequisites": "An environment variable is accessible to the user. || An environment variable used by the application can be tainted with user supplied data. || Input data used in an environment variable is not validated properly. || The variables encapsulation is not done properly. For instance setting a variable as public in a class makes it visible and an adversary may attempt to manipulate that variable.",
+        "capec_Skills_Required": "Low: In a web based scenario, the client controls the data that it submitted to the server. So anybody can try to send malicious data and try to bypass the authentication mechanism. || High: Some more advanced attacks may require knowledge about protocols and probing technique which help controlling a variable. The malicious user may try to understand the authentication mechanism in order to defeat it.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution || Scope: Confidentiality | Impact: Read Data || Scope: Accountability | Impact: Hide Activities",
+        "capec_Mitigations": "Protect environment variables against unauthorized read and write access. || Protect the configuration files which contain environment variables against illegitimate read and write access. || Assume all input is malicious. Create an allowlist that defines all valid input to the software system based on the requirements specifications. Input that does not match against the allowlist should not be permitted to enter into the system. || Apply the least privilege principles. If a process has no legitimate reason to read an environment variable do not give that privilege.",
+        "capec_Related_Weaknesses": "CWE-353, CWE-285, CWE-302, CWE-74, CWE-15, CWE-73, CWE-20, CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t3_1_and_7",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_sub_8",
+      "label": "Access Token Manipulation: Token Impersonation/Theft",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Access Token Manipulation: Token Impersonation/Theft",
+        "technique_name": "Access Token Manipulation",
+        "tactics": "Defense Evasion",
+        "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nAnalysts can also monitor for use of Windows APIs such as <code>DuplicateToken(Ex)</code>, <code> ImpersonateLoggedOnUser </code>, and <code> SetThreadToken </code> and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.",
+        "platforms": "Windows",
+        "data sources": "Command: Command Execution, Process: OS API Execution"
+      }
+    },
+    {
+      "id": "t3_1_cap_8",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1134.001 - Access Token Manipulation:Token Impersonation/Theft",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t3_1_and_8",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_sub_9",
+      "label": "Use Alternate Authentication Material: Web Session Cookie",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Web Session Cookie",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.",
+        "platforms": "IaaS, Office Suite, SaaS",
+        "data sources": "Application Log: Application Log Content, Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t3_1_cap_9",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1550.004 - Use Alternate Authentication Material:Web Session Cookie",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t3_1_and_9",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_sub_10",
+      "label": "Masquerading: Match Legitimate Name or Location",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Masquerading: Match Legitimate Name or Location",
+        "technique_name": "Masquerading",
+        "tactics": "Defense Evasion",
+        "detection": "Collect file hashes; file names that do not match their expected hash are suspect. Perform file monitoring; files with known names but in unusual locations are suspect. Likewise, files that are modified outside of an update or patch are suspect.\n\nIf file names are mismatched between the file name on disk and that of the binary's PE metadata, this is a likely indicator that a binary was renamed after it was compiled. Collecting and comparing disk and resource filenames for binaries by looking to see if the InternalName, OriginalFilename, and/or ProductName match what is expected could provide useful leads, but may not always be indicative of malicious activity. (Citation: Elastic Masquerade Ball) Do not focus on the possible names a file could have, but instead on the command-line arguments that are known to be used and are distinct because it will have a better rate of detection.(Citation: Twitter ItsReallyNick Masquerading Update)\n\nIn containerized environments, use image IDs and layer hashes to compare images instead of relying only on their names.(Citation: Docker Images) Monitor for the unexpected creation of new resources within your cluster in Kubernetes, especially those created by atypical users.",
+        "platforms": "Containers, Linux, Windows, macOS",
+        "data sources": "File: File Metadata, Image: Image Metadata, Process: Process Creation, Process: Process Metadata"
+      }
+    },
+    {
+      "id": "t3_1_cap_10",
+      "label": "Establish Rogue Location",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Establish Rogue Location",
+        "capec_Mitre_Techniques": "1036.005 - Masquerading",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary provides a malicious version of a resource at a location that is similar to the expected location of a legitimate resource. After establishing the rogue location, the adversary waits for a victim to visit the location and access the malicious resource.",
+        "capec_Likelihood_Of_Attack": "Medium",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "A resource is expected to available to the user.",
+        "capec_Skills_Required": "Low: Adversaries can often purchase low-cost technology to implement rogue access points.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity | Impact: Other",
+        "capec_Related_Weaknesses": "CWE-200",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t3_1_and_10",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe1_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe_2",
+      "label": "Improper Authentication",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "cwe_Name": "Improper Authentication",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "When an actor claims to have a given identity, the product does not prove or insufficiently proves that the claim is correct.",
+        "cwe_Related_Weaknesses": "CWE-284 (ChildOf, View: 1000, Ordinal: Primary); CWE-284 (ChildOf, View: 1340, Ordinal: Primary)",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis | Effectiveness: Limited | Description:  || Method: Manual Static Analysis | Effectiveness: High | Description:  || Method: Manual Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis | Effectiveness: SOAR Partial | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_tech_11",
+      "label": "Abuse Elevation Control Mechanism",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "tech_description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)",
+        "technique_name": "Abuse Elevation Control Mechanism",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.",
+        "platforms": "IaaS, Identity Provider, Linux, Office Suite, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification",
+        "permissions required": "Administrator, User",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_cap_11",
+      "label": "Authentication Abuse",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "capec_Name": "Authentication Abuse",
+        "capec_Mitre_Techniques": "1548 - Abuse Elevation Control Mechanism",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Draft",
+        "capec_Description": "An attacker obtains unauthorized access to an application, service or device either through knowledge of the inherent weaknesses of an authentication mechanism, or by exploiting a flaw in the authentication scheme's implementation. In such an attack an authentication mechanism is functioning but a carefully controlled sequence of events causes the mechanism to grant access to the attacker.",
+        "capec_Extended_Description": "This attack may exploit assumptions made by the target's authentication procedures, such as assumptions regarding trust relationships or assumptions regarding the generation of secret values. This attack differs from Authentication Bypass attacks in that Authentication Abuse allows the attacker to be certified as a valid user through illegitimate means, while Authentication Bypass allows the user to access protected material without ever being certified as an authenticated user. This attack does not rely on prior sessions established by successfully authenticating users, as relied upon for the \"Exploitation of Session Variables, Resource IDs and other Trusted Credentials\" attack patterns.",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "An authentication mechanism or subsystem implementing some form of authentication such as passwords, digest authentication, security certificates, etc. which is flawed in some way.",
+        "capec_Resources_Required": "A client application, command-line access to a binary, or scripting language capable of interacting with the authentication mechanism.",
+        "capec_Related_Weaknesses": "CWE-287, CWE-1244",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_and_11",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_tech_12",
+      "label": "Abuse Elevation Control Mechanism",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "tech_description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)",
+        "technique_name": "Abuse Elevation Control Mechanism",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.",
+        "platforms": "IaaS, Identity Provider, Linux, Office Suite, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification",
+        "permissions required": "Administrator, User",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_cap_12",
+      "label": "Authentication Bypass",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "capec_Name": "Authentication Bypass",
+        "capec_Mitre_Techniques": "1548 - Abuse Elevation Control Mechanism",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Draft",
+        "capec_Description": "An attacker gains access to application, service, or device with the privileges of an authorized or privileged user by evading or circumventing an authentication mechanism. The attacker is therefore able to access protected data without authentication ever having taken place.",
+        "capec_Extended_Description": "This refers to an attacker gaining access equivalent to an authenticated user without ever going through an authentication procedure. This is usually the result of the attacker using an unexpected access procedure that does not go through the proper checkpoints where authentication should occur. For example, a web site might assume that all users will click through a given link in order to get to secure material and simply authenticate everyone that clicks the link. However, an attacker might be able to reach secured web content by explicitly entering the path to the content rather than clicking through the authentication link, thereby avoiding the check entirely. This attack pattern differs from other authentication attacks in that attacks of this pattern avoid authentication entirely, rather than faking authentication by exploiting flaws or by stealing credentials from legitimate users.",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "An authentication mechanism or subsystem implementing some form of authentication such as passwords, digest authentication, security certificates, etc.",
+        "capec_Resources_Required": "A client application, such as a web browser, or a scripting language capable of interacting with the target.",
+        "capec_Related_Weaknesses": "CWE-287",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_and_12",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_13",
+      "label": "Use Alternate Authentication Material: Application Access Token",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Application Access Token",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor access token activity for abnormal use and permissions granted to unusual or suspicious applications and APIs. Additionally, administrators should review logs for calls to the AWS Security Token Service (STS) and usage of GCP service accounts in order to identify anomalous actions.(Citation: AWS Logging IAM Calls)(Citation: GCP Monitoring Service Account Usage)",
+        "platforms": "Containers, IaaS, Identity Provider, Office Suite, SaaS",
+        "data sources": "Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t3_2_cap_13",
+      "label": "Session Hijacking",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "capec_Name": "Session Hijacking",
+        "capec_Mitre_Techniques": "1550.001 - Use Alternate Authentication Material:Application Access Token",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "This type of attack involves an adversary that exploits weaknesses in an application's use of sessions in performing authentication. The adversary is able to steal or manipulate an active session and use it to gain unathorized access to the application.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Discover Existing Session Token] Through varrying means, an adversary will discover and store an existing session token for some other authenticated user session. (Techniques: N/A) || Step 2: Experiment - [Insert Found Session Token] The attacker attempts to insert a found session token into communication with the targeted application to confirm viability for exploitation. (Techniques: N/A) || Step 3: Exploit - [Session Token Exploitation] The attacker leverages the captured session token to interact with the targeted application in a malicious fashion, impersonating the victim. (Techniques: N/A)",
+        "capec_Prerequisites": "An application that leverages sessions to perform authentication.",
+        "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.",
+        "capec_Resources_Required": "The adversary must have the ability to communicate with the application over the network.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges",
+        "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.",
+        "capec_Related_Weaknesses": "CWE-287",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_and_13",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_tech_14",
+      "label": "Access Token Manipulation",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "tech_description": "Adversaries may modify access tokens to operate under a different user or system security context to perform actions and bypass access controls. Windows uses access tokens to determine the ownership of a running process. A user can manipulate access tokens to make a running process appear as though it is the child of a different process or belongs to someone other than the user that started the process. When this occurs, the process also takes on the security context associated with the new token.\n\nAn adversary can use built-in Windows API functions to copy access tokens from existing processes; this is known as token stealing. These token can then be applied to an existing process (i.e. [Token Impersonation/Theft](https://attack.mitre.org/techniques/T1134/001)) or used to spawn a new process (i.e. [Create Process with Token](https://attack.mitre.org/techniques/T1134/002)). An adversary must already be in a privileged user context (i.e. administrator) to steal a token. However, adversaries commonly use token stealing to elevate their security context from the administrator level to the SYSTEM level. An adversary can then use a token to authenticate to a remote system as the account for that token if the account has appropriate permissions on the remote system.(Citation: Pentestlab Token Manipulation)\n\nAny standard user can use the <code>runas</code> command, and the Windows API functions, to create impersonation tokens; it does not require access to an administrator account. There are also other mechanisms, such as Active Directory fields, that can be used to modify access tokens.",
+        "technique_name": "Access Token Manipulation",
+        "tactics": "Defense Evasion",
+        "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts can detect token manipulation only through careful analysis of user network activity, examination of running processes, and correlation with other endpoint and network behavior. \n\nThere are many Windows API calls a payload can take advantage of to manipulate access tokens (e.g., <code>LogonUser</code> (Citation: Microsoft LogonUser), <code>DuplicateTokenEx</code>(Citation: Microsoft DuplicateTokenEx), and <code>ImpersonateLoggedOnUser</code>(Citation: Microsoft ImpersonateLoggedOnUser)). Please see the referenced Windows API pages for more information.\n\nQuery systems for process and thread token information and look for inconsistencies such as user owns processes impersonating the local SYSTEM account.(Citation: BlackHat Atkinson Winchester Token Manipulation)\n\nLook for inconsistencies between the various fields that store PPID information, such as the EventHeader ProcessId from data collected via Event Tracing for Windows (ETW), Creator Process ID/Name from Windows event logs, and the ProcessID and ParentProcessID (which are also produced from ETW and other utilities such as Task Manager and Process Explorer). The ETW provided EventHeader ProcessId identifies the actual parent process.",
+        "platforms": "Windows",
+        "data sources": "Active Directory: Active Directory Object Modification, Command: Command Execution, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Metadata",
+        "defenses bypassed": "Heuristic Detection, Host Forensic Analysis, System Access Controls, Windows User Account Control",
+        "permissions required": "Administrator, User",
+        "effective permissions": "SYSTEM",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_cap_14",
+      "label": "Token Impersonation",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "capec_Name": "Token Impersonation",
+        "capec_Mitre_Techniques": "1134 - Access Token Manipulation",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary exploits a weakness in authentication to create an access token (or equivalent) that impersonates a different entity, and then associates a process/thread to that that impersonated token. This action causes a downstream user to make a decision or take action that is based on the assumed identity, and not the response that blocks the adversary.",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "This pattern of attack is only applicable when a downstream user leverages tokens to verify identity, and then takes action based on that identity.",
+        "capec_Consequences": "Scope: Integrity | Impact: Alter Execution Logic || Scope: Integrity | Impact: Gain Privileges || Scope: Integrity | Impact: Hide Activities",
+        "capec_Related_Weaknesses": "CWE-287, CWE-1270",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t3_2_and_14",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe2_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe_3",
+      "label": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2020-7475",
+        "Description": "A CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection'), reflective DLL, vulnerability exists in EcoStruxure Control Expert (all versions prior to 14.1 Hot Fix), Unity Pro (all versions), Modicon M340 (all versions prior to V3.20), Modicon M580 (all versions prior to V3.10), which, if exploited, could allow attackers to transfer malicious code to the controller.",
+        "cwe_Name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Incomplete",
+        "cwe_Description": "The product constructs all or part of a command, data structure, or record using externally-influenced input from an upstream component, but it does not neutralize or incorrectly neutralizes special elements that could modify how it is parsed or interpreted when it is sent to a downstream component.",
+        "cwe_Extended_Description": "Software or other automated logic has certain assumptions about what constitutes data and control respectively. It is the lack of verification of these assumptions for user-controlled input that leads to injection problems. Injection problems encompass a wide variety of issues -- all mitigated in very different ways and usually attempted in order to alter the control flow of the process. For this reason, the most effective way to discuss these weaknesses is to note the distinct features that classify them as injection weaknesses. The most important issue to note is that all injection problems share one thing in common -- i.e., they allow for the injection of control plane data into the user-controlled data plane. This means that the execution of the process may be altered by sending code in through legitimate data channels, using no other mechanism. While buffer overflows, and many other flaws, involve the use of some further issue to gain execution, injection problems need only for the data to be parsed.",
+        "cwe_Related_Weaknesses": "CWE-707 (ChildOf, View: 1000, Ordinal: Primary)",
+        "cwe_Weakness_Ordinality": "Primary",
+        "cwe_Modes_Of_Introduction": "Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data | Note: Many injection attacks involve the disclosure of important information -- in terms of both data sensitivity and usefulness in further exploitation. || Scope: Access Control | Impact: Bypass Protection Mechanism | Note: In some cases, injectable code controls authentication; this may lead to a remote vulnerability. || Scope: Other | Impact: Alter Execution Logic | Note: Injection attacks are characterized by the ability to significantly change the flow of a given process, and in some cases, to the execution of arbitrary code. || Scope: Integrity, Other | Impact: Other | Note: Data injection attacks lead to loss of data integrity in nearly all cases as the control-plane data injected is always incidental to data recall or writing. || Scope: Non-Repudiation | Impact: Hide Activities | Note: Often the actions performed by injected control code are unlogged.",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis | Effectiveness: High | Description: Automated static analysis, commonly referred to as Static Application Security Testing (SAST), can find some instances of this weakness by analyzing source code (or binary/compiled code) without having to execute it. Typically, this is done by building a model of data flow and control flow, then searching for potentially-vulnerable patterns that connect \"sources\" (origins of input) with \"sinks\" (destinations where the data interacts with external components, a lower layer such as the OS, etc.)",
+        "cwe_Potential_Mitigations": "Phase: Requirements | Description: N/A || Phase: Implementation | Description: N/A",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9"
+      }
+    },
+    {
+      "id": "t3_3_sub_15",
+      "label": "Impair Defenses: Impair Command History Logging",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Impair Defenses: Impair Command History Logging",
+        "technique_name": "Impair Defenses",
+        "tactics": "Defense Evasion",
+        "detection": "Correlating a user session with a distinct lack of new commands in their <code>.bash_history</code> can be a clue to suspicious behavior. Additionally, users checking or changing their <code>HISTCONTROL</code>, <code>HISTFILE</code>, or <code>HISTFILESIZE</code> environment variables may be suspicious.\n\nMonitor for modification of PowerShell command history settings through processes being created with <code>-HistorySaveStyle SaveNothing</code> command-line arguments and use of the PowerShell commands <code>Set-PSReadlineOption -HistorySaveStyle SaveNothing</code> and <code>Set-PSReadLineOption -HistorySavePath {File Path}</code>. Further, [Network Device CLI](https://attack.mitre.org/techniques/T1059/008) commands may also be used to clear or disable historical log data with built-in features native to the network device platform.  Monitor such command activity for unexpected or unauthorized use of commands being run by non-standard users from non-standard locations.",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Command: Command Execution, Sensor Health: Host Status"
+      }
+    },
+    {
+      "id": "t3_3_cap_15",
+      "label": "Subverting Environment Variable Values",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-7475",
+        "capec_Name": "Subverting Environment Variable Values",
+        "capec_Mitre_Techniques": "1562.003 - Impair Defenses:Impair Command History Logging",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "The adversary directly or indirectly modifies environment variables used by or controlling the target software. The adversary's goal is to cause the target software to deviate from its expected operation in a manner that benefits the adversary.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Probe target application] The adversary first probes the target application to determine important information about the target. This information could include types software used, software versions, what user input the application consumes, and so on. Most importantly, the adversary tries to determine what environment variables might be used by the underlying software, or even the application itself. (Techniques: N/A) || Step 2: Experiment - [Find user-controlled environment variables] Using the information found by probing the application, the adversary attempts to manipulate any user-controlled environment variables they have found are being used by the application, or suspect are being used by the application, and observe the effects of these changes. If the adversary notices any significant changes to the application, they will know that a certain environment variable is important to the application behavior and indicates a possible attack vector. (Techniques: Alter known environment variables such as \"$PATH\", \"$HOSTNAME\", or \"LD_LIBRARY_PATH\" and see if application behavior changes.) || Step 3: Exploit - [Manipulate user-controlled environment variables] The adversary manipulates the found environment variable(s) to abuse the normal flow of processes or to gain access to privileged resources. (Techniques: N/A)",
+        "capec_Prerequisites": "An environment variable is accessible to the user. || An environment variable used by the application can be tainted with user supplied data. || Input data used in an environment variable is not validated properly. || The variables encapsulation is not done properly. For instance setting a variable as public in a class makes it visible and an adversary may attempt to manipulate that variable.",
+        "capec_Skills_Required": "Low: In a web based scenario, the client controls the data that it submitted to the server. So anybody can try to send malicious data and try to bypass the authentication mechanism. || High: Some more advanced attacks may require knowledge about protocols and probing technique which help controlling a variable. The malicious user may try to understand the authentication mechanism in order to defeat it.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution || Scope: Confidentiality | Impact: Read Data || Scope: Accountability | Impact: Hide Activities",
+        "capec_Mitigations": "Protect environment variables against unauthorized read and write access. || Protect the configuration files which contain environment variables against illegitimate read and write access. || Assume all input is malicious. Create an allowlist that defines all valid input to the software system based on the requirements specifications. Input that does not match against the allowlist should not be permitted to enter into the system. || Apply the least privilege principles. If a process has no legitimate reason to read an environment variable do not give that privilege.",
+        "capec_Related_Weaknesses": "CWE-353, CWE-285, CWE-302, CWE-74, CWE-15, CWE-73, CWE-20, CWE-200",
+        "attackVector": "NETWORK"
+      }
+    },
+    {
+      "id": "t3_3_and_15",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_3_sub_16",
+      "label": "Hijack Execution Flow: Dynamic Linker Hijacking",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Dynamic Linker Hijacking",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor for changes to environment variables and files associated with loading shared libraries such as <code>LD_PRELOAD</code> and <code>DYLD_INSERT_LIBRARIES</code>, as well as the commands to implement these changes.\n\nMonitor processes for unusual activity (e.g., a process that does not use the network begins to do so). Track library metadata, such as a hash, and compare libraries that are loaded at process execution time against previous executions to detect differences that do not correlate with patching or updates.",
+        "platforms": "Linux, macOS",
+        "data sources": "Command: Command Execution, File: File Creation, File: File Modification, Module: Module Load, Process: Process Creation"
+      }
+    },
+    {
+      "id": "t3_3_cap_16",
+      "label": "Subverting Environment Variable Values",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-7475",
+        "capec_Name": "Subverting Environment Variable Values",
+        "capec_Mitre_Techniques": "1574.006 - Hijack Execution Flow:Dynamic Linker Hijacking",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "The adversary directly or indirectly modifies environment variables used by or controlling the target software. The adversary's goal is to cause the target software to deviate from its expected operation in a manner that benefits the adversary.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Probe target application] The adversary first probes the target application to determine important information about the target. This information could include types software used, software versions, what user input the application consumes, and so on. Most importantly, the adversary tries to determine what environment variables might be used by the underlying software, or even the application itself. (Techniques: N/A) || Step 2: Experiment - [Find user-controlled environment variables] Using the information found by probing the application, the adversary attempts to manipulate any user-controlled environment variables they have found are being used by the application, or suspect are being used by the application, and observe the effects of these changes. If the adversary notices any significant changes to the application, they will know that a certain environment variable is important to the application behavior and indicates a possible attack vector. (Techniques: Alter known environment variables such as \"$PATH\", \"$HOSTNAME\", or \"LD_LIBRARY_PATH\" and see if application behavior changes.) || Step 3: Exploit - [Manipulate user-controlled environment variables] The adversary manipulates the found environment variable(s) to abuse the normal flow of processes or to gain access to privileged resources. (Techniques: N/A)",
+        "capec_Prerequisites": "An environment variable is accessible to the user. || An environment variable used by the application can be tainted with user supplied data. || Input data used in an environment variable is not validated properly. || The variables encapsulation is not done properly. For instance setting a variable as public in a class makes it visible and an adversary may attempt to manipulate that variable.",
+        "capec_Skills_Required": "Low: In a web based scenario, the client controls the data that it submitted to the server. So anybody can try to send malicious data and try to bypass the authentication mechanism. || High: Some more advanced attacks may require knowledge about protocols and probing technique which help controlling a variable. The malicious user may try to understand the authentication mechanism in order to defeat it.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution || Scope: Confidentiality | Impact: Read Data || Scope: Accountability | Impact: Hide Activities",
+        "capec_Mitigations": "Protect environment variables against unauthorized read and write access. || Protect the configuration files which contain environment variables against illegitimate read and write access. || Assume all input is malicious. Create an allowlist that defines all valid input to the software system based on the requirements specifications. Input that does not match against the allowlist should not be permitted to enter into the system. || Apply the least privilege principles. If a process has no legitimate reason to read an environment variable do not give that privilege.",
+        "capec_Related_Weaknesses": "CWE-353, CWE-285, CWE-302, CWE-74, CWE-15, CWE-73, CWE-20, CWE-200",
+        "attackVector": "NETWORK"
+      }
+    },
+    {
+      "id": "t3_3_and_16",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_3_sub_17",
+      "label": "Hijack Execution Flow: Path Interception by PATH Environment Variable",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Path Interception by PATH Environment Variable",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor file creation for files named after partial directories and in locations that may be searched for common processes through the environment variable, or otherwise should not be user writable. Monitor the executing process for process executable paths that are named for partial directories. Monitor file creation for programs that are named after Windows system programs or programs commonly executed without a path (such as \"findstr,\" \"net,\" and \"python\"). If this activity occurs outside of known administration activity, upgrades, installations, or patches, then it may be suspicious.\n\nData and events should not be viewed in isolation, but as part of a chain of behavior that could lead to other activities, such as network connections made for Command and Control, learning details about the environment through Discovery, and Lateral Movement.",
+        "platforms": "Linux, Windows, macOS",
+        "data sources": "File: File Creation, Process: Process Creation, Windows Registry: Windows Registry Key Modification"
+      }
+    },
+    {
+      "id": "t3_3_cap_17",
+      "label": "Subverting Environment Variable Values",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-7475",
+        "capec_Name": "Subverting Environment Variable Values",
+        "capec_Mitre_Techniques": "1574.007 - Hijack Execution Flow:Path Interception by PATH Environment Variable",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "The adversary directly or indirectly modifies environment variables used by or controlling the target software. The adversary's goal is to cause the target software to deviate from its expected operation in a manner that benefits the adversary.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Probe target application] The adversary first probes the target application to determine important information about the target. This information could include types software used, software versions, what user input the application consumes, and so on. Most importantly, the adversary tries to determine what environment variables might be used by the underlying software, or even the application itself. (Techniques: N/A) || Step 2: Experiment - [Find user-controlled environment variables] Using the information found by probing the application, the adversary attempts to manipulate any user-controlled environment variables they have found are being used by the application, or suspect are being used by the application, and observe the effects of these changes. If the adversary notices any significant changes to the application, they will know that a certain environment variable is important to the application behavior and indicates a possible attack vector. (Techniques: Alter known environment variables such as \"$PATH\", \"$HOSTNAME\", or \"LD_LIBRARY_PATH\" and see if application behavior changes.) || Step 3: Exploit - [Manipulate user-controlled environment variables] The adversary manipulates the found environment variable(s) to abuse the normal flow of processes or to gain access to privileged resources. (Techniques: N/A)",
+        "capec_Prerequisites": "An environment variable is accessible to the user. || An environment variable used by the application can be tainted with user supplied data. || Input data used in an environment variable is not validated properly. || The variables encapsulation is not done properly. For instance setting a variable as public in a class makes it visible and an adversary may attempt to manipulate that variable.",
+        "capec_Skills_Required": "Low: In a web based scenario, the client controls the data that it submitted to the server. So anybody can try to send malicious data and try to bypass the authentication mechanism. || High: Some more advanced attacks may require knowledge about protocols and probing technique which help controlling a variable. The malicious user may try to understand the authentication mechanism in order to defeat it.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Confidentiality, Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution || Scope: Confidentiality | Impact: Read Data || Scope: Accountability | Impact: Hide Activities",
+        "capec_Mitigations": "Protect environment variables against unauthorized read and write access. || Protect the configuration files which contain environment variables against illegitimate read and write access. || Assume all input is malicious. Create an allowlist that defines all valid input to the software system based on the requirements specifications. Input that does not match against the allowlist should not be permitted to enter into the system. || Apply the least privilege principles. If a process has no legitimate reason to read an environment variable do not give that privilege.",
+        "capec_Related_Weaknesses": "CWE-353, CWE-285, CWE-302, CWE-74, CWE-15, CWE-73, CWE-20, CWE-200",
+        "attackVector": "NETWORK"
+      }
+    },
+    {
+      "id": "t3_3_and_17",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_3_tech_18",
+      "label": "Obfuscated Files or Information",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2020-7475",
+        "Description": "A CWE-74: Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection'), reflective DLL, vulnerability exists in EcoStruxure Control Expert (all versions prior to 14.1 Hot Fix), Unity Pro (all versions), Modicon M340 (all versions prior to V3.20), Modicon M580 (all versions prior to V3.10), which, if exploited, could allow attackers to transfer malicious code to the controller.",
+        "tech_description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit. This is common behavior that can be used across different platforms and the network to evade defenses. \n\nPayloads may be compressed, archived, or encrypted in order to avoid detection. These payloads may be used during Initial Access or later to mitigate detection. Sometimes a user's action may be required to open and [Deobfuscate/Decode Files or Information](https://attack.mitre.org/techniques/T1140) for [User Execution](https://attack.mitre.org/techniques/T1204). The user may also be required to input a password to open a password protected compressed/encrypted file that was provided by the adversary. (Citation: Volexity PowerDuke November 2016) Adversaries may also use compressed or archived scripts, such as JavaScript. \n\nPortions of files can also be encoded to hide the plain-text strings that would otherwise help defenders with discovery. (Citation: Linux/Cdorked.A We Live Security Analysis) Payloads may also be split into separate, seemingly benign files that only reveal malicious functionality when reassembled. (Citation: Carbon Black Obfuscation Sept 2016)\n\nAdversaries may also abuse [Command Obfuscation](https://attack.mitre.org/techniques/T1027/010) to obscure commands executed from payloads or directly via [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059). Environment variables, aliases, characters, and other platform/language specific semantics can be used to evade signature based detections and application control mechanisms. (Citation: FireEye Obfuscation June 2017) (Citation: FireEye Revoke-Obfuscation July 2017)(Citation: PaloAlto EncodedCommand March 2017)",
+        "technique_name": "Obfuscated Files or Information",
+        "tactics": "Defense Evasion",
+        "detection": "Detection of file obfuscation is difficult unless artifacts are left behind by the obfuscation process that are uniquely detectable with a signature. If detection of the obfuscation itself is not possible, it may be possible to detect the malicious activity that caused the obfuscated file (for example, the method that was used to write, read, or modify the file on the file system). \n\nFlag and analyze commands containing indicators of obfuscation and known suspicious syntax such as uninterpreted escape characters like '''^''' and '''\"'''. Windows' Sysmon and Event ID 4688 displays command-line arguments for processes. Deobfuscation tools can be used to detect these indicators in files/payloads. (Citation: GitHub Revoke-Obfuscation) (Citation: FireEye Revoke-Obfuscation July 2017) (Citation: GitHub Office-Crackros Aug 2016) \n\nObfuscation used in payloads for Initial Access can be detected at the network. Use network intrusion detection systems and email gateway filtering to identify compressed and encrypted attachments and scripts. Some email attachment detonation systems can open compressed and encrypted attachments. Payloads delivered over an encrypted connection from a website require encrypted network traffic inspection. \n\nThe first detection of a malicious tool may trigger an anti-virus or other security tool alert. Similar events may also occur at the boundary through network IDS, email scanning appliance, etc. The initial detection should be treated as an indication of a potentially more invasive intrusion. The alerting system should be thoroughly investigated beyond that initial alert for activity that was not detected. Adversaries may continue with an operation, assuming that individual events like an anti-virus detect will not be investigated or that an analyst will not be able to conclusively link that event to other activity occurring on the network.",
+        "platforms": "Linux, Network, Windows, macOS",
+        "data sources": "Application Log: Application Log Content, Command: Command Execution, File: File Creation, File: File Metadata, Module: Module Load, Process: OS API Execution, Process: Process Creation, Script: Script Execution, WMI: WMI Creation, Windows Registry: Windows Registry Key Creation",
+        "defenses bypassed": "Application Control, Host Forensic Analysis, Host Intrusion Prevention Systems, Log Analysis, Signature-based Detection",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE"
+      }
+    },
+    {
+      "id": "t3_3_cap_18",
+      "label": "Leverage Alternate Encoding",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-7475",
+        "capec_Name": "Leverage Alternate Encoding",
+        "capec_Mitre_Techniques": "1027 - Obfuscated Files or Information",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary leverages the possibility to encode potentially harmful input or content used by applications such that the applications are ineffective at validating this encoding standard.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - [Survey the application for user-controllable inputs] Using a browser, an automated tool or by inspecting the application, an adversary records all entry points to the application. (Techniques: Use a spidering tool to follow and record all links and analyze the web pages to find entry points. Make special note of any links that include parameters in the URL., Use a proxy tool to record all user input entry points visited during a manual traversal of the web application., Use a browser to manually explore the website and analyze how it is constructed. Many browsers' plugins are available to facilitate the analysis or automate the discovery., Manually inspect the application to find entry points.) || Step 2: Experiment - [Probe entry points to locate vulnerabilities] The adversary uses the entry points gathered in the \"Explore\" phase as a target list and injects various payloads using a variety of different types of encodings to determine if an entry point actually represents a vulnerability with insufficient validation logic and to characterize the extent to which the vulnerability can be exploited. (Techniques: Try to use different encodings of content in order to bypass validation routines.)",
+        "capec_Prerequisites": "The application's decoder accepts and interprets encoded characters. Data canonicalization, input filtering and validating is not done properly leaving the door open to harmful characters for the target host.",
+        "capec_Skills_Required": "Low: An adversary can inject different representation of a filtered character in a different encoding. || Medium: An adversary may craft subtle encoding of input data by using the knowledge that they have gathered about the target host.",
+        "capec_Consequences": "Scope: Integrity | Impact: Modify Data || Scope: Confidentiality | Impact: Read Data || Scope: Authorization | Impact: Execute Unauthorized Commands || Scope: Accountability, Authentication, Authorization, Non-Repudiation | Impact: Gain Privileges || Scope: Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution, Resource Consumption",
+        "capec_Mitigations": "Assume all input might use an improper representation. Use canonicalized data inside the application; all data must be converted into the representation used inside the application (UTF-8, UTF-16, etc.) || Assume all input is malicious. Create an allowlist that defines all valid input to the software system based on the requirements specifications. Input that does not match against the allowlist should not be permitted to enter into the system. Test your decoding process against malicious input.",
+        "capec_Related_Weaknesses": "CWE-173, CWE-172, CWE-180, CWE-181, CWE-73, CWE-74, CWE-20, CWE-697, CWE-692",
+        "attackVector": "NETWORK"
+      }
+    },
+    {
+      "id": "t3_3_and_18",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe3_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t3_tac_or",
+      "label": "OR",
+      "type": "gate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "t3_0_and_0",
+      "to": "t3_0_tech_0"
+    },
+    {
+      "from": "t3_0_and_0",
+      "to": "t3_0_cap_0"
+    },
+    {
+      "from": "t3_0_and_1",
+      "to": "t3_0_sub_1"
+    },
+    {
+      "from": "t3_0_and_1",
+      "to": "t3_0_cap_1"
+    },
+    {
+      "from": "t3_0_and_2",
+      "to": "t3_0_sub_2"
+    },
+    {
+      "from": "t3_0_and_2",
+      "to": "t3_0_cap_2"
+    },
+    {
+      "from": "t3_0_and_3",
+      "to": "t3_0_sub_3"
+    },
+    {
+      "from": "t3_0_and_3",
+      "to": "t3_0_cap_3"
+    },
+    {
+      "from": "t3_0_and_4",
+      "to": "t3_0_sub_4"
+    },
+    {
+      "from": "t3_0_and_4",
+      "to": "t3_0_cap_4"
+    },
+    {
+      "from": "t3_cwe_0",
+      "to": "t3_cwe0_or"
+    },
+    {
+      "from": "t3_cwe0_or",
+      "to": "t3_0_and_0"
+    },
+    {
+      "from": "t3_cwe0_or",
+      "to": "t3_0_and_1"
+    },
+    {
+      "from": "t3_cwe0_or",
+      "to": "t3_0_and_2"
+    },
+    {
+      "from": "t3_cwe0_or",
+      "to": "t3_0_and_3"
+    },
+    {
+      "from": "t3_cwe0_or",
+      "to": "t3_0_and_4"
+    },
+    {
+      "from": "t3_1_and_5",
+      "to": "t3_1_sub_5"
+    },
+    {
+      "from": "t3_1_and_5",
+      "to": "t3_1_cap_5"
+    },
+    {
+      "from": "t3_1_and_6",
+      "to": "t3_1_sub_6"
+    },
+    {
+      "from": "t3_1_and_6",
+      "to": "t3_1_cap_6"
+    },
+    {
+      "from": "t3_1_and_7",
+      "to": "t3_1_sub_7"
+    },
+    {
+      "from": "t3_1_and_7",
+      "to": "t3_1_cap_7"
+    },
+    {
+      "from": "t3_1_and_8",
+      "to": "t3_1_sub_8"
+    },
+    {
+      "from": "t3_1_and_8",
+      "to": "t3_1_cap_8"
+    },
+    {
+      "from": "t3_1_and_9",
+      "to": "t3_1_sub_9"
+    },
+    {
+      "from": "t3_1_and_9",
+      "to": "t3_1_cap_9"
+    },
+    {
+      "from": "t3_1_and_10",
+      "to": "t3_1_sub_10"
+    },
+    {
+      "from": "t3_1_and_10",
+      "to": "t3_1_cap_10"
+    },
+    {
+      "from": "t3_cwe_1",
+      "to": "t3_cwe1_or"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_5"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_6"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_7"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_8"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_9"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_10"
+    },
+    {
+      "from": "t3_2_and_11",
+      "to": "t3_2_tech_11"
+    },
+    {
+      "from": "t3_2_and_11",
+      "to": "t3_2_cap_11"
+    },
+    {
+      "from": "t3_2_and_12",
+      "to": "t3_2_tech_12"
+    },
+    {
+      "from": "t3_2_and_12",
+      "to": "t3_2_cap_12"
+    },
+    {
+      "from": "t3_2_and_13",
+      "to": "t3_2_sub_13"
+    },
+    {
+      "from": "t3_2_and_13",
+      "to": "t3_2_cap_13"
+    },
+    {
+      "from": "t3_2_and_14",
+      "to": "t3_2_tech_14"
+    },
+    {
+      "from": "t3_2_and_14",
+      "to": "t3_2_cap_14"
+    },
+    {
+      "from": "t3_cwe_2",
+      "to": "t3_cwe2_or"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_11"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_12"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_13"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_14"
+    },
+    {
+      "from": "t3_3_and_15",
+      "to": "t3_3_sub_15"
+    },
+    {
+      "from": "t3_3_and_15",
+      "to": "t3_3_cap_15"
+    },
+    {
+      "from": "t3_3_and_16",
+      "to": "t3_3_sub_16"
+    },
+    {
+      "from": "t3_3_and_16",
+      "to": "t3_3_cap_16"
+    },
+    {
+      "from": "t3_3_and_17",
+      "to": "t3_3_sub_17"
+    },
+    {
+      "from": "t3_3_and_17",
+      "to": "t3_3_cap_17"
+    },
+    {
+      "from": "t3_3_and_18",
+      "to": "t3_3_tech_18"
+    },
+    {
+      "from": "t3_3_and_18",
+      "to": "t3_3_cap_18"
+    },
+    {
+      "from": "t3_cwe_3",
+      "to": "t3_cwe3_or"
+    },
+    {
+      "from": "t3_cwe3_or",
+      "to": "t3_3_and_15"
+    },
+    {
+      "from": "t3_cwe3_or",
+      "to": "t3_3_and_16"
+    },
+    {
+      "from": "t3_cwe3_or",
+      "to": "t3_3_and_17"
+    },
+    {
+      "from": "t3_cwe3_or",
+      "to": "t3_3_and_18"
+    },
+    {
+      "from": "t3_tactic",
+      "to": "t3_tac_or"
+    },
+    {
+      "from": "t3_tac_or",
+      "to": "t3_cwe_0"
+    },
+    {
+      "from": "t3_tac_or",
+      "to": "t3_cwe_1"
+    },
+    {
+      "from": "t3_tac_or",
+      "to": "t3_cwe_2"
+    },
+    {
+      "from": "t3_tac_or",
+      "to": "t3_cwe_3"
+    }
+  ]
+}

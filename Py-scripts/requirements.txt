@@ -1,0 +1,6 @@
+pandas>=2.0
+openpyxl>=3.1
+requests>=2.28
+graphviz>=0.20
+matplotlib>=3.5
+numpy>=1.24

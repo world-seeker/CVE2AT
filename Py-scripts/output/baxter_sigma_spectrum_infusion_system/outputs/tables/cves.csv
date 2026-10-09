@@ -1,0 +1,11 @@
+CVE ID,CVSS Vector,CWE,Base,Expl.,Affected Components
+CVE-2014-5431,AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,"CWE-259, CWE-798",6.8,0.9,Sigma Spectrum Infusion System Firmware (6.05); Sigma Spectrum Infusion System; Wireless Battery Module (16)
+CVE-2014-5432,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,"CWE-287, CWE-592",9.8,3.9,Sigma Spectrum Infusion System Firmware (6.05); Sigma Spectrum Infusion System; Wireless Battery Module (16)
+CVE-2014-5433,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,"CWE-255, CWE-312",9.8,3.9,Sigma Spectrum Infusion System Firmware (6.05); Sigma Spectrum Infusion System; Wireless Battery Module (16)
+CVE-2014-5434,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,"CWE-259, CWE-798",9.8,3.9,Sigma Spectrum Infusion System Firmware (6.05); Sigma Spectrum Infusion System; Wireless Battery Module (16)
+CVE-2020-12039,AV:P/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N,"CWE-259, CWE-798",2.4,0.9,Sigma Spectrum Infusion System Firmware (8.0); Sigma Spectrum Infusion System
+CVE-2020-12040,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,CWE-319,9.8,3.9,Sigma Spectrum Infusion System Firmware (8.0); Sigma Spectrum Infusion System
+CVE-2020-12041,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H,CWE-732,9.4,3.9,"Sigma Spectrum Infusion System Firmware (8.0); Sigma Spectrum Infusion System; Wireless Battery Module (17, 20d29, 20d30, 20d31, 22d24)"
+CVE-2020-12043,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,CWE-672,9.8,3.9,"Sigma Spectrum Infusion System Firmware (8.0); Sigma Spectrum Infusion System; Wireless Battery Module (17, 20d29, 20d30, 20d31, 22d24)"
+CVE-2020-12045,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,"CWE-259, CWE-798",9.8,3.9,"Sigma Spectrum Infusion System Firmware (8.0); Sigma Spectrum Infusion System; Wireless Battery Module (17, 20d29, 20d30, 20d31, 22d24)"
+CVE-2020-12047,AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H,"CWE-259, CWE-798",9.8,3.9,"Sigma Spectrum Infusion System Firmware (8.0); Sigma Spectrum Infusion System; Wireless Battery Module (17, 20d29, 20d30, 20d31, 22d24)"

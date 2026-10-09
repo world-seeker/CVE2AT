@@ -1,0 +1,30 @@
+CAPEC,Name,Abstraction,Likelihood,Severity
+CAPEC-1,Accessing Functionality Not Properly Constrained by ACLs,Standard,High,High
+CAPEC-17,Using Malicious Files,Standard,High,Very High
+CAPEC-22,Exploiting Trust in Client,Meta,High,High
+CAPEC-37,Retrieve Embedded Sensitive Data,Detailed,High,Very High
+CAPEC-57,Utilizing REST's Trust in the System Resource to Obtain Sensitive Data,Detailed,Medium,Very High
+CAPEC-60,Reusing Session IDs (aka Session Replay),Detailed,High,High
+CAPEC-61,Session Fixation,Detailed,Medium,High
+CAPEC-62,Cross Site Request Forgery,Standard,High,Very High
+CAPEC-65,Sniff Application Code,Detailed,Low,High
+CAPEC-70,Try Common or Default Usernames and Passwords,Detailed,Medium,High
+CAPEC-94,Adversary in the Middle (AiTM),Meta,High,Very High
+CAPEC-102,Session Sidejacking,Detailed,High,High
+CAPEC-114,Authentication Abuse,Meta,—,Medium
+CAPEC-115,Authentication Bypass,Meta,—,Medium
+CAPEC-117,Interception,Meta,Low,Medium
+CAPEC-122,Privilege Abuse,Meta,High,Medium
+CAPEC-127,Directory Indexing,Detailed,High,Medium
+CAPEC-151,Identity Spoofing,Meta,Medium,Medium
+CAPEC-180,Exploiting Incorrectly Configured Access Control Security Levels,Standard,High,Medium
+CAPEC-191,Read Sensitive Constants Within an Executable,Detailed,—,Low
+CAPEC-194,Fake the Source of Data,Standard,—,Medium
+CAPEC-206,Signing Malicious Code,Detailed,—,Very High
+CAPEC-234,Hijacking a privileged process,Standard,—,Medium
+CAPEC-383,Harvesting Information via API Event Monitoring,Detailed,—,Low
+CAPEC-477,Signature Spoofing by Mixing Signed and Unsigned Content,Detailed,Low,High
+CAPEC-593,Session Hijacking,Standard,High,Very High
+CAPEC-633,Token Impersonation,Detailed,—,Medium
+CAPEC-642,Replace Binaries,Detailed,—,High
+CAPEC-650,Upload a Web Shell to a Web Server,Detailed,—,High

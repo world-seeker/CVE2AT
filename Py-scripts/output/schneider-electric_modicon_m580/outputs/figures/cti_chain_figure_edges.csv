@@ -1,0 +1,171 @@
+source,target,source_row,target_row,kind,supporting_rows
+cve:CVE-2018-7842,cwe:CWE-290,1,2,chain,12
+cwe:CWE-290,capec:CAPEC-21,2,3,chain,4
+capec:CAPEC-21,tech:T1134,3,4,chain,2
+capec:CAPEC-21,tech:T1528,3,4,chain,1
+capec:CAPEC-21,tech:T1539,3,4,chain,1
+cwe:CWE-290,capec:CAPEC-473,2,3,chain,2
+capec:CAPEC-473,tech:T1036,3,4,chain,1
+tech:T1036,sub:T1036.001,4,5,chain,1
+sub:T1036.001,tactic:Defense Evasion,5,6,chain,1
+capec:CAPEC-473,tech:T1553,3,4,chain,1
+tech:T1553,sub:T1553.002,4,5,chain,1
+sub:T1553.002,tactic:Defense Evasion,5,6,chain,1
+cwe:CWE-290,capec:CAPEC-60,2,3,chain,4
+capec:CAPEC-60,tech:T1134,3,4,chain,12
+tech:T1134,sub:T1134.001,4,5,chain,12
+sub:T1134.001,tactic:Defense Evasion,5,6,chain,6
+sub:T1134.001,tactic:Privilege Escalation,5,6,chain,6
+capec:CAPEC-60,tech:T1550,3,4,chain,12
+tech:T1550,sub:T1550.004,4,5,chain,12
+sub:T1550.004,tactic:Defense Evasion,5,6,chain,6
+sub:T1550.004,tactic:Lateral Movement,5,6,chain,6
+cwe:CWE-290,capec:CAPEC-94,2,3,chain,2
+capec:CAPEC-94,tech:T1557,3,4,chain,4
+cve:CVE-2018-7844,cwe:CWE-200,1,2,chain,33
+cwe:CWE-200,capec:CAPEC-13,2,3,chain,35
+capec:CAPEC-13,tech:T1562,3,4,chain,6
+tech:T1562,sub:T1562.003,4,5,chain,6
+sub:T1562.003,tactic:Defense Evasion,5,6,chain,6
+capec:CAPEC-13,tech:T1574,3,4,chain,36
+tech:T1574,sub:T1574.006,4,5,chain,18
+sub:T1574.006,tactic:Defense Evasion,5,6,chain,6
+sub:T1574.006,tactic:Persistence,5,6,chain,6
+sub:T1574.006,tactic:Privilege Escalation,5,6,chain,6
+tech:T1574,sub:T1574.007,4,5,chain,18
+sub:T1574.007,tactic:Defense Evasion,5,6,chain,6
+sub:T1574.007,tactic:Persistence,5,6,chain,6
+sub:T1574.007,tactic:Privilege Escalation,5,6,chain,6
+cwe:CWE-200,capec:CAPEC-169,2,3,chain,15
+capec:CAPEC-169,tech:T1217,3,4,chain,5
+capec:CAPEC-169,tech:T1592,3,4,chain,5
+capec:CAPEC-169,tech:T1595,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-292,2,3,chain,5
+capec:CAPEC-292,tech:T1018,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-295,2,3,chain,5
+capec:CAPEC-295,tech:T1124,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-300,2,3,chain,5
+capec:CAPEC-300,tech:T1046,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-309,2,3,chain,15
+capec:CAPEC-309,tech:T1016,3,4,chain,5
+capec:CAPEC-309,tech:T1049,3,4,chain,5
+capec:CAPEC-309,tech:T1590,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-312,2,3,chain,5
+capec:CAPEC-312,tech:T1082,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-313,2,3,chain,5
+capec:CAPEC-313,tech:T1082,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-497,2,3,chain,5
+capec:CAPEC-497,tech:T1083,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-573,2,3,chain,5
+capec:CAPEC-573,tech:T1057,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-574,2,3,chain,5
+capec:CAPEC-574,tech:T1007,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-575,2,3,chain,5
+capec:CAPEC-575,tech:T1087,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-576,2,3,chain,10
+capec:CAPEC-576,tech:T1069,3,4,chain,5
+capec:CAPEC-576,tech:T1615,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-577,2,3,chain,5
+capec:CAPEC-577,tech:T1033,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-60,2,3,chain,20
+cwe:CWE-200,capec:CAPEC-616,2,3,chain,5
+capec:CAPEC-616,tech:T1036,3,4,chain,5
+tech:T1036,sub:T1036.005,4,5,chain,5
+sub:T1036.005,tactic:Defense Evasion,5,6,chain,5
+cwe:CWE-200,capec:CAPEC-643,2,3,chain,5
+capec:CAPEC-643,tech:T1135,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-646,2,3,chain,5
+capec:CAPEC-646,tech:T1120,3,4,chain,5
+cwe:CWE-200,capec:CAPEC-651,2,3,chain,5
+capec:CAPEC-651,tech:T1111,3,4,chain,5
+cve:CVE-2018-7847,cwe:CWE-287,1,2,chain,15
+cwe:CWE-287,capec:CAPEC-114,2,3,chain,2
+capec:CAPEC-114,tech:T1548,3,4,chain,2
+cwe:CWE-287,capec:CAPEC-115,2,3,chain,2
+capec:CAPEC-115,tech:T1548,3,4,chain,2
+cwe:CWE-287,capec:CAPEC-57,2,3,chain,2
+capec:CAPEC-57,tech:T1040,3,4,chain,2
+cwe:CWE-287,capec:CAPEC-593,2,3,chain,4
+capec:CAPEC-593,tech:T1185,3,4,chain,1
+capec:CAPEC-593,tech:T1550,3,4,chain,2
+tech:T1550,sub:T1550.001,4,5,chain,2
+sub:T1550.001,tactic:Defense Evasion,5,6,chain,1
+sub:T1550.001,tactic:Lateral Movement,5,6,chain,1
+capec:CAPEC-593,tech:T1563,3,4,chain,1
+cwe:CWE-287,capec:CAPEC-633,2,3,chain,2
+capec:CAPEC-633,tech:T1134,3,4,chain,2
+cwe:CWE-287,capec:CAPEC-650,2,3,chain,1
+capec:CAPEC-650,tech:T1505,3,4,chain,1
+tech:T1505,sub:T1505.003,4,5,chain,1
+sub:T1505.003,tactic:Persistence,5,6,chain,1
+cwe:CWE-287,capec:CAPEC-94,2,3,chain,2
+cve:CVE-2018-7848,cwe:CWE-200,1,2,chain,33
+cve:CVE-2019-6821,cwe:CWE-330,1,2,chain,2
+cwe:CWE-330,capec:CAPEC-112,2,3,chain,1
+capec:CAPEC-112,tech:T1110,3,4,chain,1
+cwe:CWE-330,capec:CAPEC-485,2,3,chain,1
+capec:CAPEC-485,tech:T1552,3,4,chain,1
+tech:T1552,sub:T1552.004,4,5,chain,1
+sub:T1552.004,tactic:Credential Access,5,6,chain,1
+cve:CVE-2019-6845,cwe:CWE-319,1,2,chain,4
+cwe:CWE-319,capec:CAPEC-383,2,3,chain,4
+capec:CAPEC-383,tech:T1056,3,4,chain,4
+tech:T1056,sub:T1056.004,4,5,chain,4
+sub:T1056.004,tactic:Collection,5,6,chain,2
+sub:T1056.004,tactic:Credential Access,5,6,chain,2
+cwe:CWE-319,capec:CAPEC-65,2,3,chain,4
+capec:CAPEC-65,tech:T1040,3,4,chain,4
+cve:CVE-2019-6846,cwe:CWE-319,1,2,chain,4
+cve:CVE-2019-6849,cwe:CWE-200,1,2,chain,33
+cve:CVE-2019-6850,cwe:CWE-200,1,2,chain,33
+cve:CVE-2019-6851,cwe:CWE-200,1,2,chain,33
+cve:CVE-2020-7475,cwe:CWE-74,1,2,chain,8
+cwe:CWE-74,capec:CAPEC-13,2,3,chain,7
+cwe:CWE-74,capec:CAPEC-267,2,3,chain,1
+capec:CAPEC-267,tech:T1027,3,4,chain,1
+cve:CVE-2019-6851,cwe:CWE-538,1,2,terminated,1
+cve:CVE-2018-7843,cwe:CWE-125,1,2,terminated,1
+cve:CVE-2018-7794,cwe:CWE-754,1,2,terminated,1
+cve:CVE-2018-7845,cwe:CWE-125,1,2,terminated,1
+cwe:CWE-74,stub:CWE-74,2,3,terminated,35
+cwe:CWE-125,stub:CWE-125,2,3,terminated,2
+cwe:CWE-200,stub:CWE-200,2,3,terminated,200
+cwe:CWE-287,stub:CWE-287,2,3,terminated,3
+cwe:CWE-290,stub:CWE-290,2,3,terminated,6
+cwe:CWE-319,stub:CWE-319,2,3,terminated,6
+cwe:CWE-330,stub:CWE-330,2,3,terminated,1
+cwe:CWE-538,stub:CWE-538,2,3,terminated,1
+tech:T1134,tactic:Defense Evasion,4,6,direct (no sub-technique),2
+tech:T1134,tactic:Privilege Escalation,4,6,direct (no sub-technique),2
+tech:T1528,tactic:Credential Access,4,6,direct (no sub-technique),1
+tech:T1539,tactic:Credential Access,4,6,direct (no sub-technique),1
+tech:T1557,tactic:Collection,4,6,direct (no sub-technique),2
+tech:T1557,tactic:Credential Access,4,6,direct (no sub-technique),2
+tech:T1217,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1592,tactic:Reconnaissance,4,6,direct (no sub-technique),5
+tech:T1595,tactic:Reconnaissance,4,6,direct (no sub-technique),5
+tech:T1018,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1124,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1046,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1016,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1049,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1590,tactic:Reconnaissance,4,6,direct (no sub-technique),5
+tech:T1082,tactic:Discovery,4,6,direct (no sub-technique),10
+tech:T1083,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1057,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1007,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1087,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1069,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1615,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1033,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1135,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1120,tactic:Discovery,4,6,direct (no sub-technique),5
+tech:T1111,tactic:Credential Access,4,6,direct (no sub-technique),5
+tech:T1548,tactic:Defense Evasion,4,6,direct (no sub-technique),2
+tech:T1548,tactic:Privilege Escalation,4,6,direct (no sub-technique),2
+tech:T1040,tactic:Credential Access,4,6,direct (no sub-technique),3
+tech:T1040,tactic:Discovery,4,6,direct (no sub-technique),3
+tech:T1185,tactic:Collection,4,6,direct (no sub-technique),1
+tech:T1563,tactic:Lateral Movement,4,6,direct (no sub-technique),1
+tech:T1110,tactic:Credential Access,4,6,direct (no sub-technique),1
+tech:T1027,tactic:Defense Evasion,4,6,direct (no sub-technique),1

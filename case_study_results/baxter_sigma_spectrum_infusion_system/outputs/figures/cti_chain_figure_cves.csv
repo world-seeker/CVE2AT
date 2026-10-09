@@ -1,0 +1,11 @@
+cve,status,drawn
+CVE-2014-5431,complete_chain,True
+CVE-2014-5432,complete_chain,True
+CVE-2014-5433,complete_chain,True
+CVE-2014-5434,complete_chain,True
+CVE-2020-12039,complete_chain,True
+CVE-2020-12040,complete_chain,True
+CVE-2020-12041,complete_chain,True
+CVE-2020-12043,NO_CAPEC,True
+CVE-2020-12045,complete_chain,True
+CVE-2020-12047,complete_chain,True

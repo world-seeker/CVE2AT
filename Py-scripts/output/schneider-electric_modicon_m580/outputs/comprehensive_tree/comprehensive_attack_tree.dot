@@ -1,0 +1,569 @@
+digraph comprehensive_attack_tree {
+	graph [nodesep=0.3 rankdir=LR ranksep=1.0 splines=polyline]
+	node [fontname=Helvetica fontsize=13]
+	root [label="Compromise(Device)" fillcolor="#FFD700" fontname=Helvetica shape=box style=filled]
+	tactic_0 [label=Reconnaissance fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	tactic_1 [label=Persistence fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	tactic_2 [label="Privilege Escalation" fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	tactic_3 [label="Defense Evasion" fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	tactic_4 [label="Credential Access" fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	tactic_5 [label=Discovery fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	tactic_6 [label="Lateral Movement" fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	tactic_7 [label=Collection fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	root_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	root -> root_or
+	root_or -> tactic_0
+	root_or -> tactic_1
+	root_or -> tactic_2
+	root_or -> tactic_3
+	root_or -> tactic_4
+	root_or -> tactic_5
+	root_or -> tactic_6
+	root_or -> tactic_7
+	c0_cwe_0 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c0_0_tech_0 [label="Gather Victim Host Information" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c0_0_cap_0 [label=Footprinting fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c0_0_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c0_0_and_0 -> c0_0_tech_0
+	c0_0_and_0 -> c0_0_cap_0
+	c0_0_tech_1 [label="Active Scanning" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c0_0_cap_1 [label=Footprinting fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c0_0_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c0_0_and_1 -> c0_0_tech_1
+	c0_0_and_1 -> c0_0_cap_1
+	c0_0_tech_2 [label="Gather Victim Network Information" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c0_0_cap_2 [label="Network Topology Mapping" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c0_0_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c0_0_and_2 -> c0_0_tech_2
+	c0_0_and_2 -> c0_0_cap_2
+	c0_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c0_cwe_0 -> c0_cwe0_or
+	c0_cwe0_or -> c0_0_and_0
+	c0_cwe0_or -> c0_0_and_1
+	c0_cwe0_or -> c0_0_and_2
+	tactic_0 -> c0_cwe_0
+	c1_cwe_0 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c1_0_sub_3 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c1_0_cap_3 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c1_0_and_3 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c1_0_and_3 -> c1_0_sub_3
+	c1_0_and_3 -> c1_0_cap_3
+	c1_0_sub_4 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c1_0_cap_4 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c1_0_and_4 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c1_0_and_4 -> c1_0_sub_4
+	c1_0_and_4 -> c1_0_cap_4
+	c1_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c1_cwe_0 -> c1_cwe0_or
+	c1_cwe0_or -> c1_0_and_3
+	c1_cwe0_or -> c1_0_and_4
+	c1_cwe_1 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c1_1_sub_5 [label="Server Software Component: Web Shell" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c1_1_cap_5 [label="Upload a Web Shell to a Web Server" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c1_1_and_5 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c1_1_and_5 -> c1_1_sub_5
+	c1_1_and_5 -> c1_1_cap_5
+	c1_cwe_1 -> c1_1_and_5
+	c1_cwe_2 [label="Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c1_2_sub_6 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c1_2_cap_6 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c1_2_and_6 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c1_2_and_6 -> c1_2_sub_6
+	c1_2_and_6 -> c1_2_cap_6
+	c1_2_sub_7 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c1_2_cap_7 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c1_2_and_7 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c1_2_and_7 -> c1_2_sub_7
+	c1_2_and_7 -> c1_2_cap_7
+	c1_cwe2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c1_cwe_2 -> c1_cwe2_or
+	c1_cwe2_or -> c1_2_and_6
+	c1_cwe2_or -> c1_2_and_7
+	tac1_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	tactic_1 -> tac1_or
+	tac1_or -> c1_cwe_0
+	tac1_or -> c1_cwe_1
+	tac1_or -> c1_cwe_2
+	c2_cwe_0 [label="Authentication Bypass by Spoofing" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c2_0_tech_8 [label="Access Token Manipulation" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c2_0_cap_8 [label="Exploitation of Trusted Identifiers" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_0_and_8 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_0_and_8 -> c2_0_tech_8
+	c2_0_and_8 -> c2_0_cap_8
+	c2_0_sub_9 [label="Access Token Manipulation: Token Impersonation/Theft" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c2_0_cap_9 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_0_and_9 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_0_and_9 -> c2_0_sub_9
+	c2_0_and_9 -> c2_0_cap_9
+	c2_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_cwe_0 -> c2_cwe0_or
+	c2_cwe0_or -> c2_0_and_8
+	c2_cwe0_or -> c2_0_and_9
+	c2_cwe_1 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c2_1_sub_10 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c2_1_cap_10 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_1_and_10 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_1_and_10 -> c2_1_sub_10
+	c2_1_and_10 -> c2_1_cap_10
+	c2_1_sub_11 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c2_1_cap_11 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_1_and_11 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_1_and_11 -> c2_1_sub_11
+	c2_1_and_11 -> c2_1_cap_11
+	c2_1_sub_12 [label="Access Token Manipulation: Token Impersonation/Theft" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c2_1_cap_12 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_1_and_12 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_1_and_12 -> c2_1_sub_12
+	c2_1_and_12 -> c2_1_cap_12
+	c2_cwe1_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_cwe_1 -> c2_cwe1_or
+	c2_cwe1_or -> c2_1_and_10
+	c2_cwe1_or -> c2_1_and_11
+	c2_cwe1_or -> c2_1_and_12
+	c2_cwe_2 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c2_2_tech_13 [label="Abuse Elevation Control Mechanism" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c2_2_cap_13 [label="Authentication Abuse" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_2_and_13 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_2_and_13 -> c2_2_tech_13
+	c2_2_and_13 -> c2_2_cap_13
+	c2_2_tech_14 [label="Abuse Elevation Control Mechanism" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c2_2_cap_14 [label="Authentication Bypass" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_2_and_14 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_2_and_14 -> c2_2_tech_14
+	c2_2_and_14 -> c2_2_cap_14
+	c2_2_tech_15 [label="Access Token Manipulation" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c2_2_cap_15 [label="Token Impersonation" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_2_and_15 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_2_and_15 -> c2_2_tech_15
+	c2_2_and_15 -> c2_2_cap_15
+	c2_cwe2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_cwe_2 -> c2_cwe2_or
+	c2_cwe2_or -> c2_2_and_13
+	c2_cwe2_or -> c2_2_and_14
+	c2_cwe2_or -> c2_2_and_15
+	c2_cwe_3 [label="Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c2_3_sub_16 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c2_3_cap_16 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_3_and_16 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_3_and_16 -> c2_3_sub_16
+	c2_3_and_16 -> c2_3_cap_16
+	c2_3_sub_17 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c2_3_cap_17 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c2_3_and_17 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_3_and_17 -> c2_3_sub_17
+	c2_3_and_17 -> c2_3_cap_17
+	c2_cwe3_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c2_cwe_3 -> c2_cwe3_or
+	c2_cwe3_or -> c2_3_and_16
+	c2_cwe3_or -> c2_3_and_17
+	tac2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	tactic_2 -> tac2_or
+	tac2_or -> c2_cwe_0
+	tac2_or -> c2_cwe_1
+	tac2_or -> c2_cwe_2
+	tac2_or -> c2_cwe_3
+	c3_cwe_0 [label="Authentication Bypass by Spoofing" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c3_0_tech_18 [label="Access Token Manipulation" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c3_0_cap_18 [label="Exploitation of Trusted Identifiers" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_0_and_18 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_0_and_18 -> c3_0_tech_18
+	c3_0_and_18 -> c3_0_cap_18
+	c3_0_sub_19 [label="Masquerading: Invalid Code Signature" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_0_cap_19 [label="Signature Spoof" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_0_and_19 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_0_and_19 -> c3_0_sub_19
+	c3_0_and_19 -> c3_0_cap_19
+	c3_0_sub_20 [label="Subvert Trust Controls: Code Signing" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_0_cap_20 [label="Signature Spoof" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_0_and_20 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_0_and_20 -> c3_0_sub_20
+	c3_0_and_20 -> c3_0_cap_20
+	c3_0_sub_21 [label="Access Token Manipulation: Token Impersonation/Theft" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_0_cap_21 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_0_and_21 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_0_and_21 -> c3_0_sub_21
+	c3_0_and_21 -> c3_0_cap_21
+	c3_0_sub_22 [label="Use Alternate Authentication Material: Web Session Cookie" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_0_cap_22 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_0_and_22 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_0_and_22 -> c3_0_sub_22
+	c3_0_and_22 -> c3_0_cap_22
+	c3_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_cwe_0 -> c3_cwe0_or
+	c3_cwe0_or -> c3_0_and_18
+	c3_cwe0_or -> c3_0_and_19
+	c3_cwe0_or -> c3_0_and_20
+	c3_cwe0_or -> c3_0_and_21
+	c3_cwe0_or -> c3_0_and_22
+	c3_cwe_1 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c3_1_sub_23 [label="Impair Defenses: Impair Command History Logging" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_1_cap_23 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_1_and_23 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_1_and_23 -> c3_1_sub_23
+	c3_1_and_23 -> c3_1_cap_23
+	c3_1_sub_24 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_1_cap_24 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_1_and_24 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_1_and_24 -> c3_1_sub_24
+	c3_1_and_24 -> c3_1_cap_24
+	c3_1_sub_25 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_1_cap_25 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_1_and_25 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_1_and_25 -> c3_1_sub_25
+	c3_1_and_25 -> c3_1_cap_25
+	c3_1_sub_26 [label="Access Token Manipulation: Token Impersonation/Theft" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_1_cap_26 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_1_and_26 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_1_and_26 -> c3_1_sub_26
+	c3_1_and_26 -> c3_1_cap_26
+	c3_1_sub_27 [label="Use Alternate Authentication Material: Web Session Cookie" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_1_cap_27 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_1_and_27 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_1_and_27 -> c3_1_sub_27
+	c3_1_and_27 -> c3_1_cap_27
+	c3_1_sub_28 [label="Masquerading: Match Legitimate Name or Location" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_1_cap_28 [label="Establish Rogue Location" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_1_and_28 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_1_and_28 -> c3_1_sub_28
+	c3_1_and_28 -> c3_1_cap_28
+	c3_cwe1_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_cwe_1 -> c3_cwe1_or
+	c3_cwe1_or -> c3_1_and_23
+	c3_cwe1_or -> c3_1_and_24
+	c3_cwe1_or -> c3_1_and_25
+	c3_cwe1_or -> c3_1_and_26
+	c3_cwe1_or -> c3_1_and_27
+	c3_cwe1_or -> c3_1_and_28
+	c3_cwe_2 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c3_2_tech_29 [label="Abuse Elevation Control Mechanism" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c3_2_cap_29 [label="Authentication Abuse" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_2_and_29 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_2_and_29 -> c3_2_tech_29
+	c3_2_and_29 -> c3_2_cap_29
+	c3_2_tech_30 [label="Abuse Elevation Control Mechanism" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c3_2_cap_30 [label="Authentication Bypass" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_2_and_30 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_2_and_30 -> c3_2_tech_30
+	c3_2_and_30 -> c3_2_cap_30
+	c3_2_sub_31 [label="Use Alternate Authentication Material: Application Access Token" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_2_cap_31 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_2_and_31 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_2_and_31 -> c3_2_sub_31
+	c3_2_and_31 -> c3_2_cap_31
+	c3_2_tech_32 [label="Access Token Manipulation" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c3_2_cap_32 [label="Token Impersonation" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_2_and_32 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_2_and_32 -> c3_2_tech_32
+	c3_2_and_32 -> c3_2_cap_32
+	c3_cwe2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_cwe_2 -> c3_cwe2_or
+	c3_cwe2_or -> c3_2_and_29
+	c3_cwe2_or -> c3_2_and_30
+	c3_cwe2_or -> c3_2_and_31
+	c3_cwe2_or -> c3_2_and_32
+	c3_cwe_3 [label="Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c3_3_sub_33 [label="Impair Defenses: Impair Command History Logging" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_3_cap_33 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_3_and_33 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_3_and_33 -> c3_3_sub_33
+	c3_3_and_33 -> c3_3_cap_33
+	c3_3_sub_34 [label="Hijack Execution Flow: Dynamic Linker Hijacking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_3_cap_34 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_3_and_34 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_3_and_34 -> c3_3_sub_34
+	c3_3_and_34 -> c3_3_cap_34
+	c3_3_sub_35 [label="Hijack Execution Flow: Path Interception by PATH Environment Variable" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c3_3_cap_35 [label="Subverting Environment Variable Values" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_3_and_35 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_3_and_35 -> c3_3_sub_35
+	c3_3_and_35 -> c3_3_cap_35
+	c3_3_tech_36 [label="Obfuscated Files or Information" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c3_3_cap_36 [label="Leverage Alternate Encoding" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c3_3_and_36 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_3_and_36 -> c3_3_tech_36
+	c3_3_and_36 -> c3_3_cap_36
+	c3_cwe3_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c3_cwe_3 -> c3_cwe3_or
+	c3_cwe3_or -> c3_3_and_33
+	c3_cwe3_or -> c3_3_and_34
+	c3_cwe3_or -> c3_3_and_35
+	c3_cwe3_or -> c3_3_and_36
+	tac3_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	tactic_3 -> tac3_or
+	tac3_or -> c3_cwe_0
+	tac3_or -> c3_cwe_1
+	tac3_or -> c3_cwe_2
+	tac3_or -> c3_cwe_3
+	c4_cwe_0 [label="Authentication Bypass by Spoofing" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c4_0_tech_37 [label="Steal Application Access Token" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_0_cap_37 [label="Exploitation of Trusted Identifiers" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_0_and_37 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_0_and_37 -> c4_0_tech_37
+	c4_0_and_37 -> c4_0_cap_37
+	c4_0_tech_38 [label="Steal Web Session Cookie" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_0_cap_38 [label="Exploitation of Trusted Identifiers" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_0_and_38 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_0_and_38 -> c4_0_tech_38
+	c4_0_and_38 -> c4_0_cap_38
+	c4_0_tech_39 [label="Adversary-in-the-Middle" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_0_cap_39 [label="Adversary in the Middle (AiTM)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_0_and_39 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_0_and_39 -> c4_0_tech_39
+	c4_0_and_39 -> c4_0_cap_39
+	c4_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_cwe_0 -> c4_cwe0_or
+	c4_cwe0_or -> c4_0_and_37
+	c4_cwe0_or -> c4_0_and_38
+	c4_cwe0_or -> c4_0_and_39
+	c4_cwe_1 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c4_1_tech_40 [label="Multi-Factor Authentication Interception" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_1_cap_40 [label=Eavesdropping fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_1_and_40 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_1_and_40 -> c4_1_tech_40
+	c4_1_and_40 -> c4_1_cap_40
+	c4_cwe_1 -> c4_1_and_40
+	c4_cwe_2 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c4_2_tech_41 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_2_cap_41 [label="Utilizing REST's Trust in the System Resource to Obtain Sensitive Data" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_2_and_41 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_2_and_41 -> c4_2_tech_41
+	c4_2_and_41 -> c4_2_cap_41
+	c4_2_tech_42 [label="Adversary-in-the-Middle" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_2_cap_42 [label="Adversary in the Middle (AiTM)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_2_and_42 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_2_and_42 -> c4_2_tech_42
+	c4_2_and_42 -> c4_2_cap_42
+	c4_cwe2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_cwe_2 -> c4_cwe2_or
+	c4_cwe2_or -> c4_2_and_41
+	c4_cwe2_or -> c4_2_and_42
+	c4_cwe_3 [label="Use of Insufficiently Random Values" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c4_3_tech_43 [label="Brute Force" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_3_cap_43 [label="Brute Force" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_3_and_43 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_3_and_43 -> c4_3_tech_43
+	c4_3_and_43 -> c4_3_cap_43
+	c4_3_sub_44 [label="Unsecured Credentials: Private Keys" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c4_3_cap_44 [label="Signature Spoofing by Key Recreation" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_3_and_44 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_3_and_44 -> c4_3_sub_44
+	c4_3_and_44 -> c4_3_cap_44
+	c4_cwe3_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_cwe_3 -> c4_cwe3_or
+	c4_cwe3_or -> c4_3_and_43
+	c4_cwe3_or -> c4_3_and_44
+	c4_cwe_4 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c4_4_sub_45 [label="Input Capture: Credential API Hooking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c4_4_cap_45 [label="Harvesting Information via API Event Monitoring" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_4_and_45 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_4_and_45 -> c4_4_sub_45
+	c4_4_and_45 -> c4_4_cap_45
+	c4_4_tech_46 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c4_4_cap_46 [label="Sniff Application Code" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c4_4_and_46 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_4_and_46 -> c4_4_tech_46
+	c4_4_and_46 -> c4_4_cap_46
+	c4_cwe4_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c4_cwe_4 -> c4_cwe4_or
+	c4_cwe4_or -> c4_4_and_45
+	c4_cwe4_or -> c4_4_and_46
+	tac4_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	tactic_4 -> tac4_or
+	tac4_or -> c4_cwe_0
+	tac4_or -> c4_cwe_1
+	tac4_or -> c4_cwe_2
+	tac4_or -> c4_cwe_3
+	tac4_or -> c4_cwe_4
+	c5_cwe_0 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c5_0_tech_47 [label="Browser Information Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_47 [label=Footprinting fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_47 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_47 -> c5_0_tech_47
+	c5_0_and_47 -> c5_0_cap_47
+	c5_0_tech_48 [label="Remote System Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_48 [label="Host Discovery" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_48 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_48 -> c5_0_tech_48
+	c5_0_and_48 -> c5_0_cap_48
+	c5_0_tech_49 [label="System Time Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_49 [label="Timestamp Request" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_49 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_49 -> c5_0_tech_49
+	c5_0_and_49 -> c5_0_cap_49
+	c5_0_tech_50 [label="Network Service Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_50 [label="Port Scanning" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_50 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_50 -> c5_0_tech_50
+	c5_0_and_50 -> c5_0_cap_50
+	c5_0_tech_51 [label="System Network Configuration Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_51 [label="Network Topology Mapping" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_51 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_51 -> c5_0_tech_51
+	c5_0_and_51 -> c5_0_cap_51
+	c5_0_tech_52 [label="System Network Connections Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_52 [label="Network Topology Mapping" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_52 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_52 -> c5_0_tech_52
+	c5_0_and_52 -> c5_0_cap_52
+	c5_0_tech_53 [label="System Information Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_53 [label="Active OS Fingerprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_53 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_53 -> c5_0_tech_53
+	c5_0_and_53 -> c5_0_cap_53
+	c5_0_tech_54 [label="System Information Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_54 [label="Passive OS Fingerprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_54 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_54 -> c5_0_tech_54
+	c5_0_and_54 -> c5_0_cap_54
+	c5_0_tech_55 [label="File and Directory Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_55 [label="File Discovery" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_55 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_55 -> c5_0_tech_55
+	c5_0_and_55 -> c5_0_cap_55
+	c5_0_tech_56 [label="Process Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_56 [label="Process Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_56 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_56 -> c5_0_tech_56
+	c5_0_and_56 -> c5_0_cap_56
+	c5_0_tech_57 [label="System Service Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_57 [label="Services Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_57 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_57 -> c5_0_tech_57
+	c5_0_and_57 -> c5_0_cap_57
+	c5_0_tech_58 [label="Account Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_58 [label="Account Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_58 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_58 -> c5_0_tech_58
+	c5_0_and_58 -> c5_0_cap_58
+	c5_0_tech_59 [label="Permission Groups Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_59 [label="Group Permission Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_59 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_59 -> c5_0_tech_59
+	c5_0_and_59 -> c5_0_cap_59
+	c5_0_tech_60 [label="Group Policy Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_60 [label="Group Permission Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_60 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_60 -> c5_0_tech_60
+	c5_0_and_60 -> c5_0_cap_60
+	c5_0_tech_61 [label="System Owner/User Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_61 [label="Owner Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_61 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_61 -> c5_0_tech_61
+	c5_0_and_61 -> c5_0_cap_61
+	c5_0_tech_62 [label="Network Share Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_62 [label="Identify Shared Files/Directories on System" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_62 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_62 -> c5_0_tech_62
+	c5_0_and_62 -> c5_0_cap_62
+	c5_0_tech_63 [label="Peripheral Device Discovery" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_0_cap_63 [label="Peripheral Footprinting" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_0_and_63 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_0_and_63 -> c5_0_tech_63
+	c5_0_and_63 -> c5_0_cap_63
+	c5_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_cwe_0 -> c5_cwe0_or
+	c5_cwe0_or -> c5_0_and_47
+	c5_cwe0_or -> c5_0_and_48
+	c5_cwe0_or -> c5_0_and_49
+	c5_cwe0_or -> c5_0_and_50
+	c5_cwe0_or -> c5_0_and_51
+	c5_cwe0_or -> c5_0_and_52
+	c5_cwe0_or -> c5_0_and_53
+	c5_cwe0_or -> c5_0_and_54
+	c5_cwe0_or -> c5_0_and_55
+	c5_cwe0_or -> c5_0_and_56
+	c5_cwe0_or -> c5_0_and_57
+	c5_cwe0_or -> c5_0_and_58
+	c5_cwe0_or -> c5_0_and_59
+	c5_cwe0_or -> c5_0_and_60
+	c5_cwe0_or -> c5_0_and_61
+	c5_cwe0_or -> c5_0_and_62
+	c5_cwe0_or -> c5_0_and_63
+	c5_cwe_1 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c5_1_tech_64 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_1_cap_64 [label="Utilizing REST's Trust in the System Resource to Obtain Sensitive Data" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_1_and_64 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_1_and_64 -> c5_1_tech_64
+	c5_1_and_64 -> c5_1_cap_64
+	c5_cwe_1 -> c5_1_and_64
+	c5_cwe_2 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c5_2_tech_65 [label="Network Sniffing" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c5_2_cap_65 [label="Sniff Application Code" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c5_2_and_65 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c5_2_and_65 -> c5_2_tech_65
+	c5_2_and_65 -> c5_2_cap_65
+	c5_cwe_2 -> c5_2_and_65
+	tac5_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	tactic_5 -> tac5_or
+	tac5_or -> c5_cwe_0
+	tac5_or -> c5_cwe_1
+	tac5_or -> c5_cwe_2
+	c6_cwe_0 [label="Authentication Bypass by Spoofing" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c6_0_sub_66 [label="Use Alternate Authentication Material: Web Session Cookie" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c6_0_cap_66 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c6_0_and_66 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c6_0_and_66 -> c6_0_sub_66
+	c6_0_and_66 -> c6_0_cap_66
+	c6_cwe_0 -> c6_0_and_66
+	c6_cwe_1 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c6_1_sub_67 [label="Use Alternate Authentication Material: Web Session Cookie" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c6_1_cap_67 [label="Reusing Session IDs (aka Session Replay)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c6_1_and_67 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c6_1_and_67 -> c6_1_sub_67
+	c6_1_and_67 -> c6_1_cap_67
+	c6_cwe_1 -> c6_1_and_67
+	c6_cwe_2 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c6_2_sub_68 [label="Use Alternate Authentication Material: Application Access Token" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c6_2_cap_68 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c6_2_and_68 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c6_2_and_68 -> c6_2_sub_68
+	c6_2_and_68 -> c6_2_cap_68
+	c6_2_tech_69 [label="Remote Service Session Hijacking" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c6_2_cap_69 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c6_2_and_69 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c6_2_and_69 -> c6_2_tech_69
+	c6_2_and_69 -> c6_2_cap_69
+	c6_cwe2_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c6_cwe_2 -> c6_cwe2_or
+	c6_cwe2_or -> c6_2_and_68
+	c6_cwe2_or -> c6_2_and_69
+	tac6_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	tactic_6 -> tac6_or
+	tac6_or -> c6_cwe_0
+	tac6_or -> c6_cwe_1
+	tac6_or -> c6_cwe_2
+	c7_cwe_0 [label="Authentication Bypass by Spoofing" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c7_0_tech_70 [label="Adversary-in-the-Middle" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c7_0_cap_70 [label="Adversary in the Middle (AiTM)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c7_0_and_70 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c7_0_and_70 -> c7_0_tech_70
+	c7_0_and_70 -> c7_0_cap_70
+	c7_cwe_0 -> c7_0_and_70
+	c7_cwe_1 [label="Improper Authentication" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c7_1_tech_71 [label="Browser Session Hijacking" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c7_1_cap_71 [label="Session Hijacking" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c7_1_and_71 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c7_1_and_71 -> c7_1_tech_71
+	c7_1_and_71 -> c7_1_cap_71
+	c7_1_tech_72 [label="Adversary-in-the-Middle" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	c7_1_cap_72 [label="Adversary in the Middle (AiTM)" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c7_1_and_72 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c7_1_and_72 -> c7_1_tech_72
+	c7_1_and_72 -> c7_1_cap_72
+	c7_cwe1_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c7_cwe_1 -> c7_cwe1_or
+	c7_cwe1_or -> c7_1_and_71
+	c7_cwe1_or -> c7_1_and_72
+	c7_cwe_2 [label="Cleartext Transmission of Sensitive Information" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	c7_2_sub_73 [label="Input Capture: Credential API Hooking" fillcolor="#FFFACD" fontname=Helvetica shape=box style=filled]
+	c7_2_cap_73 [label="Harvesting Information via API Event Monitoring" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	c7_2_and_73 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	c7_2_and_73 -> c7_2_sub_73
+	c7_2_and_73 -> c7_2_cap_73
+	c7_cwe_2 -> c7_2_and_73
+	tac7_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	tactic_7 -> tac7_or
+	tac7_or -> c7_cwe_0
+	tac7_or -> c7_cwe_1
+	tac7_or -> c7_cwe_2
+}

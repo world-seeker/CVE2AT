@@ -1,0 +1,10 @@
+CWE,Name,Abstraction,Status,Likelihood,#CVE,Related CAPEC,Retained
+CWE-255,(not in reference dataset),,,,1,—,False
+CWE-259,Use of Hard-coded Password,Variant,Draft,High,5,—,False
+CWE-287,Improper Authentication,Class,Draft,High,1,"22, 57, 94, 114, 115, 151, 194, 593, 633, 650",True
+CWE-312,Cleartext Storage of Sensitive Information,Base,Draft,,1,37,True
+CWE-319,Cleartext Transmission of Sensitive Information,Base,Draft,High,1,"65, 102, 117, 383, 477",True
+CWE-592,DEPRECATED: Authentication Bypass Issues,Class,Deprecated,,1,—,False
+CWE-672,Operation on a Resource after Expiration or Release,Class,Draft,,1,—,False
+CWE-732,Incorrect Permission Assignment for Critical Resource,Class,Draft,High,1,"1, 17, 60, 61, 62, 122, 127, 180, 206, 234, 642",True
+CWE-798,Use of Hard-coded Credentials,Base,Draft,High,5,"70, 191",True

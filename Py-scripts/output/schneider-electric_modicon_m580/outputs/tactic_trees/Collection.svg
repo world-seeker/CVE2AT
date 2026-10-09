@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1286pt" height="514pt" viewBox="0.00 0.00 1286.00 514.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 510)" data-node-id="%3">
+<title>Collection</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-510 1282,-510 1282,4 -4,4" />
+
+<g id="node1" class="node" data-node-id="t7_tactic">
+<title>Collection</title>
+<polygon fill="#98fb98" stroke="black" points="582.5,-506 507.5,-506 507.5,-470 582.5,-470 582.5,-506" />
+<text text-anchor="middle" x="545" y="-484.9" font-family="Helvetica,sans-Serif" font-size="12.00">Collection</text>
+</g>
+
+<g id="node18" class="node" data-node-id="t7_tac_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="545" cy="-394" rx="27" ry="18" />
+<text text-anchor="middle" x="545" y="-390.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge14" class="edge" data-node-id="t7_tactic-&gt;t7_tac_or">
+<title>t7_tactic-&gt;t7_tac_or</title>
+<path fill="none" stroke="black" d="M545,-469.88C545,-469.88 545,-422.07 545,-422.07" />
+<polygon fill="black" stroke="black" points="548.5,-422.07 545,-412.07 541.5,-422.07 548.5,-422.07" />
+</g>
+
+<g id="node2" class="node" data-node-id="t7_cwe_0">
+<title>Authentication Bypass by Spoofing</title>
+<polygon fill="#add8e6" stroke="black" points="415,-318 197,-318 197,-282 421,-282 421,-312 415,-318" />
+<polyline fill="none" stroke="black" points="415,-318 415,-312 " />
+<polyline fill="none" stroke="black" points="421,-312 415,-312 " />
+<text text-anchor="middle" x="309" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Authentication Bypass by Spoofing</text>
+</g>
+
+<g id="node5" class="node" data-node-id="t7_0_and_0">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="296" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="296" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge3" class="edge" data-node-id="t7_cwe_0-&gt;t7_0_and_0">
+<title>t7_cwe_0-&gt;t7_0_and_0</title>
+<path fill="none" stroke="black" d="M296,-281.88C296,-281.88 296,-234.07 296,-234.07" />
+<polygon fill="black" stroke="black" points="299.5,-234.07 296,-224.07 292.5,-234.07 299.5,-234.07" />
+</g>
+
+<g id="node3" class="node" data-node-id="t7_0_tech_0">
+<title>Adversary-in-the-Middle</title>
+<polygon fill="#90ee90" stroke="black" points="160,-130 0,-130 0,-94 160,-94 160,-130" />
+<text text-anchor="middle" x="80" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Adversary-in-the-Middle</text>
+</g>
+
+<g id="node4" class="node" data-node-id="t7_0_cap_0">
+<title>Adversary in the Middle (AiTM)</title>
+<polygon fill="#ffb6c1" stroke="black" points="396,-130 196,-130 196,-94 396,-94 396,-130" />
+<text text-anchor="middle" x="296" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Adversary in the Middle (AiTM)</text>
+</g>
+
+<g id="edge1" class="edge" data-node-id="t7_0_and_0-&gt;t7_0_tech_0">
+<title>t7_0_and_0-&gt;t7_0_tech_0</title>
+<path fill="none" stroke="black" d="M268.64,-206C210.52,-206 80,-206 80,-206 80,-206 80,-140.12 80,-140.12" />
+<polygon fill="black" stroke="black" points="83.5,-140.12 80,-130.12 76.5,-140.12 83.5,-140.12" />
+</g>
+
+<g id="edge2" class="edge" data-node-id="t7_0_and_0-&gt;t7_0_cap_0">
+<title>t7_0_and_0-&gt;t7_0_cap_0</title>
+<path fill="none" stroke="black" d="M296,-187.88C296,-187.88 296,-140.07 296,-140.07" />
+<polygon fill="black" stroke="black" points="299.5,-140.07 296,-130.07 292.5,-140.07 299.5,-140.07" />
+</g>
+
+<g id="node6" class="node" data-node-id="t7_cwe_1">
+<title>Improper Authentication</title>
+<polygon fill="#add8e6" stroke="black" points="620.5,-318 463.5,-318 463.5,-282 626.5,-282 626.5,-312 620.5,-318" />
+<polyline fill="none" stroke="black" points="620.5,-318 620.5,-312 " />
+<polyline fill="none" stroke="black" points="626.5,-312 620.5,-312 " />
+<text text-anchor="middle" x="545" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Improper Authentication</text>
+</g>
+
+<g id="node13" class="node" data-node-id="t7_cwe1_or">
+<title>OR</title>
+<ellipse fill="#ffcccb" stroke="black" cx="545" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="545" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">OR</text>
+</g>
+
+<g id="edge8" class="edge" data-node-id="t7_cwe_1-&gt;t7_cwe1_or">
+<title>t7_cwe_1-&gt;t7_cwe1_or</title>
+<path fill="none" stroke="black" d="M545,-281.88C545,-281.88 545,-234.07 545,-234.07" />
+<polygon fill="black" stroke="black" points="548.5,-234.07 545,-224.07 541.5,-234.07 548.5,-234.07" />
+</g>
+
+<g id="node7" class="node" data-node-id="t7_1_tech_1">
+<title>Browser Session Hijacking</title>
+<polygon fill="#90ee90" stroke="black" points="362,-36 190,-36 190,0 362,0 362,-36" />
+<text text-anchor="middle" x="276" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Browser Session Hijacking</text>
+</g>
+
+<g id="node8" class="node" data-node-id="t7_1_cap_1">
+<title>Session Hijacking</title>
+<polygon fill="#ffb6c1" stroke="black" points="517.5,-36 398.5,-36 398.5,0 517.5,0 517.5,-36" />
+<text text-anchor="middle" x="458" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Session Hijacking</text>
+</g>
+
+<g id="node9" class="node" data-node-id="t7_1_and_1">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="459" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="459" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge4" class="edge" data-node-id="t7_1_and_1-&gt;t7_1_tech_1">
+<title>t7_1_and_1-&gt;t7_1_tech_1</title>
+<path fill="none" stroke="black" d="M450,-94.9C450,-78.11 450,-55 450,-55 450,-55 279,-55 279,-55 279,-55 279,-46.07 279,-46.07" />
+<polygon fill="black" stroke="black" points="282.5,-46.07 279,-36.07 275.5,-46.07 282.5,-46.07" />
+</g>
+
+<g id="edge5" class="edge" data-node-id="t7_1_and_1-&gt;t7_1_cap_1">
+<title>t7_1_and_1-&gt;t7_1_cap_1</title>
+<path fill="none" stroke="black" d="M468,-94.76C468,-94.76 468,-46.09 468,-46.09" />
+<polygon fill="black" stroke="black" points="471.5,-46.09 468,-36.09 464.5,-46.09 471.5,-46.09" />
+</g>
+
+<g id="node10" class="node" data-node-id="t7_1_tech_2">
+<title>Adversary-in-the-Middle</title>
+<polygon fill="#90ee90" stroke="black" points="714,-36 554,-36 554,0 714,0 714,-36" />
+<text text-anchor="middle" x="634" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Adversary-in-the-Middle</text>
+</g>
+
+<g id="node11" class="node" data-node-id="t7_1_cap_2">
+<title>Adversary in the Middle (AiTM)</title>
+<polygon fill="#ffb6c1" stroke="black" points="950,-36 750,-36 750,0 950,0 950,-36" />
+<text text-anchor="middle" x="850" y="-14.9" font-family="Helvetica,sans-Serif" font-size="12.00">Adversary in the Middle (AiTM)</text>
+</g>
+
+<g id="node12" class="node" data-node-id="t7_1_and_2">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="633" cy="-112" rx="27" ry="18" />
+<text text-anchor="middle" x="633" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge6" class="edge" data-node-id="t7_1_and_2-&gt;t7_1_tech_2">
+<title>t7_1_and_2-&gt;t7_1_tech_2</title>
+<path fill="none" stroke="black" d="M624,-94.76C624,-94.76 624,-46.09 624,-46.09" />
+<polygon fill="black" stroke="black" points="627.5,-46.09 624,-36.09 620.5,-46.09 627.5,-46.09" />
+</g>
+
+<g id="edge7" class="edge" data-node-id="t7_1_and_2-&gt;t7_1_cap_2">
+<title>t7_1_and_2-&gt;t7_1_cap_2</title>
+<path fill="none" stroke="black" d="M642,-94.78C642,-84.72 642,-74 642,-74 642,-74 844,-74 844,-74 844,-74 844,-46.03 844,-46.03" />
+<polygon fill="black" stroke="black" points="847.5,-46.03 844,-36.03 840.5,-46.03 847.5,-46.03" />
+</g>
+
+<g id="edge9" class="edge" data-node-id="t7_cwe1_or-&gt;t7_1_and_1">
+<title>t7_cwe1_or-&gt;t7_1_and_1</title>
+<path fill="none" stroke="black" d="M517.64,-206C497.91,-206 474.75,-206 474.75,-206 474.75,-206 474.75,-136.69 474.75,-136.69" />
+<polygon fill="black" stroke="black" points="478.25,-136.69 474.75,-126.69 471.25,-136.69 478.25,-136.69" />
+</g>
+
+<g id="edge10" class="edge" data-node-id="t7_cwe1_or-&gt;t7_1_and_2">
+<title>t7_cwe1_or-&gt;t7_1_and_2</title>
+<path fill="none" stroke="black" d="M563,-192.53C563,-166.54 563,-112 563,-112 563,-112 595.74,-112 595.74,-112" />
+<polygon fill="black" stroke="black" points="595.74,-115.5 605.74,-112 595.74,-108.5 595.74,-115.5" />
+</g>
+
+<g id="node14" class="node" data-node-id="t7_cwe_2">
+<title>Cleartext Transmission of Sensitive Information</title>
+<polygon fill="#add8e6" stroke="black" points="958,-318 666,-318 666,-282 964,-282 964,-312 958,-318" />
+<polyline fill="none" stroke="black" points="958,-318 958,-312 " />
+<polyline fill="none" stroke="black" points="964,-312 958,-312 " />
+<text text-anchor="middle" x="815" y="-296.9" font-family="Helvetica,sans-Serif" font-size="12.00">Cleartext Transmission of Sensitive Information</text>
+</g>
+
+<g id="node17" class="node" data-node-id="t7_2_and_3">
+<title>AND</title>
+<ellipse fill="#ffcccb" stroke="black" cx="817" cy="-206" rx="27" ry="18" />
+<text text-anchor="middle" x="817" y="-202.9" font-family="Helvetica,sans-Serif" font-size="12.00">AND</text>
+</g>
+
+<g id="edge13" class="edge" data-node-id="t7_cwe_2-&gt;t7_2_and_3">
+<title>t7_cwe_2-&gt;t7_2_and_3</title>
+<path fill="none" stroke="black" d="M817,-281.88C817,-281.88 817,-234.07 817,-234.07" />
+<polygon fill="black" stroke="black" points="820.5,-234.07 817,-224.07 813.5,-234.07 820.5,-234.07" />
+</g>
+
+<g id="node15" class="node" data-node-id="t7_2_sub_3">
+<title>Input Capture: Credential API Hooking</title>
+<polygon fill="#fffacd" stroke="black" points="938,-130 696,-130 696,-94 938,-94 938,-130" />
+<text text-anchor="middle" x="817" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Input Capture: Credential API Hooking</text>
+</g>
+
+<g id="node16" class="node" data-node-id="t7_2_cap_3">
+<title>Harvesting Information via API Event Monitoring</title>
+<polygon fill="#ffb6c1" stroke="black" points="1278,-130 974,-130 974,-94 1278,-94 1278,-130" />
+<text text-anchor="middle" x="1126" y="-108.9" font-family="Helvetica,sans-Serif" font-size="12.00">Harvesting Information via API Event Monitoring</text>
+</g>
+
+<g id="edge11" class="edge" data-node-id="t7_2_and_3-&gt;t7_2_sub_3">
+<title>t7_2_and_3-&gt;t7_2_sub_3</title>
+<path fill="none" stroke="black" d="M817,-187.88C817,-187.88 817,-140.07 817,-140.07" />
+<polygon fill="black" stroke="black" points="820.5,-140.07 817,-130.07 813.5,-140.07 820.5,-140.07" />
+</g>
+
+<g id="edge12" class="edge" data-node-id="t7_2_and_3-&gt;t7_2_cap_3">
+<title>t7_2_and_3-&gt;t7_2_cap_3</title>
+<path fill="none" stroke="black" d="M844.15,-206C919.55,-206 1126,-206 1126,-206 1126,-206 1126,-140.12 1126,-140.12" />
+<polygon fill="black" stroke="black" points="1129.5,-140.12 1126,-130.12 1122.5,-140.12 1129.5,-140.12" />
+</g>
+
+<g id="edge15" class="edge" data-node-id="t7_tac_or-&gt;t7_cwe_0">
+<title>t7_tac_or-&gt;t7_cwe_0</title>
+<path fill="none" stroke="black" d="M517.93,-394C455.94,-394 309,-394 309,-394 309,-394 309,-328.12 309,-328.12" />
+<polygon fill="black" stroke="black" points="312.5,-328.12 309,-318.12 305.5,-328.12 312.5,-328.12" />
+</g>
+
+<g id="edge16" class="edge" data-node-id="t7_tac_or-&gt;t7_cwe_1">
+<title>t7_tac_or-&gt;t7_cwe_1</title>
+<path fill="none" stroke="black" d="M545,-375.88C545,-375.88 545,-328.07 545,-328.07" />
+<polygon fill="black" stroke="black" points="548.5,-328.07 545,-318.07 541.5,-328.07 548.5,-328.07" />
+</g>
+
+<g id="edge17" class="edge" data-node-id="t7_tac_or-&gt;t7_cwe_2">
+<title>t7_tac_or-&gt;t7_cwe_2</title>
+<path fill="none" stroke="black" d="M572.12,-394C640.59,-394 815,-394 815,-394 815,-394 815,-328.12 815,-328.12" />
+<polygon fill="black" stroke="black" points="818.5,-328.12 815,-318.12 811.5,-328.12 818.5,-328.12" />
+</g>
+</g>
+</svg>

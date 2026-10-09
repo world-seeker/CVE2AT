@@ -1,0 +1,359 @@
+{
+  "name": "Lateral Movement",
+  "leaf_count": 4,
+  "node_count": 18,
+  "edge_count": 17,
+  "nodes": [
+    {
+      "id": "t6_tactic",
+      "label": "Lateral Movement",
+      "type": "tactic",
+      "metadata": {
+        "tactic": "Lateral Movement"
+      }
+    },
+    {
+      "id": "t6_cwe_0",
+      "label": "Authentication Bypass by Spoofing",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "Description": "A CWE-290: Authentication Bypass by Spoofing vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause an elevation of privilege by conducting a brute force attack on Modbus parameters sent to the controller.",
+        "cwe_Name": "Authentication Bypass by Spoofing",
+        "cwe_Abstraction": "Base",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Incomplete",
+        "cwe_Description": "This attack-focused weakness is caused by incorrectly implemented authentication schemes that are subject to spoofing attacks.",
+        "cwe_Related_Weaknesses": "CWE-1390 (ChildOf, View: 1000, Ordinal: Primary); CWE-287 (ChildOf, View: 1003, Ordinal: Primary)",
+        "cwe_Modes_Of_Introduction": "Implementation: N/A",
+        "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism, Gain Privileges or Assume Identity | Note: This weakness can allow an attacker to access resources which are not otherwise accessible without proper authentication.",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t6_0_sub_0",
+      "label": "Use Alternate Authentication Material: Web Session Cookie",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Web Session Cookie",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Lateral Movement",
+        "detection": "Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.",
+        "platforms": "IaaS, Office Suite, SaaS",
+        "data sources": "Application Log: Application Log Content, Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t6_0_cap_0",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7842",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1550.004 - Use Alternate Authentication Material:Web Session Cookie",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t6_0_and_0",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t6_cwe_1",
+      "label": "Exposure of Sensitive Information to an Unauthorized Actor",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "Description": "A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading memory blocks from the controller over Modbus. | A CWE-200: Information Exposure vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause the disclosure of SNMP information when reading files from the controller over Modbus | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when using specific Modbus services provided by the REST API of the controller/communication module. | A CWE-200: Information Exposure vulnerability exists in Modicon M580, Modicon BMENOC 0311, and Modicon BMENOC 0321, which could cause the disclosure of sensitive information when reading specific registers with the REST API of the controller/communication module. | A CWE-538: File and Directory Information Exposure vulnerability exists in Modicon M580, Modicon M340, Modicon Premium , Modicon Quantum (all firmware versions), which could cause the disclosure of information from the controller when using TFTP protocol.",
+        "cwe_Name": "Exposure of Sensitive Information to an Unauthorized Actor",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product exposes sensitive information to an actor that is not explicitly authorized to have access to that information.",
+        "cwe_Related_Weaknesses": "CWE-668 (ChildOf, View: 1000, Ordinal: Primary)",
+        "cwe_Weakness_Ordinality": "Primary, Resultant",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: N/A",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data | Note: N/A",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: High | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: Compartmentalize the system to have \"safe\" areas where trust boundaries can be unambiguously drawn. Do not allow sensitive data to go outside of the trust boundary and always be careful when interfacing with a compartment outside of the safe area. Ensure that appropriate compartmentalization is built into the system design, and the compartmentalization allows for and reinforces privilege separation functionality. Architects and designers should rely on the principle of least privilege to decide the appropriate time to use privileges and the time to drop privileges.",
+        "attackVector": "NETWORK",
+        "baseScore": "7.5",
+        "baseSeverity": "HIGH",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "NONE",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t6_1_sub_1",
+      "label": "Use Alternate Authentication Material: Web Session Cookie",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Web Session Cookie",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Lateral Movement",
+        "detection": "Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.",
+        "platforms": "IaaS, Office Suite, SaaS",
+        "data sources": "Application Log: Application Log Content, Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t6_1_cap_1",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7844 | CVE-2018-7848 | CVE-2019-6849 | CVE-2019-6850 | CVE-2019-6851",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1550.004 - Use Alternate Authentication Material:Web Session Cookie",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus, SNMP | Modbus | TFTP"
+      }
+    },
+    {
+      "id": "t6_1_and_1",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t6_cwe_2",
+      "label": "Improper Authentication",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "cwe_Name": "Improper Authentication",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "When an actor claims to have a given identity, the product does not prove or insufficiently proves that the claim is correct.",
+        "cwe_Related_Weaknesses": "CWE-284 (ChildOf, View: 1000, Ordinal: Primary); CWE-284 (ChildOf, View: 1340, Ordinal: Primary)",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis | Effectiveness: Limited | Description:  || Method: Manual Static Analysis | Effectiveness: High | Description:  || Method: Manual Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis | Effectiveness: SOAR Partial | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t6_2_sub_2",
+      "label": "Use Alternate Authentication Material: Application Access Token",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Application Access Token",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Lateral Movement",
+        "detection": "Monitor access token activity for abnormal use and permissions granted to unusual or suspicious applications and APIs. Additionally, administrators should review logs for calls to the AWS Security Token Service (STS) and usage of GCP service accounts in order to identify anomalous actions.(Citation: AWS Logging IAM Calls)(Citation: GCP Monitoring Service Account Usage)",
+        "platforms": "Containers, IaaS, Identity Provider, Office Suite, SaaS",
+        "data sources": "Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t6_2_cap_2",
+      "label": "Session Hijacking",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "capec_Name": "Session Hijacking",
+        "capec_Mitre_Techniques": "1550.001 - Use Alternate Authentication Material:Application Access Token",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "This type of attack involves an adversary that exploits weaknesses in an application's use of sessions in performing authentication. The adversary is able to steal or manipulate an active session and use it to gain unathorized access to the application.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Discover Existing Session Token] Through varrying means, an adversary will discover and store an existing session token for some other authenticated user session. (Techniques: N/A) || Step 2: Experiment - [Insert Found Session Token] The attacker attempts to insert a found session token into communication with the targeted application to confirm viability for exploitation. (Techniques: N/A) || Step 3: Exploit - [Session Token Exploitation] The attacker leverages the captured session token to interact with the targeted application in a malicious fashion, impersonating the victim. (Techniques: N/A)",
+        "capec_Prerequisites": "An application that leverages sessions to perform authentication.",
+        "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.",
+        "capec_Resources_Required": "The adversary must have the ability to communicate with the application over the network.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges",
+        "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.",
+        "capec_Related_Weaknesses": "CWE-287",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t6_2_and_2",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t6_2_tech_3",
+      "label": "Remote Service Session Hijacking",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "Description": "A CWE-284: Improper Access Control vulnerability exists in all versions of the Modicon M580, Modicon M340, Modicon Quantum, and Modicon Premium which could cause denial of service or potential code execution by overwriting configuration settings of the controller over Modbus.",
+        "tech_description": "Adversaries may take control of preexisting sessions with remote services to move laterally in an environment. Users may use valid credentials to log into a service specifically designed to accept remote connections, such as telnet, SSH, and RDP. When a user logs into a service, a session will be established that will allow them to maintain a continuous interaction with that service.\n\nAdversaries may commandeer these sessions to carry out actions on remote systems. [Remote Service Session Hijacking](https://attack.mitre.org/techniques/T1563) differs from use of [Remote Services](https://attack.mitre.org/techniques/T1021) because it hijacks an existing session rather than creating a new session using [Valid Accounts](https://attack.mitre.org/techniques/T1078).(Citation: RDP Hijacking Medium)(Citation: Breach Post-mortem SSH Hijack)",
+        "technique_name": "Remote Service Session Hijacking",
+        "tactics": "Lateral Movement",
+        "detection": "Use of these services may be legitimate, depending upon the network environment and how it is used. Other factors, such as access patterns and activity that occurs after a remote login, may indicate suspicious or malicious behavior with that service. Monitor for user accounts logged into systems they would not normally access or access patterns to multiple systems over a relatively short period of time.\n\nMonitor for processes and command-line arguments associated with hijacking service sessions.",
+        "platforms": "Linux, Windows, macOS",
+        "data sources": "Command: Command Execution, Logon Session: Logon Session Creation, Network Traffic: Network Traffic Content, Network Traffic: Network Traffic Flow, Process: Process Creation",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t6_2_cap_3",
+      "label": "Session Hijacking",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2018-7847",
+        "capec_Name": "Session Hijacking",
+        "capec_Mitre_Techniques": "1563 - Remote Service Session Hijacking",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "This type of attack involves an adversary that exploits weaknesses in an application's use of sessions in performing authentication. The adversary is able to steal or manipulate an active session and use it to gain unathorized access to the application.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Discover Existing Session Token] Through varrying means, an adversary will discover and store an existing session token for some other authenticated user session. (Techniques: N/A) || Step 2: Experiment - [Insert Found Session Token] The attacker attempts to insert a found session token into communication with the targeted application to confirm viability for exploitation. (Techniques: N/A) || Step 3: Exploit - [Session Token Exploitation] The attacker leverages the captured session token to interact with the targeted application in a malicious fashion, impersonating the victim. (Techniques: N/A)",
+        "capec_Prerequisites": "An application that leverages sessions to perform authentication.",
+        "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.",
+        "capec_Resources_Required": "The adversary must have the ability to communicate with the application over the network.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges",
+        "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.",
+        "capec_Related_Weaknesses": "CWE-287",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Modbus"
+      }
+    },
+    {
+      "id": "t6_2_and_3",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t6_cwe2_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t6_tac_or",
+      "label": "OR",
+      "type": "gate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "t6_0_and_0",
+      "to": "t6_0_sub_0"
+    },
+    {
+      "from": "t6_0_and_0",
+      "to": "t6_0_cap_0"
+    },
+    {
+      "from": "t6_cwe_0",
+      "to": "t6_0_and_0"
+    },
+    {
+      "from": "t6_1_and_1",
+      "to": "t6_1_sub_1"
+    },
+    {
+      "from": "t6_1_and_1",
+      "to": "t6_1_cap_1"
+    },
+    {
+      "from": "t6_cwe_1",
+      "to": "t6_1_and_1"
+    },
+    {
+      "from": "t6_2_and_2",
+      "to": "t6_2_sub_2"
+    },
+    {
+      "from": "t6_2_and_2",
+      "to": "t6_2_cap_2"
+    },
+    {
+      "from": "t6_2_and_3",
+      "to": "t6_2_tech_3"
+    },
+    {
+      "from": "t6_2_and_3",
+      "to": "t6_2_cap_3"
+    },
+    {
+      "from": "t6_cwe_2",
+      "to": "t6_cwe2_or"
+    },
+    {
+      "from": "t6_cwe2_or",
+      "to": "t6_2_and_2"
+    },
+    {
+      "from": "t6_cwe2_or",
+      "to": "t6_2_and_3"
+    },
+    {
+      "from": "t6_tactic",
+      "to": "t6_tac_or"
+    },
+    {
+      "from": "t6_tac_or",
+      "to": "t6_cwe_0"
+    },
+    {
+      "from": "t6_tac_or",
+      "to": "t6_cwe_1"
+    },
+    {
+      "from": "t6_tac_or",
+      "to": "t6_cwe_2"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "name": "Initial Access",
+  "leaf_count": 1,
+  "node_count": 5,
+  "edge_count": 4,
+  "nodes": [
+    {
+      "id": "t0_tactic",
+      "label": "Initial Access",
+      "type": "tactic",
+      "metadata": {
+        "tactic": "Initial Access"
+      }
+    },
+    {
+      "id": "t0_cwe_0",
+      "label": "Use of Hard-coded Credentials",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2014-5431 | CVE-2014-5434 | CVE-2020-12039 | CVE-2020-12045 | CVE-2020-12047",
+        "Description": "Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 contains a hard-coded password, which provides access to basic biomedical information, limited device settings, and network configuration of the WBM, if connected. The hard-coded password may allow an attacker with physical access to the device to access management functions to make unauthorized configuration changes to biomedical settings such as turn on and off wireless connections and the phase-complete audible alarm that indicates the end of an infusion phase. Baxter has released a new version of the SIGMA Spectrum Infusion System, version 8, which incorporates hardware and software changes. | Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 has a default account with hard-coded credentials used with the FTP protocol. Baxter asserts no files can be transferred to or from the WBM using this account. Baxter has released a new version of the SIGMA Spectrum Infusion System, Version 8, which incorporates hardware and software changes. | Baxter Sigma Spectrum Infusion Pumps Sigma Spectrum Infusion System v's6.x model 35700BAX & Baxter Spectrum Infusion System v's8.x model 35700BAX2 contain hardcoded passwords when physically entered on the keypad provide access to biomedical menus including device settings, view calibration values, network configuration of Sigma Spectrum WBM if installed. | The Baxter Spectrum WBM (v17, v20D29, v20D30, v20D31, and v22D24) when used in conjunction with a Baxter Spectrum v8.x (model 35700BAX2), operates a Telnet service on Port 1023 with hard-coded credentials. | The Baxter Spectrum WBM (v17, v20D29, v20D30, v20D31, and v22D24), when used with a Baxter Spectrum v8.x (model 35700BAX2) in a factory-default wireless configuration enables an FTP service with hard-coded credentials.",
+        "cwe_Name": "Use of Hard-coded Credentials",
+        "cwe_Abstraction": "Base",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product contains hard-coded credentials, such as a password or cryptographic key.",
+        "cwe_Related_Weaknesses": "CWE-1391 (ChildOf, View: 1000, Ordinal: Primary); CWE-287 (ChildOf, View: 1003, Ordinal: Primary); CWE-344 (ChildOf, View: 1000, Ordinal: N/A); CWE-671 (ChildOf, View: 1000, Ordinal: N/A); CWE-257 (PeerOf, View: 1000, Ordinal: N/A)",
+        "cwe_Weakness_Ordinality": "Primary",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A",
+        "cwe_Detection_Methods": "Method: Black Box | Effectiveness: Moderate | Description: Credential storage in configuration files is findable using black box methods, but the use of hard-coded credentials for an incoming authentication routine typically involves an account that is not visible outside of the code. || Method: Automated Static Analysis | Effectiveness: N/A | Description: Automated white box techniques have been published for detecting hard-coded credentials for incoming authentication, but there is some expert disagreement regarding their effectiveness and applicability to a broad range of methods. || Method: Manual Static Analysis | Effectiveness: N/A | Description: This weakness may be detectable using manual code analysis. Unless authentication is decentralized and applied throughout the product, there can be sufficient time for the analyst to find incoming authentication routines and examine the program logic looking for usage of hard-coded credentials. Configuration files could also be analyzed. || Method: Manual Dynamic Analysis | Effectiveness: N/A | Description:  || Method: Automated Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Binary or Bytecode | Effectiveness: High | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis | Effectiveness: SOAR Partial | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.",
+        "attackVector": "PHYSICAL | NETWORK",
+        "baseScore": "6.8 | 9.8 | 2.4",
+        "baseSeverity": "MEDIUM | CRITICAL | LOW",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH | LOW",
+        "availabilityImpact": "HIGH | NONE",
+        "exploitabilityScore": "0.9 | 3.9",
+        "exposure_tags": "Keypad/physical, Wi-Fi/wireless | FTP, Wi-Fi/wireless | Keypad/physical | Telnet"
+      }
+    },
+    {
+      "id": "t0_0_sub_0",
+      "label": "Valid Accounts: Default Accounts",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Valid Accounts: Default Accounts",
+        "technique_name": "Valid Accounts",
+        "tactics": "Initial Access",
+        "detection": "Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.",
+        "platforms": "Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS",
+        "data sources": "Logon Session: Logon Session Creation, User Account: User Account Authentication"
+      }
+    },
+    {
+      "id": "t0_0_cap_0",
+      "label": "Try Common or Default Usernames and Passwords",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2014-5431 | CVE-2014-5434 | CVE-2020-12039 | CVE-2020-12045 | CVE-2020-12047",
+        "capec_Name": "Try Common or Default Usernames and Passwords",
+        "capec_Mitre_Techniques": "1078.001 - Valid Accounts:Default Accounts",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary may try certain common or default usernames and passwords to gain access into the system and perform unauthorized actions. An adversary may try an intelligent brute force using empty passwords, known vendor default credentials, as well as a dictionary of common usernames and passwords. Many vendor products come preconfigured with default (and thus well-known) usernames and passwords that should be deleted prior to usage in a production environment. It is a common mistake to forget to remove these default login credentials. Another problem is that users would pick very simple (common) passwords (e.g. \"secret\" or \"password\") that make it easier for the attacker to gain access to the system compared to using a brute force attack or even a dictionary attack using a full dictionary.",
+        "capec_Likelihood_Of_Attack": "Medium",
+        "capec_Typical_Severity": "High",
+        "capec_Prerequisites": "The system uses one factor password based authentication.The adversary has the means to interact with the system.",
+        "capec_Skills_Required": "Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.",
+        "capec_Resources_Required": "Technology or vendor specific list of default usernames and passwords.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.",
+        "capec_Related_Weaknesses": "CWE-521, CWE-262, CWE-263, CWE-798, CWE-654, CWE-308, CWE-309",
+        "attackVector": "PHYSICAL | NETWORK",
+        "exposure_tags": "Keypad/physical, Wi-Fi/wireless | FTP, Wi-Fi/wireless | Keypad/physical | Telnet"
+      }
+    },
+    {
+      "id": "t0_0_and_0",
+      "label": "AND",
+      "type": "gate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "t0_0_and_0",
+      "to": "t0_0_sub_0"
+    },
+    {
+      "from": "t0_0_and_0",
+      "to": "t0_0_cap_0"
+    },
+    {
+      "from": "t0_cwe_0",
+      "to": "t0_0_and_0"
+    },
+    {
+      "from": "t0_tactic",
+      "to": "t0_cwe_0"
+    }
+  ]
+}

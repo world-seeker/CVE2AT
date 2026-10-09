@@ -1,0 +1,27 @@
+digraph {
+	graph [nodesep=0.5 rankdir=TB ranksep=0.8 splines=ortho]
+	node [fontname=Helvetica fontsize=12]
+	t0_tactic [label=Reconnaissance fillcolor="#98FB98" fontname=Helvetica shape=box style=filled]
+	t0_cwe_0 [label="Exposure of Sensitive Information to an Unauthorized Actor" fillcolor="#ADD8E6" fontname=Helvetica shape=note style=filled]
+	t0_0_tech_0 [label="Gather Victim Host Information" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t0_0_cap_0 [label=Footprinting fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t0_0_and_0 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t0_0_and_0 -> t0_0_tech_0
+	t0_0_and_0 -> t0_0_cap_0
+	t0_0_tech_1 [label="Active Scanning" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t0_0_cap_1 [label=Footprinting fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t0_0_and_1 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t0_0_and_1 -> t0_0_tech_1
+	t0_0_and_1 -> t0_0_cap_1
+	t0_0_tech_2 [label="Gather Victim Network Information" fillcolor="#90EE90" fontname=Helvetica shape=box style=filled]
+	t0_0_cap_2 [label="Network Topology Mapping" fillcolor="#FFB6C1" fontname=Helvetica shape=box style=filled]
+	t0_0_and_2 [label=AND fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t0_0_and_2 -> t0_0_tech_2
+	t0_0_and_2 -> t0_0_cap_2
+	t0_cwe0_or [label=OR fillcolor="#FFCCCB" fontname=Helvetica shape=ellipse style=filled]
+	t0_cwe_0 -> t0_cwe0_or
+	t0_cwe0_or -> t0_0_and_0
+	t0_cwe0_or -> t0_0_and_1
+	t0_cwe0_or -> t0_0_and_2
+	t0_tactic -> t0_cwe_0
+}

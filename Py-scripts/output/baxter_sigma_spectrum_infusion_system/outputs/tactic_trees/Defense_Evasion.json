@@ -1,0 +1,924 @@
+{
+  "name": "Defense Evasion",
+  "leaf_count": 14,
+  "node_count": 49,
+  "edge_count": 48,
+  "nodes": [
+    {
+      "id": "t3_tactic",
+      "label": "Defense Evasion",
+      "type": "tactic",
+      "metadata": {
+        "tactic": "Defense Evasion"
+      }
+    },
+    {
+      "id": "t3_cwe_0",
+      "label": "Use of Hard-coded Credentials",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2014-5431 | CVE-2014-5434 | CVE-2020-12039 | CVE-2020-12045 | CVE-2020-12047",
+        "Description": "Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 contains a hard-coded password, which provides access to basic biomedical information, limited device settings, and network configuration of the WBM, if connected. The hard-coded password may allow an attacker with physical access to the device to access management functions to make unauthorized configuration changes to biomedical settings such as turn on and off wireless connections and the phase-complete audible alarm that indicates the end of an infusion phase. Baxter has released a new version of the SIGMA Spectrum Infusion System, version 8, which incorporates hardware and software changes. | Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 has a default account with hard-coded credentials used with the FTP protocol. Baxter asserts no files can be transferred to or from the WBM using this account. Baxter has released a new version of the SIGMA Spectrum Infusion System, Version 8, which incorporates hardware and software changes. | Baxter Sigma Spectrum Infusion Pumps Sigma Spectrum Infusion System v's6.x model 35700BAX & Baxter Spectrum Infusion System v's8.x model 35700BAX2 contain hardcoded passwords when physically entered on the keypad provide access to biomedical menus including device settings, view calibration values, network configuration of Sigma Spectrum WBM if installed. | The Baxter Spectrum WBM (v17, v20D29, v20D30, v20D31, and v22D24) when used in conjunction with a Baxter Spectrum v8.x (model 35700BAX2), operates a Telnet service on Port 1023 with hard-coded credentials. | The Baxter Spectrum WBM (v17, v20D29, v20D30, v20D31, and v22D24), when used with a Baxter Spectrum v8.x (model 35700BAX2) in a factory-default wireless configuration enables an FTP service with hard-coded credentials.",
+        "cwe_Name": "Use of Hard-coded Credentials",
+        "cwe_Abstraction": "Base",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product contains hard-coded credentials, such as a password or cryptographic key.",
+        "cwe_Related_Weaknesses": "CWE-1391 (ChildOf, View: 1000, Ordinal: Primary); CWE-287 (ChildOf, View: 1003, Ordinal: Primary); CWE-344 (ChildOf, View: 1000, Ordinal: N/A); CWE-671 (ChildOf, View: 1000, Ordinal: N/A); CWE-257 (PeerOf, View: 1000, Ordinal: N/A)",
+        "cwe_Weakness_Ordinality": "Primary",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Access Control | Impact: Bypass Protection Mechanism | Note: N/A || Scope: Integrity, Confidentiality, Availability, Access Control, Other | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands, Other | Note: N/A",
+        "cwe_Detection_Methods": "Method: Black Box | Effectiveness: Moderate | Description: Credential storage in configuration files is findable using black box methods, but the use of hard-coded credentials for an incoming authentication routine typically involves an account that is not visible outside of the code. || Method: Automated Static Analysis | Effectiveness: N/A | Description: Automated white box techniques have been published for detecting hard-coded credentials for incoming authentication, but there is some expert disagreement regarding their effectiveness and applicability to a broad range of methods. || Method: Manual Static Analysis | Effectiveness: N/A | Description: This weakness may be detectable using manual code analysis. Unless authentication is decentralized and applied throughout the product, there can be sufficient time for the analyst to find incoming authentication routines and examine the program logic looking for usage of hard-coded credentials. Configuration files could also be analyzed. || Method: Manual Dynamic Analysis | Effectiveness: N/A | Description:  || Method: Automated Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Binary or Bytecode | Effectiveness: High | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis | Effectiveness: SOAR Partial | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: For outbound authentication: store passwords, keys, and other credentials outside of the code in a strongly-protected, encrypted configuration file or database that is protected from access by all outsiders, including other local users on the same system. Properly protect the key (CWE-320). If you cannot use encryption to protect the file, then make sure that the permissions are as restrictive as possible [REF-7]. In Windows environments, the Encrypted File System (EFS) may provide some protection. || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: For inbound authentication using passwords: apply strong one-way hashes to passwords and store those hashes in a configuration file or database with appropriate access control. That way, theft of the file/database still requires the attacker to try to crack the password. When handling an incoming password during authentication, take the hash of the password and compare it to the saved hash. Use randomly assigned salts for each separate hash that is generated. This increases the amount of computation that an attacker needs to conduct a brute-force attack, possibly limiting the effectiveness of the rainbow table method. || Phase: Architecture and Design | Description: For front-end to back-end connections: Three solutions are possible, although none are complete.",
+        "attackVector": "PHYSICAL | NETWORK",
+        "baseScore": "6.8 | 9.8 | 2.4",
+        "baseSeverity": "MEDIUM | CRITICAL | LOW",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH | LOW",
+        "availabilityImpact": "HIGH | NONE",
+        "exploitabilityScore": "0.9 | 3.9",
+        "exposure_tags": "Keypad/physical, Wi-Fi/wireless | FTP, Wi-Fi/wireless | Keypad/physical | Telnet"
+      }
+    },
+    {
+      "id": "t3_0_sub_0",
+      "label": "Valid Accounts: Default Accounts",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Valid Accounts: Default Accounts",
+        "technique_name": "Valid Accounts",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor whether default accounts have been activated or logged into. These audits should also include checks on any appliances and applications for default credentials or SSH keys, and if any are discovered, they should be updated immediately.",
+        "platforms": "Containers, IaaS, Identity Provider, Linux, Network, Office Suite, SaaS, Windows, macOS",
+        "data sources": "Logon Session: Logon Session Creation, User Account: User Account Authentication"
+      }
+    },
+    {
+      "id": "t3_0_cap_0",
+      "label": "Try Common or Default Usernames and Passwords",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2014-5431 | CVE-2014-5434 | CVE-2020-12039 | CVE-2020-12045 | CVE-2020-12047",
+        "capec_Name": "Try Common or Default Usernames and Passwords",
+        "capec_Mitre_Techniques": "1078.001 - Valid Accounts:Default Accounts",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary may try certain common or default usernames and passwords to gain access into the system and perform unauthorized actions. An adversary may try an intelligent brute force using empty passwords, known vendor default credentials, as well as a dictionary of common usernames and passwords. Many vendor products come preconfigured with default (and thus well-known) usernames and passwords that should be deleted prior to usage in a production environment. It is a common mistake to forget to remove these default login credentials. Another problem is that users would pick very simple (common) passwords (e.g. \"secret\" or \"password\") that make it easier for the attacker to gain access to the system compared to using a brute force attack or even a dictionary attack using a full dictionary.",
+        "capec_Likelihood_Of_Attack": "Medium",
+        "capec_Typical_Severity": "High",
+        "capec_Prerequisites": "The system uses one factor password based authentication.The adversary has the means to interact with the system.",
+        "capec_Skills_Required": "Low: An adversary just needs to gain access to common default usernames/passwords specific to the technologies used by the system. Additionally, a brute force attack leveraging common passwords can be easily realized if the user name is known.",
+        "capec_Resources_Required": "Technology or vendor specific list of default usernames and passwords.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Delete all default account credentials that may be put in by the product vendor. || Implement a password throttling mechanism. This mechanism should take into account both the IP address and the log in name of the user. || Put together a strong password policy and make sure that all user created passwords comply with it. Alternatively automatically generate strong passwords for users. || Passwords need to be recycled to prevent aging, that is every once in a while a new password must be chosen.",
+        "capec_Related_Weaknesses": "CWE-521, CWE-262, CWE-263, CWE-798, CWE-654, CWE-308, CWE-309",
+        "attackVector": "PHYSICAL | NETWORK",
+        "exposure_tags": "Keypad/physical, Wi-Fi/wireless | FTP, Wi-Fi/wireless | Keypad/physical | Telnet"
+      }
+    },
+    {
+      "id": "t3_0_and_0",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe_1",
+      "label": "Improper Authentication",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "Description": "Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 is remotely accessible via Port 22/SSH without authentication. A remote attacker may be able to make unauthorized configuration changes to the WBM, as well as issue commands to access account credentials and shared keys. Baxter asserts that this vulnerability only allows access to features and functionality on the WBM and that the SIGMA Spectrum infusion pump cannot be controlled from the WBM. Baxter has released a new version of the SIGMA Spectrum Infusion System, Version 8, which incorporates hardware and software changes.",
+        "cwe_Name": "Improper Authentication",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "When an actor claims to have a given identity, the product does not prove or insufficiently proves that the claim is correct.",
+        "cwe_Related_Weaknesses": "CWE-284 (ChildOf, View: 1000, Ordinal: Primary); CWE-284 (ChildOf, View: 1340, Ordinal: Primary)",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation: REALIZATION: This weakness is caused during implementation of an architectural security tactic.",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Integrity, Confidentiality, Availability, Access Control | Impact: Read Application Data, Gain Privileges or Assume Identity, Execute Unauthorized Code or Commands | Note: This weakness can lead to the exposure of resources or functionality to unintended actors, possibly providing attackers with sensitive information or even execute arbitrary code.",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis | Effectiveness: Limited | Description:  || Method: Manual Static Analysis | Effectiveness: High | Description:  || Method: Manual Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis | Effectiveness: SOAR Partial | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Architecture and Design | Description: N/A",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_tech_1",
+      "label": "Abuse Elevation Control Mechanism",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "Description": "Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 is remotely accessible via Port 22/SSH without authentication. A remote attacker may be able to make unauthorized configuration changes to the WBM, as well as issue commands to access account credentials and shared keys. Baxter asserts that this vulnerability only allows access to features and functionality on the WBM and that the SIGMA Spectrum infusion pump cannot be controlled from the WBM. Baxter has released a new version of the SIGMA Spectrum Infusion System, Version 8, which incorporates hardware and software changes.",
+        "tech_description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)",
+        "technique_name": "Abuse Elevation Control Mechanism",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.",
+        "platforms": "IaaS, Identity Provider, Linux, Office Suite, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification",
+        "permissions required": "Administrator, User",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_cap_1",
+      "label": "Authentication Abuse",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "capec_Name": "Authentication Abuse",
+        "capec_Mitre_Techniques": "1548 - Abuse Elevation Control Mechanism",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Draft",
+        "capec_Description": "An attacker obtains unauthorized access to an application, service or device either through knowledge of the inherent weaknesses of an authentication mechanism, or by exploiting a flaw in the authentication scheme's implementation. In such an attack an authentication mechanism is functioning but a carefully controlled sequence of events causes the mechanism to grant access to the attacker.",
+        "capec_Extended_Description": "This attack may exploit assumptions made by the target's authentication procedures, such as assumptions regarding trust relationships or assumptions regarding the generation of secret values. This attack differs from Authentication Bypass attacks in that Authentication Abuse allows the attacker to be certified as a valid user through illegitimate means, while Authentication Bypass allows the user to access protected material without ever being certified as an authenticated user. This attack does not rely on prior sessions established by successfully authenticating users, as relied upon for the \"Exploitation of Session Variables, Resource IDs and other Trusted Credentials\" attack patterns.",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "An authentication mechanism or subsystem implementing some form of authentication such as passwords, digest authentication, security certificates, etc. which is flawed in some way.",
+        "capec_Resources_Required": "A client application, command-line access to a binary, or scripting language capable of interacting with the authentication mechanism.",
+        "capec_Related_Weaknesses": "CWE-287, CWE-1244",
+        "attackVector": "NETWORK",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_and_1",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_tech_2",
+      "label": "Abuse Elevation Control Mechanism",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "Description": "Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 is remotely accessible via Port 22/SSH without authentication. A remote attacker may be able to make unauthorized configuration changes to the WBM, as well as issue commands to access account credentials and shared keys. Baxter asserts that this vulnerability only allows access to features and functionality on the WBM and that the SIGMA Spectrum infusion pump cannot be controlled from the WBM. Baxter has released a new version of the SIGMA Spectrum Infusion System, Version 8, which incorporates hardware and software changes.",
+        "tech_description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)",
+        "technique_name": "Abuse Elevation Control Mechanism",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.",
+        "platforms": "IaaS, Identity Provider, Linux, Office Suite, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification",
+        "permissions required": "Administrator, User",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_cap_2",
+      "label": "Authentication Bypass",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "capec_Name": "Authentication Bypass",
+        "capec_Mitre_Techniques": "1548 - Abuse Elevation Control Mechanism",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Draft",
+        "capec_Description": "An attacker gains access to application, service, or device with the privileges of an authorized or privileged user by evading or circumventing an authentication mechanism. The attacker is therefore able to access protected data without authentication ever having taken place.",
+        "capec_Extended_Description": "This refers to an attacker gaining access equivalent to an authenticated user without ever going through an authentication procedure. This is usually the result of the attacker using an unexpected access procedure that does not go through the proper checkpoints where authentication should occur. For example, a web site might assume that all users will click through a given link in order to get to secure material and simply authenticate everyone that clicks the link. However, an attacker might be able to reach secured web content by explicitly entering the path to the content rather than clicking through the authentication link, thereby avoiding the check entirely. This attack pattern differs from other authentication attacks in that attacks of this pattern avoid authentication entirely, rather than faking authentication by exploiting flaws or by stealing credentials from legitimate users.",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "An authentication mechanism or subsystem implementing some form of authentication such as passwords, digest authentication, security certificates, etc.",
+        "capec_Resources_Required": "A client application, such as a web browser, or a scripting language capable of interacting with the target.",
+        "capec_Related_Weaknesses": "CWE-287",
+        "attackVector": "NETWORK",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_and_2",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_sub_3",
+      "label": "Use Alternate Authentication Material: Application Access Token",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Application Access Token",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor access token activity for abnormal use and permissions granted to unusual or suspicious applications and APIs. Additionally, administrators should review logs for calls to the AWS Security Token Service (STS) and usage of GCP service accounts in order to identify anomalous actions.(Citation: AWS Logging IAM Calls)(Citation: GCP Monitoring Service Account Usage)",
+        "platforms": "Containers, IaaS, Identity Provider, Office Suite, SaaS",
+        "data sources": "Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t3_1_cap_3",
+      "label": "Session Hijacking",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "capec_Name": "Session Hijacking",
+        "capec_Mitre_Techniques": "1550.001 - Use Alternate Authentication Material:Application Access Token",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Stable",
+        "capec_Description": "This type of attack involves an adversary that exploits weaknesses in an application's use of sessions in performing authentication. The adversary is able to steal or manipulate an active session and use it to gain unathorized access to the application.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Discover Existing Session Token] Through varrying means, an adversary will discover and store an existing session token for some other authenticated user session. (Techniques: N/A) || Step 2: Experiment - [Insert Found Session Token] The attacker attempts to insert a found session token into communication with the targeted application to confirm viability for exploitation. (Techniques: N/A) || Step 3: Exploit - [Session Token Exploitation] The attacker leverages the captured session token to interact with the targeted application in a malicious fashion, impersonating the victim. (Techniques: N/A)",
+        "capec_Prerequisites": "An application that leverages sessions to perform authentication.",
+        "capec_Skills_Required": "Low: Exploiting a poorly protected identity token is a well understood attack with many helpful resources available.",
+        "capec_Resources_Required": "The adversary must have the ability to communicate with the application over the network.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Gain Privileges",
+        "capec_Mitigations": "Properly encrypt and sign identity tokens in transit, and use industry standard session key generation mechanisms that utilize high amount of entropy to generate the session key. Many standard web and application servers will perform this task on your behalf. Utilize a session timeout for all sessions. If the user does not explicitly logout, terminate their session after this period of inactivity. If the user logs back in then a new session key should be generated.",
+        "capec_Related_Weaknesses": "CWE-287",
+        "attackVector": "NETWORK",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_and_3",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_1_tech_4",
+      "label": "Access Token Manipulation",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "Description": "Baxter SIGMA Spectrum Infusion System version 6.05 (model 35700BAX) with wireless battery module (WBM) version 16 is remotely accessible via Port 22/SSH without authentication. A remote attacker may be able to make unauthorized configuration changes to the WBM, as well as issue commands to access account credentials and shared keys. Baxter asserts that this vulnerability only allows access to features and functionality on the WBM and that the SIGMA Spectrum infusion pump cannot be controlled from the WBM. Baxter has released a new version of the SIGMA Spectrum Infusion System, Version 8, which incorporates hardware and software changes.",
+        "tech_description": "Adversaries may modify access tokens to operate under a different user or system security context to perform actions and bypass access controls. Windows uses access tokens to determine the ownership of a running process. A user can manipulate access tokens to make a running process appear as though it is the child of a different process or belongs to someone other than the user that started the process. When this occurs, the process also takes on the security context associated with the new token.\n\nAn adversary can use built-in Windows API functions to copy access tokens from existing processes; this is known as token stealing. These token can then be applied to an existing process (i.e. [Token Impersonation/Theft](https://attack.mitre.org/techniques/T1134/001)) or used to spawn a new process (i.e. [Create Process with Token](https://attack.mitre.org/techniques/T1134/002)). An adversary must already be in a privileged user context (i.e. administrator) to steal a token. However, adversaries commonly use token stealing to elevate their security context from the administrator level to the SYSTEM level. An adversary can then use a token to authenticate to a remote system as the account for that token if the account has appropriate permissions on the remote system.(Citation: Pentestlab Token Manipulation)\n\nAny standard user can use the <code>runas</code> command, and the Windows API functions, to create impersonation tokens; it does not require access to an administrator account. There are also other mechanisms, such as Active Directory fields, that can be used to modify access tokens.",
+        "technique_name": "Access Token Manipulation",
+        "tactics": "Defense Evasion",
+        "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nIf an adversary is using a payload that calls the Windows token APIs directly, analysts can detect token manipulation only through careful analysis of user network activity, examination of running processes, and correlation with other endpoint and network behavior. \n\nThere are many Windows API calls a payload can take advantage of to manipulate access tokens (e.g., <code>LogonUser</code> (Citation: Microsoft LogonUser), <code>DuplicateTokenEx</code>(Citation: Microsoft DuplicateTokenEx), and <code>ImpersonateLoggedOnUser</code>(Citation: Microsoft ImpersonateLoggedOnUser)). Please see the referenced Windows API pages for more information.\n\nQuery systems for process and thread token information and look for inconsistencies such as user owns processes impersonating the local SYSTEM account.(Citation: BlackHat Atkinson Winchester Token Manipulation)\n\nLook for inconsistencies between the various fields that store PPID information, such as the EventHeader ProcessId from data collected via Event Tracing for Windows (ETW), Creator Process ID/Name from Windows event logs, and the ProcessID and ParentProcessID (which are also produced from ETW and other utilities such as Task Manager and Process Explorer). The ETW provided EventHeader ProcessId identifies the actual parent process.",
+        "platforms": "Windows",
+        "data sources": "Active Directory: Active Directory Object Modification, Command: Command Execution, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Metadata",
+        "defenses bypassed": "Heuristic Detection, Host Forensic Analysis, System Access Controls, Windows User Account Control",
+        "permissions required": "Administrator, User",
+        "effective permissions": "SYSTEM",
+        "attackVector": "NETWORK",
+        "baseScore": "9.8",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_cap_4",
+      "label": "Token Impersonation",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2014-5432",
+        "capec_Name": "Token Impersonation",
+        "capec_Mitre_Techniques": "1134 - Access Token Manipulation",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Stable",
+        "capec_Description": "An adversary exploits a weakness in authentication to create an access token (or equivalent) that impersonates a different entity, and then associates a process/thread to that that impersonated token. This action causes a downstream user to make a decision or take action that is based on the assumed identity, and not the response that blocks the adversary.",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "This pattern of attack is only applicable when a downstream user leverages tokens to verify identity, and then takes action based on that identity.",
+        "capec_Consequences": "Scope: Integrity | Impact: Alter Execution Logic || Scope: Integrity | Impact: Gain Privileges || Scope: Integrity | Impact: Hide Activities",
+        "capec_Related_Weaknesses": "CWE-287, CWE-1270",
+        "attackVector": "NETWORK",
+        "exposure_tags": "SSH, Wi-Fi/wireless"
+      }
+    },
+    {
+      "id": "t3_1_and_4",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe1_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe_2",
+      "label": "Incorrect Permission Assignment for Critical Resource",
+      "type": "cwe",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "Description": "The Baxter Spectrum WBM (v17, v20D29, v20D30, v20D31, and v22D24) telnet Command-Line Interface, grants access to sensitive data stored on the WBM that permits temporary configuration changes to network settings of the WBM, and allows the WBM to be rebooted. Temporary configuration changes to network settings are removed upon reboot.",
+        "cwe_Name": "Incorrect Permission Assignment for Critical Resource",
+        "cwe_Abstraction": "Class",
+        "cwe_Structure": "Simple",
+        "cwe_Status": "Draft",
+        "cwe_Description": "The product specifies permissions for a security-critical resource in a way that allows that resource to be read or modified by unintended actors.",
+        "cwe_Extended_Description": "When a resource is given a permission setting that provides access to a wider range of actors than required, it could lead to the exposure of sensitive information, or the modification of that resource by unintended parties. This is especially dangerous when the resource is related to program configuration, execution, or sensitive user data. For example, consider a misconfigured storage account for the cloud that can be read or written by a public or anonymous user.",
+        "cwe_Related_Weaknesses": "CWE-285 (ChildOf, View: 1000, Ordinal: Primary); CWE-668 (ChildOf, View: 1000, Ordinal: N/A)",
+        "cwe_Modes_Of_Introduction": "Architecture and Design: N/A | Implementation:  | Installation: The developer may set loose permissions in order to minimize problems when the user first runs the program, then create documentation stating that permissions should be tightened. Since system administrators and users do not always read the documentation, this can result in insecure permissions being left unchanged. | Operation: N/A",
+        "cwe_Likelihood_Of_Exploit": "High",
+        "cwe_Common_Consequences": "Scope: Confidentiality | Impact: Read Application Data, Read Files or Directories | Note: An attacker may be able to read sensitive information from the associated resource, such as credentials or configuration information stored in a file. || Scope: Access Control | Impact: Gain Privileges or Assume Identity | Note: An attacker may be able to modify critical properties of the associated resource to gain privileges, such as replacing a world-writable executable with a Trojan horse. || Scope: Integrity, Other | Impact: Modify Application Data, Other | Note: An attacker may be able to destroy or corrupt critical data in the associated resource, such as deletion of records from a database.",
+        "cwe_Detection_Methods": "Method: Automated Static Analysis | Effectiveness: N/A | Description:  || Method: Automated Dynamic Analysis | Effectiveness: N/A | Description:  || Method: Manual Analysis | Effectiveness: N/A | Description: This weakness can be detected using tools and techniques that require manual (human) analysis, such as penetration testing, threat modeling, and interactive tools that allow the tester to record and modify an active session. || Method: Manual Static Analysis | Effectiveness: N/A | Description: Manual static analysis may be effective in detecting the use of custom permissions models and functions. The code could then be examined to identifying usage of the related functions. Then the human analyst could evaluate permission assignments in the context of the intended security model of the software. || Method: Manual Dynamic Analysis | Effectiveness: N/A | Description: Manual dynamic analysis may be effective in detecting the use of custom permissions models and functions. The program could then be executed with a focus on exercising code paths that are related to the custom permissions. Then the human analyst could evaluate permission assignments in the context of the intended security model of the software. || Method: Fuzzing | Effectiveness: N/A | Description: Fuzzing is not effective in detecting this weakness. || Method: Black Box | Effectiveness: N/A | Description:  || Method: Automated Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Manual Static Analysis - Binary or Bytecode | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Automated Results Interpretation | Effectiveness: SOAR Partial | Description:  || Method: Dynamic Analysis with Manual Results Interpretation | Effectiveness: High | Description:  || Method: Manual Static Analysis - Source Code | Effectiveness: High | Description:  || Method: Automated Static Analysis - Source Code | Effectiveness: SOAR Partial | Description:  || Method: Automated Static Analysis | Effectiveness: SOAR Partial | Description:  || Method: Architecture or Design Review | Effectiveness: High | Description:",
+        "cwe_Potential_Mitigations": "Phase: Implementation | Description: N/A || Phase: Architecture and Design | Description: N/A || Phase: Architecture and Design | Description: Run the code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by the software. OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows the software to specify restrictions on file operations. This may not be a feasible solution, and it only limits the impact to the operating system; the rest of the application may still be subject to compromise. Be careful to avoid CWE-243 and other weaknesses related to jails. || Phase: Implementation | Description: N/A || Phase: System Configuration | Description: N/A || Phase: Documentation | Description: N/A || Phase: Installation | Description: N/A || Phase: Operation | Description: N/A || Phase: Implementation | Description: N/A",
+        "attackVector": "NETWORK",
+        "baseScore": "9.4",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "confidentialityImpact": "HIGH",
+        "availabilityImpact": "HIGH",
+        "exploitabilityScore": "3.9",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_sub_5",
+      "label": "Hijack Execution Flow: Services File Permissions Weakness",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Services File Permissions Weakness",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.",
+        "platforms": "Windows",
+        "data sources": "File: File Creation, File: File Modification, Process: Process Creation, Service: Service Metadata"
+      }
+    },
+    {
+      "id": "t3_2_cap_5",
+      "label": "Accessing Functionality Not Properly Constrained by ACLs",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Accessing Functionality Not Properly Constrained by ACLs",
+        "capec_Mitre_Techniques": "1574.010 - Hijack Execution Flow",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "In applications, particularly web applications, access to functionality is mitigated by an authorization framework. This framework maps Access Control Lists (ACLs) to elements of the application's functionality; particularly URL's for web apps. In the case that the administrator failed to specify an ACL for a particular element, an attacker may be able to access it with impunity. An attacker with the ability to access functionality not properly constrained by ACLs can obtain sensitive information and possibly compromise the entire application. Such an attacker can access resources that must be available only to users at a higher privilege level, can access management sections of the application, or can run queries for data that they otherwise not supposed to.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - [Survey] The attacker surveys the target application, possibly as a valid and authenticated user (Techniques: Spidering web sites for all available links, Brute force guessing of resource names, Brute force guessing of user names / credentials, Brute force guessing of function names / actions) || Step 2: Explore - [Identify Functionality] At each step, the attacker notes the resource or functionality access mechanism invoked upon performing specific actions (Techniques: Use the web inventory of all forms and inputs and apply attack data to those inputs., Use a packet sniffer to capture and record network traffic, Execute the software in a debugger and record API calls into the operating system or important libraries. This might occur in an environment other than a production environment, in order to find weaknesses that can be exploited in a production environment.) || Step 3: Experiment - [Iterate over access capabilities] Possibly as a valid user, the attacker then tries to access each of the noted access mechanisms directly in order to perform functions not constrained by the ACLs. (Techniques: Fuzzing of API parameters (URL parameters, OS API parameters, protocol parameters))",
+        "capec_Prerequisites": "The application must be navigable in a manner that associates elements (subsections) of the application with ACLs. || The various resources, or individual URLs, must be somehow discoverable by the attacker || The administrator must have forgotten to associate an ACL or has associated an inappropriately permissive ACL with a particular navigable resource.",
+        "capec_Skills_Required": "Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.",
+        "capec_Resources_Required": "None: No specialized resources are required to execute this type of attack.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "In a J2EE setting, administrators can associate a role that is impossible for the authenticator to grant users, such as \"NoAccess\", with all Servlets to which access is guarded by a limited number of servlets visible to, and accessible by, the user. Having done so, any direct access to those protected Servlets will be prohibited by the web container. In a more general setting, the administrator must mark every resource besides the ones supposed to be exposed to the user as accessible by a role impossible for the user to assume. The default security setting must be to deny access and then grant access only to those resources intended by business logic.",
+        "capec_Related_Weaknesses": "CWE-276, CWE-285, CWE-434, CWE-693, CWE-732, CWE-1191, CWE-1193, CWE-1220, CWE-1297, CWE-1311, CWE-1314, CWE-1315, CWE-1318, CWE-1320, CWE-1321, CWE-1327",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_5",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_tech_6",
+      "label": "Abuse Elevation Control Mechanism",
+      "type": "tech",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "Description": "The Baxter Spectrum WBM (v17, v20D29, v20D30, v20D31, and v22D24) telnet Command-Line Interface, grants access to sensitive data stored on the WBM that permits temporary configuration changes to network settings of the WBM, and allows the WBM to be rebooted. Temporary configuration changes to network settings are removed upon reboot.",
+        "tech_description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk.(Citation: TechNet How UAC Works)(Citation: sudo man page 2018) An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system.(Citation: OSX Keydnap malware)(Citation: Fortinet Fareit)",
+        "technique_name": "Abuse Elevation Control Mechanism",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor the file system for files that have the setuid or setgid bits set. Also look for any process API calls for behavior that may be indicative of [Process Injection](https://attack.mitre.org/techniques/T1055) and unusual loaded DLLs through [DLL Search Order Hijacking](https://attack.mitre.org/techniques/T1574/001), which indicate attempts to gain access to higher privileged processes. On Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo).\n\nConsider monitoring for <code>/usr/libexec/security_authtrampoline</code> executions which may indicate that AuthorizationExecuteWithPrivileges is being executed. MacOS system logs may also indicate when AuthorizationExecuteWithPrivileges is being called. Monitoring OS API callbacks for the execution can also be a way to detect this behavior but requires specialized security tooling.\n\nOn Linux, auditd can alert every time a user's actual ID and effective ID are different (this is what happens when you sudo). This technique is abusing normal functionality in macOS and Linux systems, but sudo has the ability to log all input and output based on the <code>LOG_INPUT</code> and <code>LOG_OUTPUT</code> directives in the <code>/etc/sudoers</code> file.\n\nThere are many ways to perform UAC bypasses when a user is in the local administrator group on a system, so it may be difficult to target detection on all variations. Efforts should likely be placed on mitigation and collecting enough information on process launches and actions that could be performed before and after a UAC bypass is performed. Some UAC bypass methods rely on modifying specific, user-accessible Registry settings. Analysts should monitor Registry settings for unauthorized changes.",
+        "platforms": "IaaS, Identity Provider, Linux, Office Suite, Windows, macOS",
+        "data sources": "Command: Command Execution, File: File Metadata, File: File Modification, Process: OS API Execution, Process: Process Creation, Process: Process Metadata, User Account: User Account Modification, Windows Registry: Windows Registry Key Modification",
+        "permissions required": "Administrator, User",
+        "attackVector": "NETWORK",
+        "baseScore": "9.4",
+        "baseSeverity": "CRITICAL",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_cap_6",
+      "label": "Privilege Abuse",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Privilege Abuse",
+        "capec_Mitre_Techniques": "1548 - Abuse Elevation Control Mechanism",
+        "capec_Abstraction": "Meta",
+        "capec_Status": "Draft",
+        "capec_Description": "An adversary is able to exploit features of the target that should be reserved for privileged users or administrators but are exposed to use by lower or non-privileged accounts. Access to sensitive information and functionality must be controlled to ensure that only authorized users are able to access these resources.",
+        "capec_Extended_Description": "If access control mechanisms are absent or misconfigured, a user may be able to access resources that are intended only for higher level users. An adversary may be able to exploit this to utilize a less trusted account to gain information and perform activities reserved for more trusted accounts. \n             This attack differs from privilege escalation and other privilege stealing attacks in that the adversary never actually escalates their privileges but instead is able to use a lesser degree of privilege to access resources that should be (but are not) reserved for higher privilege accounts. Likewise, the adversary does not exploit trust or subvert systems - all control functionality is working as configured but the configuration does not adequately protect sensitive resources at an appropriate level.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Medium",
+        "capec_Prerequisites": "The target must have misconfigured their access control mechanisms such that sensitive information, which should only be accessible to more trusted users, remains accessible to less trusted users. || The adversary must have access to the target, albeit with an account that is less privileged than would be appropriate for the targeted resources.",
+        "capec_Skills_Required": "Low: Adversary can leverage privileged features they already have access to without additional effort or skill. Adversary is only required to have access to an account with improper priveleges.",
+        "capec_Resources_Required": "None: No specialized resources are required to execute this type of attack. The ability to access the target is required.",
+        "capec_Consequences": "Scope: Integrity | Impact: Modify Data || Scope: Confidentiality | Impact: Read Data || Scope: Authorization | Impact: Execute Unauthorized Commands || Scope: Authorization | Impact: Gain Privileges || Scope: Access Control, Authorization | Impact: Bypass Protection Mechanism",
+        "capec_Mitigations": "Configure account privileges such privileged/administrator functionality is not exposed to non-privileged/lower accounts.",
+        "capec_Related_Weaknesses": "CWE-269, CWE-732, CWE-1317",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_6",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_7",
+      "label": "Hijack Execution Flow: Executable Installer File Permissions Weakness",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Executable Installer File Permissions Weakness",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.",
+        "platforms": "Windows",
+        "data sources": "File: File Creation, File: File Modification, Module: Module Load, Process: Process Creation, Service: Service Metadata"
+      }
+    },
+    {
+      "id": "t3_2_cap_7",
+      "label": "Using Malicious Files",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Using Malicious Files",
+        "capec_Mitre_Techniques": "1574.005 - Hijack Execution Flow",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An attack of this type exploits a system's configuration that allows an adversary to either directly access an executable file, for example through shell access; or in a possible worst case allows an adversary to upload a file and then execute it. Web servers, ftp servers, and message oriented middleware systems which have many integration points are particularly vulnerable, because both the programmers and the administrators must be in synch regarding the interfaces and the correct privileges for each interface.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Determine File/Directory Configuration] The adversary looks for misconfigured files or directories on a system that might give executable access to an overly broad group of users. (Techniques: Through shell access to a system, use the command \"ls -l\" to view permissions for files and directories.) || Step 2: Experiment - [Upload Malicious Files] If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute. (Techniques: Upload a malicious file through a misconfigured FTP server.) || Step 3: Exploit - [Execute Malicious File] The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary. (Techniques: N/A)",
+        "capec_Prerequisites": "System's configuration must allow an attacker to directly access executable files or upload files to execute. This means that any access control system that is supposed to mediate communications between the subject and the object is set incorrectly or assumes a benign environment.",
+        "capec_Skills_Required": "Low: To identify and execute against an over-privileged system interface",
+        "capec_Resources_Required": "Ability to communicate synchronously or asynchronously with server that publishes an over-privileged directory, program, or interface. Optionally, ability to capture output directly through synchronous communication or other method such as FTP.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Integrity | Impact: Modify Data || Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Design: Enforce principle of least privilege || Design: Run server interfaces with a non-root account and/or utilize chroot jails or other configuration techniques to constrain privileges even if attacker gains some limited access to commands. || Implementation: Perform testing such as pen-testing and vulnerability scanning to identify directories, programs, and interfaces that grant direct access to executables.",
+        "capec_Related_Weaknesses": "CWE-732, CWE-285, CWE-272, CWE-59, CWE-282, CWE-270, CWE-693",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_7",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_8",
+      "label": "Hijack Execution Flow: Services File Permissions Weakness",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Services File Permissions Weakness",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.",
+        "platforms": "Windows",
+        "data sources": "File: File Creation, File: File Modification, Process: Process Creation, Service: Service Metadata"
+      }
+    },
+    {
+      "id": "t3_2_cap_8",
+      "label": "Using Malicious Files",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Using Malicious Files",
+        "capec_Mitre_Techniques": "1574.010 - Hijack Execution Flow",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An attack of this type exploits a system's configuration that allows an adversary to either directly access an executable file, for example through shell access; or in a possible worst case allows an adversary to upload a file and then execute it. Web servers, ftp servers, and message oriented middleware systems which have many integration points are particularly vulnerable, because both the programmers and the administrators must be in synch regarding the interfaces and the correct privileges for each interface.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - [Determine File/Directory Configuration] The adversary looks for misconfigured files or directories on a system that might give executable access to an overly broad group of users. (Techniques: Through shell access to a system, use the command \"ls -l\" to view permissions for files and directories.) || Step 2: Experiment - [Upload Malicious Files] If the adversary discovers a directory that has executable permissions, they will attempt to upload a malicious file to execute. (Techniques: Upload a malicious file through a misconfigured FTP server.) || Step 3: Exploit - [Execute Malicious File] The adversary either executes the uploaded malicious file, or executes an existing file that has been misconfigured to allow executable access to the adversary. (Techniques: N/A)",
+        "capec_Prerequisites": "System's configuration must allow an attacker to directly access executable files or upload files to execute. This means that any access control system that is supposed to mediate communications between the subject and the object is set incorrectly or assumes a benign environment.",
+        "capec_Skills_Required": "Low: To identify and execute against an over-privileged system interface",
+        "capec_Resources_Required": "Ability to communicate synchronously or asynchronously with server that publishes an over-privileged directory, program, or interface. Optionally, ability to capture output directly through synchronous communication or other method such as FTP.",
+        "capec_Consequences": "Scope: Confidentiality, Integrity, Availability | Impact: Execute Unauthorized Commands || Scope: Integrity | Impact: Modify Data || Scope: Confidentiality | Impact: Read Data || Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Design: Enforce principle of least privilege || Design: Run server interfaces with a non-root account and/or utilize chroot jails or other configuration techniques to constrain privileges even if attacker gains some limited access to commands. || Implementation: Perform testing such as pen-testing and vulnerability scanning to identify directories, programs, and interfaces that grant direct access to executables.",
+        "capec_Related_Weaknesses": "CWE-732, CWE-285, CWE-272, CWE-59, CWE-282, CWE-270, CWE-693",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_8",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_9",
+      "label": "Hijack Execution Flow: Services File Permissions Weakness",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Services File Permissions Weakness",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.",
+        "platforms": "Windows",
+        "data sources": "File: File Creation, File: File Modification, Process: Process Creation, Service: Service Metadata"
+      }
+    },
+    {
+      "id": "t3_2_cap_9",
+      "label": "Exploiting Incorrectly Configured Access Control Security Levels",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Exploiting Incorrectly Configured Access Control Security Levels",
+        "capec_Mitre_Techniques": "1574.010 - Hijack Execution Flow",
+        "capec_Abstraction": "Standard",
+        "capec_Status": "Draft",
+        "capec_Description": "An attacker exploits a weakness in the configuration of access controls and is able to bypass the intended protection that these measures guard against and thereby obtain unauthorized access to the system or network. Sensitive functionality should always be protected with access controls. However configuring all but the most trivial access control systems can be very complicated and there are many opportunities for mistakes. If an attacker can learn of incorrectly configured access security settings, they may be able to exploit this in an attack.",
+        "capec_Extended_Description": "Most commonly, attackers would take advantage of controls that provided too little protection for sensitive activities in order to perform actions that should be denied to them. In some circumstances, an attacker may be able to take advantage of overly restrictive access control policies, initiating denial of services (if an application locks because it unexpectedly failed to be granted access) or causing other legitimate actions to fail due to security. The latter class of attacks, however, is usually less severe and easier to detect than attacks based on inadequate security restrictions. This attack pattern differs from CAPEC 1, \"Accessing Functionality Not Properly Constrained by ACLs\" in that the latter describes attacks where sensitive functionality lacks access controls, where, in this pattern, the access control is present, but incorrectly configured.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "Medium",
+        "capec_Execution_Flow": "Step 1: Explore - [Survey] The attacker surveys the target application, possibly as a valid and authenticated user. (Techniques: Spider the web site for all available links., Brute force to guess all function names/action with different privileges.) || Step 2: Experiment - [Identify weak points in access control configurations] The attacker probes the access control for functions and data identified in the Explore phase to identify potential weaknesses in how the access controls are configured. (Techniques: The attacker attempts authenticated access to targeted functions and data., The attacker attempts unauthenticated access to targeted functions and data., The attacker attempts indirect and side channel access to targeted functions and data.) || Step 3: Exploit - [Access the function or data bypassing the access control] The attacker executes the function or accesses the data identified in the Explore phase bypassing the access control. (Techniques: The attacker executes the function or accesses the data not authorized to them.)",
+        "capec_Prerequisites": "The target must apply access controls, but incorrectly configure them. However, not all incorrect configurations can be exploited by an attacker. If the incorrect configuration applies too little security to some functionality, then the attacker may be able to exploit it if the access control would be the only thing preventing an attacker's access and it no longer does so. If the incorrect configuration applies too much security, it must prevent legitimate activity and the attacker must be able to force others to require this activity..",
+        "capec_Skills_Required": "Low: In order to discover unrestricted resources, the attacker does not need special tools or skills. They only have to observe the resources or access mechanisms invoked as each action is performed and then try and access those access mechanisms directly.",
+        "capec_Resources_Required": "None: No specialized resources are required to execute this type of attack.",
+        "capec_Consequences": "Scope: Integrity | Impact: Modify Data || Scope: Confidentiality | Impact: Read Data || Scope: Authorization | Impact: Execute Unauthorized Commands || Scope: Authorization | Impact: Gain Privileges || Scope: Access Control, Authorization | Impact: Bypass Protection Mechanism || Scope: Availability | Impact: Unreliable Execution",
+        "capec_Mitigations": "Design: Configure the access control correctly.",
+        "capec_Related_Weaknesses": "CWE-732, CWE-1190, CWE-1191, CWE-1193, CWE-1220, CWE-1268, CWE-1280, CWE-1297, CWE-1311, CWE-1315, CWE-1318, CWE-1320, CWE-1321",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_9",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_10",
+      "label": "Subvert Trust Controls: Code Signing",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Subvert Trust Controls: Code Signing",
+        "technique_name": "Subvert Trust Controls",
+        "tactics": "Defense Evasion",
+        "detection": "Collect and analyze signing certificate metadata on software that executes within the environment to look for unusual certificate characteristics and outliers.",
+        "platforms": "Windows, macOS",
+        "data sources": "File: File Metadata"
+      }
+    },
+    {
+      "id": "t3_2_cap_10",
+      "label": "Signing Malicious Code",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Signing Malicious Code",
+        "capec_Mitre_Techniques": "1553.002 - Subvert Trust Controls:Code Signing",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "The adversary extracts credentials used for code signing from a production environment and then uses these credentials to sign malicious content with the developer's key. Many developers use signing keys to sign code or hashes of code. When users or applications verify the signatures are accurate they are led to believe that the code came from the owner of the signing key and that the code has not been modified since the signature was applied. If the adversary has extracted the signing credentials then they can use those credentials to sign their own code bundles. Users or tools that verify the signatures attached to the code will likely assume the code came from the legitimate developer and install or run the code, effectively allowing the adversary to execute arbitrary code on the victim's computer. This differs from CAPEC-673, because the adversary is performing the code signing.",
+        "capec_Typical_Severity": "Very High",
+        "capec_Execution_Flow": "Step 1: Explore - The adversary first attempts to obtain a digital certificate in order to sign their malware or tools. This certificate could be stolen, created by the adversary, or acquired normally through a certificate authority. (Techniques: N/A) || Step 2: Explore - Based on the type of certificate obtained, the adversary will create a goal for their attack. This is either a broad or targeted attack. If an adversary was able to steal a certificate from a targeted organization, they could target this organization by pretending to have legitimate code signed by them. In other cases, the adversary would simply sign their malware and pose as legitimate software such that any user might trust it. This is the more broad approach (Techniques: N/A) || Step 3: Experiment - The adversary creates their malware and signs it with the obtained digital certificate. The adversary then checks if the code that they signed is valid either through downloading from the targeted source or testing locally. (Techniques: N/A) || Step 4: Exploit - Once the malware has been signed, it is then deployed to the desired location. They wait for a trusting user to run their malware, thinking that it is legitimate software. This malware could do a variety of things based on the motivation of the adversary. (Techniques: N/A)",
+        "capec_Prerequisites": "The targeted developer must use a signing key to sign code bundles. (Note that not doing this is not a defense - it only means that the adversary does not need to steal the signing key before forging code bundles in the developer's name.)",
+        "capec_Resources_Required": "None: No specialized resources are required to execute this type of attack.",
+        "capec_Mitigations": "Ensure digital certificates are protected and inaccessible by unauthorized uses. || If a digital certificate has been compromised it should be revoked and regenerated. || Even if a piece of software has a valid and trusted digital signature, it should be assessed for any weaknesses and vulnerabilities.",
+        "capec_Related_Weaknesses": "CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_10",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_11",
+      "label": "Access Token Manipulation: Token Impersonation/Theft",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Access Token Manipulation: Token Impersonation/Theft",
+        "technique_name": "Access Token Manipulation",
+        "tactics": "Defense Evasion",
+        "detection": "If an adversary is using a standard command-line shell, analysts can detect token manipulation by auditing command-line activity. Specifically, analysts should look for use of the <code>runas</code> command. Detailed command-line logging is not enabled by default in Windows.(Citation: Microsoft Command-line Logging)\n\nAnalysts can also monitor for use of Windows APIs such as <code>DuplicateToken(Ex)</code>, <code> ImpersonateLoggedOnUser </code>, and <code> SetThreadToken </code> and correlate activity with other suspicious behavior to reduce false positives that may be due to normal benign use by users and administrators.",
+        "platforms": "Windows",
+        "data sources": "Command: Command Execution, Process: OS API Execution"
+      }
+    },
+    {
+      "id": "t3_2_cap_11",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1134.001 - Access Token Manipulation:Token Impersonation/Theft",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_11",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_12",
+      "label": "Use Alternate Authentication Material: Web Session Cookie",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Use Alternate Authentication Material: Web Session Cookie",
+        "technique_name": "Use Alternate Authentication Material",
+        "tactics": "Defense Evasion",
+        "detection": "Monitor for anomalous access of websites and cloud-based applications by the same user in different locations or by different systems that do not match expected configurations.",
+        "platforms": "IaaS, Office Suite, SaaS",
+        "data sources": "Application Log: Application Log Content, Web Credential: Web Credential Usage"
+      }
+    },
+    {
+      "id": "t3_2_cap_12",
+      "label": "Reusing Session IDs (aka Session Replay)",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Reusing Session IDs (aka Session Replay)",
+        "capec_Mitre_Techniques": "1550.004 - Use Alternate Authentication Material:Web Session Cookie",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "This attack targets the reuse of valid session ID to spoof the target system in order to gain privileges. The attacker tries to reuse a stolen session ID used previously during a transaction to perform spoofing and session hijacking. Another name for this type of attack is Session Replay.",
+        "capec_Likelihood_Of_Attack": "High",
+        "capec_Typical_Severity": "High",
+        "capec_Execution_Flow": "Step 1: Explore - The attacker interacts with the target host and finds that session IDs are used to authenticate users. (Techniques: N/A) || Step 2: Explore - The attacker steals a session ID from a valid user. (Techniques: N/A) || Step 3: Exploit - The attacker tries to use the stolen session ID to gain access to the system with the privileges of the session ID's original owner. (Techniques: N/A)",
+        "capec_Prerequisites": "The target host uses session IDs to keep track of the users. || Session IDs are used to control access to resources. || The session IDs used by the target host are not well protected from session theft.",
+        "capec_Skills_Required": "Low: If an attacker can steal a valid session ID, they can then try to be authenticated with that stolen session ID. || Medium: More sophisticated attack can be used to hijack a valid session from a user and spoof a legitimate user by reusing their valid session ID.",
+        "capec_Consequences": "Scope: Confidentiality, Access Control, Authorization | Impact: Gain Privileges",
+        "capec_Mitigations": "Always invalidate a session ID after the user logout. || Setup a session time out for the session IDs. || Protect the communication between the client and server. For instance it is best practice to use SSL to mitigate adversary in the middle attacks (CAPEC-94). || Do not code send session ID with GET method, otherwise the session ID will be copied to the URL. In general avoid writing session IDs in the URLs. URLs can get logged in log files, which are vulnerable to an attacker. || Encrypt the session data associated with the session ID. || Use multifactor authentication.",
+        "capec_Related_Weaknesses": "CWE-294, CWE-290, CWE-346, CWE-384, CWE-488, CWE-539, CWE-200, CWE-285, CWE-664, CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_12",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_2_sub_13",
+      "label": "Hijack Execution Flow: Executable Installer File Permissions Weakness",
+      "type": "subtech",
+      "metadata": {
+        "subtechnique_name": "Hijack Execution Flow: Executable Installer File Permissions Weakness",
+        "technique_name": "Hijack Execution Flow",
+        "tactics": "Defense Evasion",
+        "detection": "Look for changes to binaries and service executables that may normally occur during software updates. If an executable is written, renamed, and/or moved to match an existing service executable, it could be detected and correlated with other suspicious behavior. Hashing of binaries and service executables could be used to detect replacement against historical data.\n\nLook for abnormal process call trees from typical processes and services and for execution of other commands that could relate to Discovery or other adversary techniques.",
+        "platforms": "Windows",
+        "data sources": "File: File Creation, File: File Modification, Module: Module Load, Process: Process Creation, Service: Service Metadata"
+      }
+    },
+    {
+      "id": "t3_2_cap_13",
+      "label": "Replace Binaries",
+      "type": "capec",
+      "metadata": {
+        "CVE ID": "CVE-2020-12041",
+        "capec_Name": "Replace Binaries",
+        "capec_Mitre_Techniques": "1574.005 - Hijack Execution Flow:Executable Installer File Permissions Weakness",
+        "capec_Abstraction": "Detailed",
+        "capec_Status": "Draft",
+        "capec_Description": "Adversaries know that certain binaries will be regularly executed as part of normal processing. If these binaries are not protected with the appropriate file system permissions, it could be possible to replace them with malware. This malware might be executed at higher system permission levels. A variation of this pattern is to discover self-extracting installation packages that unpack binaries to directories with weak file permissions which it does not clean up appropriately. These binaries can be replaced by malware, which can then be executed.",
+        "capec_Typical_Severity": "High",
+        "capec_Prerequisites": "The attacker must be able to place the malicious binary on the target machine.",
+        "capec_Mitigations": "Insure that binaries commonly used by the system have the correct file permissions. Set operating system policies that restrict privilege elevation of non-Administrators. Use auditing tools to observe changes to system services.",
+        "capec_Related_Weaknesses": "CWE-732",
+        "attackVector": "NETWORK",
+        "exposure_tags": "Telnet"
+      }
+    },
+    {
+      "id": "t3_2_and_13",
+      "label": "AND",
+      "type": "gate"
+    },
+    {
+      "id": "t3_cwe2_or",
+      "label": "OR",
+      "type": "gate"
+    },
+    {
+      "id": "t3_tac_or",
+      "label": "OR",
+      "type": "gate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "t3_0_and_0",
+      "to": "t3_0_sub_0"
+    },
+    {
+      "from": "t3_0_and_0",
+      "to": "t3_0_cap_0"
+    },
+    {
+      "from": "t3_cwe_0",
+      "to": "t3_0_and_0"
+    },
+    {
+      "from": "t3_1_and_1",
+      "to": "t3_1_tech_1"
+    },
+    {
+      "from": "t3_1_and_1",
+      "to": "t3_1_cap_1"
+    },
+    {
+      "from": "t3_1_and_2",
+      "to": "t3_1_tech_2"
+    },
+    {
+      "from": "t3_1_and_2",
+      "to": "t3_1_cap_2"
+    },
+    {
+      "from": "t3_1_and_3",
+      "to": "t3_1_sub_3"
+    },
+    {
+      "from": "t3_1_and_3",
+      "to": "t3_1_cap_3"
+    },
+    {
+      "from": "t3_1_and_4",
+      "to": "t3_1_tech_4"
+    },
+    {
+      "from": "t3_1_and_4",
+      "to": "t3_1_cap_4"
+    },
+    {
+      "from": "t3_cwe_1",
+      "to": "t3_cwe1_or"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_1"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_2"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_3"
+    },
+    {
+      "from": "t3_cwe1_or",
+      "to": "t3_1_and_4"
+    },
+    {
+      "from": "t3_2_and_5",
+      "to": "t3_2_sub_5"
+    },
+    {
+      "from": "t3_2_and_5",
+      "to": "t3_2_cap_5"
+    },
+    {
+      "from": "t3_2_and_6",
+      "to": "t3_2_tech_6"
+    },
+    {
+      "from": "t3_2_and_6",
+      "to": "t3_2_cap_6"
+    },
+    {
+      "from": "t3_2_and_7",
+      "to": "t3_2_sub_7"
+    },
+    {
+      "from": "t3_2_and_7",
+      "to": "t3_2_cap_7"
+    },
+    {
+      "from": "t3_2_and_8",
+      "to": "t3_2_sub_8"
+    },
+    {
+      "from": "t3_2_and_8",
+      "to": "t3_2_cap_8"
+    },
+    {
+      "from": "t3_2_and_9",
+      "to": "t3_2_sub_9"
+    },
+    {
+      "from": "t3_2_and_9",
+      "to": "t3_2_cap_9"
+    },
+    {
+      "from": "t3_2_and_10",
+      "to": "t3_2_sub_10"
+    },
+    {
+      "from": "t3_2_and_10",
+      "to": "t3_2_cap_10"
+    },
+    {
+      "from": "t3_2_and_11",
+      "to": "t3_2_sub_11"
+    },
+    {
+      "from": "t3_2_and_11",
+      "to": "t3_2_cap_11"
+    },
+    {
+      "from": "t3_2_and_12",
+      "to": "t3_2_sub_12"
+    },
+    {
+      "from": "t3_2_and_12",
+      "to": "t3_2_cap_12"
+    },
+    {
+      "from": "t3_2_and_13",
+      "to": "t3_2_sub_13"
+    },
+    {
+      "from": "t3_2_and_13",
+      "to": "t3_2_cap_13"
+    },
+    {
+      "from": "t3_cwe_2",
+      "to": "t3_cwe2_or"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_5"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_6"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_7"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_8"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_9"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_10"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_11"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_12"
+    },
+    {
+      "from": "t3_cwe2_or",
+      "to": "t3_2_and_13"
+    },
+    {
+      "from": "t3_tactic",
+      "to": "t3_tac_or"
+    },
+    {
+      "from": "t3_tac_or",
+      "to": "t3_cwe_0"
+    },
+    {
+      "from": "t3_tac_or",
+      "to": "t3_cwe_1"
+    },
+    {
+      "from": "t3_tac_or",
+      "to": "t3_cwe_2"
+    }
+  ]
+}

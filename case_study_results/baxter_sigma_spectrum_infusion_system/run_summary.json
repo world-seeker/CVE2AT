@@ -1,0 +1,99 @@
+{
+  "cpe": "cpe:2.3:h:baxter:sigma_spectrum_infusion_system:-:*:*:*:*:*:*:*",
+  "started": "2026-10-03T21:37:24+00:00",
+  "workspace": "output/baxter_sigma_spectrum_infusion_system",
+  "dedup_mode": "per_tactic",
+  "stages": {
+    "tabulate": {
+      "cves": 10,
+      "swept_rejected": 0,
+      "workbook": {
+        "cves": 10,
+        "components": 46,
+        "references": 10
+      }
+    },
+    "merge": {
+      "cves_in_scope": 10,
+      "cve_cwe_rows": 17,
+      "unmatched_cwe": [
+        "255"
+      ],
+      "missing_capec": [],
+      "final_rows": 80,
+      "coverage_funnel": {
+        "cves_fetched_or_selected": 10,
+        "cves_with_usable_cwe": 10,
+        "cwe_rows": 17,
+        "cwe_ids_known": 965,
+        "capec_rows_after_capec_merge": 44,
+        "distinct_cwe_ids_in_final": 5,
+        "distinct_capec_ids_in_final": 29,
+        "distinct_technique_ids_in_final": 21,
+        "chain_break_reasons": {
+          "NO_TECHNIQUE": 9,
+          "NO_CAPEC": 7,
+          "CWE_UNKNOWN": 1
+        }
+      },
+      "attack_matrix": {
+        "tactics": 14,
+        "techniques": 203,
+        "sub_techniques": 453
+      }
+    },
+    "tactic_trees": {
+      "dedup_mode": "per_tactic",
+      "rows_loaded": 80,
+      "rows_kept": 71,
+      "rows_dropped": 9,
+      "cves_in_final_dataset": 9,
+      "cves_in_P": 9,
+      "cwes_in_P": 5,
+      "tactics": 8,
+      "total_paths": 51,
+      "unique_cwes": 5,
+      "unique_techniques": 16,
+      "unique_capecs": 20,
+      "validation_ok": true,
+      "output_dir": "output/baxter_sigma_spectrum_infusion_system/outputs/tactic_trees"
+    },
+    "comprehensive_tree": {
+      "dedup_mode": "per_tactic",
+      "total_paths": 51,
+      "total_nodes": 201,
+      "total_edges": 200,
+      "per_tactic_total": 51,
+      "earliest_tactic_total": 27,
+      "cross_tactic_duplicates_removed": 0,
+      "pruned_rows_cross_tactic": 36,
+      "pruned_rows_within_tactic": 8,
+      "tactics_represented": 8,
+      "subtree_sum_matches": true,
+      "validation_ok": true,
+      "output_dir": "output/baxter_sigma_spectrum_infusion_system/outputs/comprehensive_tree"
+    }
+  },
+  "finished": "2026-10-03T21:37:29+00:00",
+  "elapsed_seconds": 5.6,
+  "timing_seconds": {
+    "fetch": null,
+    "tabulate": 0.1,
+    "merge": 0.66,
+    "tactic_trees": 2.36,
+    "comprehensive_tree": 2.46,
+    "total": 5.6
+  },
+  "scale": {
+    "attack_matrix": {
+      "tactics": 14,
+      "techniques": 203,
+      "sub_techniques": 453
+    },
+    "chains_in_P": 71,
+    "paths": 51,
+    "tree_nodes": 201,
+    "tree_edges": 200
+  },
+  "validation_ok": true
+}
