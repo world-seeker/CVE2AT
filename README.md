@@ -6,6 +6,10 @@ technique -> tactic, and builds tactic-level and comprehensive attack trees.
 
 ## Quick start
 
+1. Download the repository
+
+2. Inside the repository folder, in terminal
+
 ```bash
 cd Py-scripts
 pip install -e .
